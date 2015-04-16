@@ -31,7 +31,8 @@ namespace DevMVCComponent.Database {
         /// <param name="pages">Send a ref of integer to get the pages number. It will be generated from method. Use it to generate pages. It indicated how many pages exist</param>
         /// <param name="page">Based on the page number it returns data. </param>
         /// <param name="items">How many items should a page contain? (Default is 30 defined in the PageItems Property of the class)</param>
-        /// <param name="retrivePagesExist">If not false then no pages count will be generated from database.</param>
+        /// <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
+        /// <param name="retrivePagesExist">If false then no count query will be executed. If yes then count query will only generated if needed and not exist in the cache.</param>
         /// <returns>IQueryable data based on the page number.</returns>
         public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, string cacheName, ref int pages, long? page = 1, long? items = -1, bool retrivePagesExist = true) {
             if (page == null && page <= 0) {
@@ -44,10 +45,13 @@ namespace DevMVCComponent.Database {
             var take = (int)items;
             int skip = (int)page * take - take; //5 * 10 - 10
             //var hashCode = entities.GetHashCode();
-            var cachePagesString = Starter.Caches.Get(cacheName);
             int cachePages = -1;
-            if (cachePagesString != null) {
-                cachePages = long.Parse(cachePagesString);
+
+            if (!string.IsNullOrEmpty(cacheName)) {
+                var cachePagesString = Starter.Caches.Get(cacheName);
+                if (cachePagesString != null) {
+                    cachePages = long.Parse(cachePagesString);
+                }
             }
             if (cachePages < 0 && retrivePagesExist) {
                 decimal pagesExist = 1;
@@ -63,8 +67,10 @@ namespace DevMVCComponent.Database {
         /// </summary>
         /// <param name="entities">Sent Entities as IQueryable</param>
         /// <param name="pageInfo">Send a ref of integer to get the pages number. It will be generated from method. Use it to generate pages. It indicated how many pages exist</param>
+        /// <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
+        /// <param name="retrivePagesExist">If false then no count query will be executed. If yes then count query will only generated if needed and not exist in the cache.</param>
         /// <returns>IQueryable data based on the page number.</returns>
-        public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, string cacheName, PaginationInfo pageInfo, bool retrivePagesExist = true) {
+        public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, PaginationInfo pageInfo, string cacheName = null, bool retrivePagesExist = true) {
             if (pageInfo.PageNumber == null && pageInfo.PageNumber <= 0) {
                 pageInfo.PageNumber = 1;
             }
@@ -75,10 +81,13 @@ namespace DevMVCComponent.Database {
             var take = (int)pageInfo.ItemsInPage;
             int skip = (int)pageInfo.PageNumber * take - take; //5 * 10 - 10
             //var hashCode = entities.GetHashCode();
-            var cachePagesString = Starter.Caches.Get(cacheName);
             int cachePages = -1;
-            if (cachePagesString != null) {
-                cachePages = long.Parse(cachePagesString);
+
+            if (!string.IsNullOrEmpty(cacheName)) {
+                var cachePagesString = Starter.Caches.Get(cacheName);
+                if (cachePagesString != null) {
+                    cachePages = long.Parse(cachePagesString);
+                }
             }
             if (cachePages < 0 && retrivePagesExist) {
                 decimal pagesExist = 1;
@@ -105,16 +114,18 @@ namespace DevMVCComponent.Database {
         /// <param name="maxNumbersOfPagesShow"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        public static MvcHtmlString GetList(PaginationInfo pageInfo, string url="url/@page", string content = "@page", string title = "titleContent of ... at @page", string unorderedListClass = "", string @liClass = "", string cacheName = "", string @class = "", int maxNumbersOfPagesShow = 5, string format = "<li class='@is-active-state @liClass'><a href='@url' class='@class' title='@title' >@content</a></li>") {
+        public static MvcHtmlString GetList(PaginationInfo pageInfo, string url = "url/@page", string title = "titleContent of ... at @page", string content = "@page", string unorderedListClass = "", bool withoutUnorderedList = true, string @liClass = "", string cacheName = "", string @class = "", int maxNumbersOfPagesShow = 5, string format = "<li class='@is-active-state @liClass'><a href='@url' class='@class' title='@title' >@content</a></li>") {
             string sampleListItem = format.Replace("@url", url);
             sampleListItem = sampleListItem.Replace("@title", title);
             sampleListItem = sampleListItem.Replace("@class", @class);
             sampleListItem = sampleListItem.Replace("@liClass", @liClass);
-            StringBuilder sb = new StringBuilder(maxNumbersOfPagesShow + 2);
+            StringBuilder sb = new StringBuilder(maxNumbersOfPagesShow + 10);
             int startPageNumber = 1;
-            string ulStart = "<ul class='" + unorderedListClass + "'>";
+            if (withoutUnorderedList == false) {
+                string ulStart = "<ul class='" + unorderedListClass + "'>";
+                sb.AppendLine(ulStart);
+            }
             string appendingListItem = "";
-            sb.AppendLine(ulStart);
             int endPageNumber = pageInfo.PagesExists;
 
             if (pageInfo.PageNumber == null) {
@@ -152,7 +163,9 @@ namespace DevMVCComponent.Database {
                 lastPageLink = lastPageLink.Replace("@page", endPageNumber.ToString());
                 sb.AppendLine(lastPageLink);
             }
-            sb.AppendLine("</ul>");
+            if (withoutUnorderedList == false) {
+                sb.AppendLine("</ul>");
+            }
             return new MvcHtmlString(sb.ToString());
         }
 
