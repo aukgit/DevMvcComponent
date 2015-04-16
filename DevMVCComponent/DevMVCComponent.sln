@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevMVCComponent", "DevMVCComponent\DevMVCComponent\DevMVCComponent.csproj", "{9302C6E3-FBE2-4A99-9BE3-81E80724CEC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevMVCComponent", "DevMVCComponent\DevMVCComponent.csproj", "{9302C6E3-FBE2-4A99-9BE3-81E80724CEC6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6FFEB442-A5E4-4228-BE72-628E09911E61}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A1023C6D-5248-4BE3-A5B4-B61E1646849E}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
