@@ -124,6 +124,7 @@ I:\DevMVCComponent\obj\Debug\DevMVCComponent.dll
 I:\DevMVCComponent\obj\Debug\DevMVCComponent.pdb
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMVCComponent.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMVCComponent.pdb
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMVCComponent.csprojResolveAssemblyReference.cache
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.dll.config
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.pdb
@@ -134,6 +135,9 @@ E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Deployment.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\Antlr3.Runtime.pdb
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\Microsoft.Web.Infrastructure.xml
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Helpers.xml
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Mvc.xml
