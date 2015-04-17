@@ -81,23 +81,25 @@ namespace DevMVCComponent.Database {
             var take = (int)pageInfo.ItemsInPage;
             int skip = (int)pageInfo.PageNumber * take - take; //5 * 10 - 10
             //var hashCode = entities.GetHashCode();
-            int cachePages = -1;
-
+            int cachePages = pageInfo.PagesExists;
+            bool saveCache = false;
             if (!string.IsNullOrEmpty(cacheName)) {
                 var cachePagesString = Starter.Caches.Get(cacheName);
                 if (cachePagesString != null) {
-                    cachePages = long.Parse(cachePagesString);
+                    cachePages = (int)cachePagesString;
                 }
+                saveCache = true;
             }
             if (cachePages < 0 && retrivePagesExist) {
                 decimal pagesExist = 1;
                 pagesExist = entities.Count() / (decimal)pageInfo.ItemsInPage;
                 pageInfo.PagesExists = (int)Math.Ceiling(pagesExist);
-                Starter.Caches.Set(cacheName, pageInfo.PagesExists);
             } else {
                 pageInfo.PagesExists = cachePages;
             }
-
+            if (saveCache) {
+                Starter.Caches.Set(cacheName, pageInfo.PagesExists);
+            }
             return entities.Skip(skip).Take(take);
         }
         /// <summary>
