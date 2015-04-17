@@ -34,7 +34,7 @@ namespace DevMVCComponent.Database {
         /// <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
         /// <param name="retrivePagesExist">If false then no count query will be executed. If yes then count query will only generated if needed and not exist in the cache.</param>
         /// <returns>IQueryable data based on the page number.</returns>
-        public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, string cacheName, ref int pages, long? page = 1, long? items = -1, bool retrivePagesExist = true) {
+        public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, string cacheName, ref int? pages, long? page = 1, long? items = -1, bool retrivePagesExist = true) {
             if (page == null && page <= 0) {
                 page = 1;
             }
@@ -45,7 +45,7 @@ namespace DevMVCComponent.Database {
             var take = (int)items;
             int skip = (int)page * take - take; //5 * 10 - 10
             //var hashCode = entities.GetHashCode();
-            int cachePages = -1;
+            int cachePages = pages == null ? -1 : (int)pages;
 
             if (!string.IsNullOrEmpty(cacheName)) {
                 var cachePagesString = Starter.Caches.Get(cacheName);
@@ -81,7 +81,7 @@ namespace DevMVCComponent.Database {
             var take = (int)pageInfo.ItemsInPage;
             int skip = (int)pageInfo.PageNumber * take - take; //5 * 10 - 10
             //var hashCode = entities.GetHashCode();
-            int cachePages = pageInfo.PagesExists;
+            int cachePages = pageInfo.PagesExists == null ? -1 : (int)pageInfo.PagesExists;
             bool saveCache = false;
             if (!string.IsNullOrEmpty(cacheName)) {
                 var cachePagesString = Starter.Caches.Get(cacheName);
@@ -128,7 +128,7 @@ namespace DevMVCComponent.Database {
                 sb.AppendLine(ulStart);
             }
             string appendingListItem = "";
-            int endPageNumber = pageInfo.PagesExists;
+            int endPageNumber = (int)pageInfo.PagesExists;
 
             if (pageInfo.PageNumber == null) {
                 return new MvcHtmlString("");

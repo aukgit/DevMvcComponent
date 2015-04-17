@@ -12,7 +12,7 @@ namespace DevMVCComponent.Database {
         /// <summary>
         /// Receive from method
         /// </summary>
-        public int PagesExists { get; set; }
+        public int? PagesExists { get; set; }
 
         /// <summary>
         /// Set from user side. To get the items for that page.
