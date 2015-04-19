@@ -51,3 +51,27 @@ E:\Working\Developers Organism\Projects\developers-organism\DevMVCComponent\bin\
 E:\Working\Developers Organism\Projects\developers-organism\DevMVCComponent\bin\WebGrease.dll
 E:\Working\Developers Organism\Projects\developers-organism\DevMVCComponent\bin\Antlr3.Runtime.pdb
 E:\Working\Developers Organism\Projects\developers-organism\DevMVCComponent\bin\Newtonsoft.Json.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.dll.config
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.XML
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.pdb
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.tlb
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\Microsoft.Web.Infrastructure.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\Newtonsoft.Json.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Helpers.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Razor.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Deployment.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\Antlr3.Runtime.pdb
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Helpers.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Mvc.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Razor.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Deployment.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.xml
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMVCComponent.csprojResolveAssemblyReference.cache
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMVCComponent.dll
+E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMVCComponent.pdb
