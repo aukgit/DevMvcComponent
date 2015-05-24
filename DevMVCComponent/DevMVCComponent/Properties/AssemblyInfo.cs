@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DevMVCComponent")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("MVC Common components that every developer needs.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Developers Organism")]
 [assembly: AssemblyProduct("DevMVCComponent")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]

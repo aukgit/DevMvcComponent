@@ -63,11 +63,7 @@ E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Deployment.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.dll
-E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\Antlr3.Runtime.pdb
-E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.xml
-E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Helpers.xml
-E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Mvc.xml
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Razor.xml
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.xml
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Deployment.xml
