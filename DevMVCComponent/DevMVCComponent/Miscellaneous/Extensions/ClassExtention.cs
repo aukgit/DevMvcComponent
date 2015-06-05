@@ -1,11 +1,35 @@
-﻿using System;
+﻿#region using block
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web;
+
+#endregion
 
 namespace DevMVCComponent.Miscellaneous.Extensions {
+    /// <summary>
+    ///     Get the list of classes to exporting format
+    /// </summary>
     public static class ClassExtention {
+        #region Empty
+
+        /// <summary>
+        ///     Checks if IsNullOrWhiteSpace.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
+        public static bool IsEmpty(this object o) {
+            if (o == null) {
+                return true;
+            }
+            if (String.IsNullOrWhiteSpace(o.ToString())) {
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
 
         #region Explicit Custom Types
 
@@ -19,7 +43,7 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         #region Property Extensions
 
         /// <summary>
-        /// Returns null if no propertise are found.
+        ///     Returns null if no propertise are found.
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
         /// <returns>Returns the list of propertise in the class.</returns>
@@ -27,7 +51,6 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
             //var listOfPropertise = new List<string>(40);
             var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-
                 var properties = objectType.GetType().GetProperties(typeOfPropertise).Select(n => n.Name).ToList();
                 return properties;
                 //foreach (var prop in propertise) {
@@ -43,7 +66,7 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         }
 
         /// <summary>
-        /// Returns null if no propertise are found.
+        ///     Returns null if no propertise are found.
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
         /// <returns>Returns the list of propertise in the class.</returns>
@@ -51,7 +74,6 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
             //var listOfPropertise = new List<string>(40);
             var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-
                 var properties = objectType.GetType().GetProperties(typeOfPropertise);
                 return properties;
             }
@@ -59,20 +81,19 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         }
 
         /// <summary>
-        /// Returns null if no propertise are found. 
+        ///     Returns null if no properties are found.
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
-        /// <returns>Returns the list of propertise with values in the class.</returns>
+        /// <returns>Returns the list of properties with values in the class.</returns>
         public static List<ClassProperty> GetPropertiesValues(this object objectType) {
             var listOfPropertise = new List<ClassProperty>(100);
             var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-
                 var properties = objectType.GetType().GetProperties(typeOfPropertise).ToList();
 
                 if (properties != null && properties.Count > 0) {
                     foreach (var prop in properties) {
-                        var property = new ClassProperty() {
+                        var property = new ClassProperty {
                             PropertiesName = prop.Name,
                             PropertiesValue = prop.GetValue(objectType, null)
                         };
@@ -80,30 +101,11 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
                     }
                     return listOfPropertise;
                 }
-
             }
-            
+
             return null;
-        } 
-        #endregion
-
-        #region Empty
-        /// <summary>
-        /// Checks if IsNullOrWhiteSpace.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        public static bool IsEmpty(this object o) {
-            if (o == null) {
-                return true;
-            }
-            if (String.IsNullOrWhiteSpace(o.ToString())) {
-                return true;
-            }
-            return false;
-        } 
+        }
 
         #endregion
-
     }
 }
