@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="EntityConversion\OneEntityToAnotherExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Hashing\Hasher.cs" />
     <Compile Include="Hashing\Md5.cs" />
     <Compile Include="EntityConversion\ObjectToArrary.cs" />
     <Compile Include="Global\Constants.cs" />
