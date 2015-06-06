@@ -19,7 +19,8 @@ namespace DevMVCComponent.Extensions {
         /// <returns>
         ///     Obj1 { a, b, c, d }
         ///     Obj2 { b, c , d }
-        ///     Obj2 obj2_ =  cus.Cast<Obj1>()
+        ///     Obj1 obj1_ =  {a = "hello"}
+        ///     Obj2 obj2_ =  obj1_.Cast<Obj2>()
         /// </returns>
         public static T Cast<T>(this T myobj) {
             var target = typeof (T);
