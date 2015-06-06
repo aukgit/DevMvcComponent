@@ -6,11 +6,11 @@
     <members>
         <member name="T:DevMVCComponent.EntityConversion.OneEntityToAnotherExtension">
             <summary>
-            Convert one entity to another if there is matching properties.
+                Convert one entity to another if there is matching properties.
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "M:DevMVCComponent.EntityConversion.OneEntityToAnotherExtension.Cast``1(``0)" -->
-        <member name="M:WereViewApp.Modules.StringExtension.GetStringCutOff(System.String,System.Nullable{System.Int32})">
+        <member name="M:DevMVCComponent.Extensions.StringExtension.GetStringCutOff(System.String,System.Nullable{System.Int32})">
             <summary>
                 Split the string into pieces.
             </summary>
@@ -18,7 +18,7 @@
             <param name="length">If string len is less then return whole string. Null means whole len.</param>
             <returns></returns>
         </member>
-        <member name="M:WereViewApp.Modules.StringExtension.GetStringCutOff(System.String,System.Int32,System.Int32)">
+        <member name="M:DevMVCComponent.Extensions.StringExtension.GetStringCutOff(System.String,System.Int32,System.Int32)">
             <summary>
             </summary>
             <param name="str"></param>
@@ -26,25 +26,32 @@
             <param name="length">-1 means whole return last len.</param>
             <returns></returns>
         </member>
-        <member name="T:DevMVCComponent.Encryption.Generator.Md5">
+        <member name="M:DevMVCComponent.Hashing.Hasher.Get(System.Object[])">
+            <summary>
+                Checks nulls and returns only codes for existing ones.
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DevMVCComponent.Hashing.Md5">
             <summary>
                 Generates clean MD5 code.
             </summary>
         </member>
-        <member name="M:DevMVCComponent.Encryption.Generator.Md5.GenerateCleanMd5(System.String)">
+        <member name="M:DevMVCComponent.Hashing.Md5.GenerateCleanMd5(System.String)">
             <summary>
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:DevMVCComponent.Encryption.Generator.Md5.GetMd5Hash(System.Security.Cryptography.MD5,System.String)">
+        <member name="M:DevMVCComponent.Hashing.Md5.GetMd5Hash(System.Security.Cryptography.MD5,System.String)">
             <summary>
             </summary>
             <param name="md5Hash"></param>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:DevMVCComponent.Encryption.Generator.Md5.VerifyMd5Hash(System.Security.Cryptography.MD5,System.String,System.String)">
+        <member name="M:DevMVCComponent.Hashing.Md5.VerifyMd5Hash(System.Security.Cryptography.MD5,System.String,System.String)">
             <summary>
             </summary>
             <param name="md5Hash"></param>
@@ -54,19 +61,19 @@
         </member>
         <member name="T:DevMVCComponent.EntityConversion.ObjectToArrary">
             <summary>
-            Generates any class to ObjectProperty data type 
+                Generates any class to ObjectProperty data type
             </summary>
         </member>
         <member name="M:DevMVCComponent.EntityConversion.ObjectToArrary.Get(System.Object)">
             <summary>
-            Generates any class to ObjectProperty data type 
+                Generates any class to ObjectProperty data type
             </summary>
             <param name="Class">Give any class object to retrieve it's property and values.</param>
             <returns></returns>
         </member>
         <member name="T:DevMVCComponent.Global.Constants">
             <summary>
-            Global constants for this component
+                Global constants for this component
             </summary>
         </member>
         <member name="F:DevMVCComponent.Global.Constants.Changed">
@@ -81,17 +88,17 @@
         </member>
         <member name="T:DevMVCComponent.DataTypeFormat.ObjectProperty">
             <summary>
-            Class property name and values object type.
+                Class property name and values object type.
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.ObjectProperty.Name">
             <summary>
-            Single property name of the class
+                Single property name of the class
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.ObjectProperty.Value">
             <summary>
-            Property value.
+                Property value.
             </summary>
         </member>
         <member name="T:DevMVCComponent.Processor.CacheProcessor">
@@ -423,58 +430,52 @@
         </member>
         <member name="T:DevMVCComponent.Database.DataTypeSupport">
             <summary>
-            Data type supporting class, which check whether 
-            the data type is known(guid, datetime, number etc...) or a custom type.
-            If known then get the value for other task.
+                Data type supporting class, which check whether
+                the data type is known(guid, datetime, number etc...) or a custom type.
+                If known then get the value for other task.
             </summary>
         </member>
         <member name="M:DevMVCComponent.Database.DataTypeSupport.IsSupport(System.Object)">
             <summary>
-            If datatype is known(guid, datetime, number etc...)
+                If datatype is known(guid, datetime, number etc...)
             </summary>
             <param name="o"></param>
             <returns>True if datatype is number, bool , guid or string</returns>
         </member>
         <member name="T:DevMVCComponent.EntityConversion.EntityToString">
             <summary>
-            Convert any database entity to html string for email sending.
+                Convert any database entity to html string for email sending.
             </summary>
         </member>
         <member name="F:DevMVCComponent.EntityConversion.EntityToString.FontCss">
             <summary>
-            
             </summary>
         </member>
         <member name="F:DevMVCComponent.EntityConversion.EntityToString.TableCss">
             <summary>
-            
             </summary>
         </member>
         <member name="F:DevMVCComponent.EntityConversion.EntityToString.ThCss">
             <summary>
-            
             </summary>
         </member>
         <member name="F:DevMVCComponent.EntityConversion.EntityToString.TdCss">
             <summary>
-            
             </summary>
         </member>
         <member name="F:DevMVCComponent.EntityConversion.EntityToString.TableCaptionCss">
             <summary>
-            
             </summary>
         </member>
         <member name="M:DevMVCComponent.EntityConversion.EntityToString.Get(System.Object)">
             <summary>
-            Get simple html string of a single class object
+                Get simple html string of a single class object
             </summary>
             <param name="Class">Any entity object , can be null.</param>
             <returns></returns>
         </member>
         <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlOfSingleClass(System.Object)">
             <summary>
-            
             </summary>
             <param name="Class"></param>
             <returns></returns>
@@ -487,14 +488,14 @@
         </member>
         <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlTableHeader(System.Object,System.Text.StringBuilder@)">
             <summary>
-            Generates the html table header rows for single class properties.
+                Generates the html table header rows for single class properties.
             </summary>
             <param name="Class"></param>
             <param name="sb"></param>
         </member>
         <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlOfEntities(System.Collections.Generic.IEnumerable{System.Object},System.String)">
             <summary>
-            Get html table string of any database entity list.
+                Get html table string of any database entity list.
             </summary>
             <param name="classes">List of items</param>
             <param name="tableCaption">Table caption for this entity.</param>
@@ -502,8 +503,8 @@
         </member>
         <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlOfEntitiesEmail(System.Collections.Generic.IEnumerable{System.Object},System.String,System.String,System.String)">
             <summary>
-            Async: Convert database entities list to html string and then 
-            send to to an email. 
+                Async: Convert database entities list to html string and then
+                send to to an email.
             </summary>
             <param name="classes">List of items</param>
             <param name="email">Email address to send the email.</param>
@@ -682,37 +683,37 @@
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.ErrorMessage">
             <summary>
-            What is the error and what is the cause of the error.
+                What is the error and what is the cause of the error.
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.Solution">
             <summary>
-            Solution message
+                Solution message
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.CssClass">
             <summary>
-            Specific class for this error label.
-            By default :
-            High : label label-danger high-priority
-            Medium : label label-danger medium-priority
-            low : label label-warning low-priority
+                Specific class for this error label.
+                By default :
+                High : label label-danger high-priority
+                Medium : label label-danger medium-priority
+                low : label label-warning low-priority
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.SolutionLink">
             <summary>
-            Where user can solve this problem.
-            Could be null or empty.
+                Where user can solve this problem.
+                Could be null or empty.
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.SolutionDisplayMessage">
             <summary>
-            Title attribute of the link
+                Title attribute of the link
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.Type">
             <summary>
-            Type of the error
+                Type of the error
             </summary>
         </member>
         <member name="T:DevMVCComponent.Error.Handler">
@@ -825,7 +826,7 @@
         </member>
         <member name="M:DevMVCComponent.Error.Handler.ByEmail(System.Exception,System.String,System.String,System.Object)">
             <summary>
-            Sends an quick email to the developer.
+                Sends an quick email to the developer.
             </summary>
             <param name="exception"></param>
             <param name="methodName"></param>
@@ -834,15 +835,15 @@
         </member>
         <member name="T:DevMVCComponent.Mailer.CustomMailConfig">
             <summary>
-            Any mail server generic config methods.
-            There is no need to inherit MailConfig all the time.
-            Create this class with contructor parameters and
-            then initialize it in the starter.
+                Any mail server generic config methods.
+                There is no need to inherit MailConfig all the time.
+                Create this class with contructor parameters and
+                then initialize it in the starter.
             </summary>
         </member>
         <member name="T:DevMVCComponent.Mailer.MailConfig">
             <summary>
-            Must configure this to your smtpclient
+                Must configure this to your smtpclient
             </summary>
         </member>
         <member name="M:DevMVCComponent.Mailer.MailConfig.#ctor">
@@ -956,7 +957,6 @@
         </member>
         <member name="M:DevMVCComponent.Mailer.CustomMailConfig.#ctor(System.String,System.String,System.String,System.Int32,System.Boolean)">
             <summary>
-            
             </summary>
             <param name="email"></param>
             <param name="password"></param>
@@ -986,33 +986,33 @@
             <param name="host"></param>
             <param name="port"></param>
         </member>
-        <member name="T:DevMVCComponent.Miscellaneous.Extensions.ClassExtention">
+        <member name="T:DevMVCComponent.Extensions.ClassExtention">
             <summary>
                 Get the list of classes to exporting format
             </summary>
         </member>
-        <member name="M:DevMVCComponent.Miscellaneous.Extensions.ClassExtention.IsEmpty(System.Object)">
+        <member name="M:DevMVCComponent.Extensions.ClassExtention.IsEmpty(System.Object)">
             <summary>
                 Checks if IsNullOrWhiteSpace.
             </summary>
             <param name="o"></param>
             <returns></returns>
         </member>
-        <member name="M:DevMVCComponent.Miscellaneous.Extensions.ClassExtention.GetPropertiesNames(System.Object)">
+        <member name="M:DevMVCComponent.Extensions.ClassExtention.GetPropertiesNames(System.Object)">
             <summary>
                 Returns null if no properties are found.
             </summary>
             <param name="objectType">Type of any object/class/</param>
             <returns>Returns the list of properties in the class.</returns>
         </member>
-        <member name="M:DevMVCComponent.Miscellaneous.Extensions.ClassExtention.GetProperties(System.Object)">
+        <member name="M:DevMVCComponent.Extensions.ClassExtention.GetProperties(System.Object)">
             <summary>
                 Returns null if no propertise are found.
             </summary>
             <param name="objectType">Type of any object/class/</param>
             <returns>Returns the list of propertise in the class.</returns>
         </member>
-        <member name="M:DevMVCComponent.Miscellaneous.Extensions.ClassExtention.GetPropertiesValues(System.Object)">
+        <member name="M:DevMVCComponent.Extensions.ClassExtention.GetPropertiesValues(System.Object)">
             <summary>
                 Returns null if no properties are found.
             </summary>
@@ -1026,7 +1026,7 @@
         </member>
         <member name="F:DevMVCComponent.Starter.Error">
             <summary>
-            Handles all kinds of errors and then finally sends an email to the client.
+                Handles all kinds of errors and then finally sends an email to the client.
             </summary>
         </member>
         <member name="F:DevMVCComponent.Starter.Cookies">
@@ -1050,8 +1050,8 @@
             <param name="developerEmail">Developer email</param>
             <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
             <param name="mailer">
-            Get your own custom mailer or GmailConfig or setup CustomConfig.
-            new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
+                Get your own custom mailer or GmailConfig or setup CustomConfig.
+                new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
             </param>
         </member>
         <member name="M:DevMVCComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,System.String,System.String,System.String,System.Int32,System.Boolean)">
@@ -1071,11 +1071,11 @@
             <summary>
             </summary>
         </member>
-        <member name="F:DevMVCComponent.Error.ErrorCollector.SolutionStateLinkClass">
+        <member name="F:DevMVCComponent.Error.ErrorCollector.SolutionStateClass">
             <summary>
             </summary>
         </member>
-        <member name="F:DevMVCComponent.Error.ErrorCollector.SolutionStateClass">
+        <member name="F:DevMVCComponent.Error.ErrorCollector.SolutionStateLinkClass">
             <summary>
             </summary>
         </member>
@@ -1086,14 +1086,14 @@
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.GetCssClassForError(DevMVCComponent.DataTypeFormat.BasicError)">
             <summary>
-            Get cssClass class names
+                Get cssClass class names
             </summary>
             <param name="e"></param>
             <returns>
-            By default :
-            High : label label-danger high-priority
-            Medium : label label-danger medium-priority
-            low : label label-warning low-priority
+                By default :
+                High : label label-danger high-priority
+                Medium : label label-danger medium-priority
+                low : label label-warning low-priority
             </returns>
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.IsExist">
@@ -1108,11 +1108,11 @@
             </summary>
             <param name="msg">set your message.</param>
             <param name="cssClass">
-            Specific class for this error label.
-            By default :
-            High : label label-danger high-priority
-            Medium : label label-danger medium-priority
-            low : label label-warning low-priority
+                Specific class for this error label.
+                By default :
+                High : label label-danger high-priority
+                Medium : label label-danger medium-priority
+                low : label label-warning low-priority
             </param>
             <param name="solution">error solution message</param>
             <param name="link">error solution solutionLink</param>
@@ -1125,11 +1125,11 @@
             </summary>
             <param name="msg">set your message.</param>
             <param name="cssClass">
-            Specific class for this error label.
-            By default :
-            High : label label-danger high-priority
-            Medium : label label-danger medium-priority
-            low : label label-warning low-priority
+                Specific class for this error label.
+                By default :
+                High : label label-danger high-priority
+                Medium : label label-danger medium-priority
+                low : label label-warning low-priority
             </param>
             <param name="solution">error solution message</param>
             <param name="link">error solution solutionLink</param>
@@ -1142,11 +1142,11 @@
             </summary>
             <param name="msg">set your message.</param>
             <param name="cssClass">
-            Specific class for this error label.
-            By default :
-            High : label label-danger high-priority
-            Medium : label label-danger medium-priority
-            low : label label-warning low-priority
+                Specific class for this error label.
+                By default :
+                High : label label-danger high-priority
+                Medium : label label-danger medium-priority
+                low : label label-warning low-priority
             </param>
             <param name="solution">error solution message</param>
             <param name="link">error solution solutionLink</param>
@@ -1160,11 +1160,11 @@
             <param name="msg">set your message.</param>
             <param name="type">Type of your error message.</param>
             <param name="cssClass">
-            Specific class for this error label.
-            By default :
-            High : label label-danger high-priority
-            Medium : label label-danger medium-priority
-            low : label label-warning low-priority
+                Specific class for this error label.
+                By default :
+                High : label label-danger high-priority
+                Medium : label label-danger medium-priority
+                low : label label-warning low-priority
             </param>
             <param name="solution">error solution message</param>
             <param name="solutionLink">error solution solutionLink</param>
@@ -1178,7 +1178,7 @@
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.GetListItems(System.String)">
             <summary>
-            Call it when printing it in the view.
+                Call it when printing it in the view.
             </summary>
             <returns>Returns all errors ordered by as a string list of html list item ( all classes will be added ).</returns>
         </member>
@@ -1189,12 +1189,12 @@
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.Remove(System.Int32)">
             <summary>
-            remove msg from the list
+                remove msg from the list
             </summary>
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.Remove(System.String)">
             <summary>
-            remove msg from the list
+                remove msg from the list
             </summary>
             <param name="message"></param>
         </member>
@@ -1225,7 +1225,7 @@
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.GetErrorsSorted">
             <summary>
-            Returns errors in sorted order.
+                Returns errors in sorted order.
             </summary>
             <returns>Returns errors in sorted order.</returns>
         </member>
