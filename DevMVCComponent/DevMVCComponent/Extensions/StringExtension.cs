@@ -1,4 +1,4 @@
-﻿namespace WereViewApp.Modules {
+﻿namespace DevMVCComponent.Extensions {
     public static class StringExtension {
         /// <summary>
         ///     Split the string into pieces.

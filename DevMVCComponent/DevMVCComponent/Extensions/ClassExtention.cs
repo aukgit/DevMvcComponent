@@ -8,11 +8,13 @@ using DevMVCComponent.DataTypeFormat;
 
 #endregion
 
-namespace DevMVCComponent.Miscellaneous.Extensions {
+namespace DevMVCComponent.Extensions {
     /// <summary>
     ///     Get the list of classes to exporting format
     /// </summary>
     public static class ClassExtention {
+        private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+
         #region Empty
 
         /// <summary>
@@ -32,8 +34,6 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
 
         #endregion
 
-        private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
-
         #region Property Extensions
 
         /// <summary>
@@ -43,9 +43,9 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         /// <returns>Returns the list of properties in the class.</returns>
         public static List<string> GetPropertiesNames(this object objectType) {
             //var listOfPropertise = new List<string>(40);
-            BindingFlags typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-                List<string> properties = objectType.GetType().GetProperties(typeOfPropertise).Select(n => n.Name).ToList();
+                var properties = objectType.GetType().GetProperties(typeOfPropertise).Select(n => n.Name).ToList();
                 return properties;
                 //foreach (var prop in propertise) {
                 //    /*object val = prop.GetValue(objectType, null);
@@ -66,9 +66,9 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         /// <returns>Returns the list of propertise in the class.</returns>
         public static PropertyInfo[] GetProperties(this object objectType) {
             //var listOfPropertise = new List<string>(40);
-            BindingFlags typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-                PropertyInfo[] properties = objectType.GetType().GetProperties(typeOfPropertise);
+                var properties = objectType.GetType().GetProperties(typeOfPropertise);
                 return properties;
             }
             return null;
@@ -80,13 +80,13 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         /// <param name="objectType">Type of any object/class/</param>
         /// <returns>Returns the list of properties with values in the class.</returns>
         public static List<ObjectProperty> GetPropertiesValues(this object objectType) {
-            List<ObjectProperty> listOfPropertise = new List<ObjectProperty>(100);
+            var listOfPropertise = new List<ObjectProperty>(100);
             if (objectType != null) {
-                List<PropertyInfo> properties = objectType.GetType().GetProperties(TypeOfPropertise).ToList();
+                var properties = objectType.GetType().GetProperties(TypeOfPropertise).ToList();
 
                 if (properties != null && properties.Count > 0) {
-                    foreach (PropertyInfo prop in properties) {
-                        ObjectProperty property = new ObjectProperty {
+                    foreach (var prop in properties) {
+                        var property = new ObjectProperty {
                             Name = prop.Name,
                             Value = prop.GetValue(objectType, null)
                         };

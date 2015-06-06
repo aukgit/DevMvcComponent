@@ -1,9 +1,9 @@
 ﻿namespace DevMVCComponent.Mailer {
     /// <summary>
-    /// Any mail server generic config methods.
-    /// There is no need to inherit MailConfig all the time.
-    /// Create this class with contructor parameters and
-    /// then initialize it in the starter.
+    ///     Any mail server generic config methods.
+    ///     There is no need to inherit MailConfig all the time.
+    ///     Create this class with contructor parameters and
+    ///     then initialize it in the starter.
     /// </summary>
     public class CustomMailConfig : MailConfig {
         /// <summary>
@@ -21,7 +21,6 @@
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>

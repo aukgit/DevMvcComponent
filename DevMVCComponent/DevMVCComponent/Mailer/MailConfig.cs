@@ -7,13 +7,13 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading;
 using DevMVCComponent.Enums;
-using DevMVCComponent.Miscellaneous.Extensions;
+using DevMVCComponent.Extensions;
 
 #endregion
 
 namespace DevMVCComponent.Mailer {
     /// <summary>
-    /// Must configure this to your smtpclient
+    ///     Must configure this to your smtpclient
     /// </summary>
     public abstract class MailConfig : SmtpClient {
         private bool _async = true;

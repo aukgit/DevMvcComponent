@@ -1,6 +1,6 @@
 ﻿namespace DevMVCComponent.Global {
     /// <summary>
-    /// Global constants for this component
+    ///     Global constants for this component
     /// </summary>
     public class Constants {
         /// <summary>

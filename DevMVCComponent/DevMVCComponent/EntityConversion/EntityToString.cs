@@ -12,13 +12,13 @@ using DevMVCComponent.Database;
 
 namespace DevMVCComponent.EntityConversion {
     /// <summary>
-    /// Convert any database entity to html string for email sending.
+    ///     Convert any database entity to html string for email sending.
     /// </summary>
     public class EntityToString {
-        const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+        private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
-        /// Get simple html string of a single class object
+        ///     Get simple html string of a single class object
         /// </summary>
         /// <param name="Class">Any entity object , can be null.</param>
         /// <returns></returns>
@@ -45,7 +45,6 @@ namespace DevMVCComponent.EntityConversion {
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="Class"></param>
         /// <returns></returns>
@@ -84,7 +83,6 @@ namespace DevMVCComponent.EntityConversion {
         /// </summary>
         /// <param name="Class">Single object</param>
         public static void GetHtmlTableRow(object Class, ref StringBuilder sb, int? count = null) {
-
             //generating single row.
             if (Class != null) {
                 var propertise =
@@ -108,8 +106,9 @@ namespace DevMVCComponent.EntityConversion {
                 sb.AppendLine("</tr>");
             }
         }
+
         /// <summary>
-        /// Generates the html table header rows for single class properties.
+        ///     Generates the html table header rows for single class properties.
         /// </summary>
         /// <param name="Class"></param>
         /// <param name="sb"></param>
@@ -138,7 +137,7 @@ namespace DevMVCComponent.EntityConversion {
         }
 
         /// <summary>
-        /// Get html table string of any database entity list.
+        ///     Get html table string of any database entity list.
         /// </summary>
         /// <param name="classes">List of items</param>
         /// <param name="tableCaption">Table caption for this entity.</param>
@@ -179,8 +178,8 @@ namespace DevMVCComponent.EntityConversion {
         }
 
         /// <summary>
-        /// Async: Convert database entities list to html string and then 
-        /// send to to an email. 
+        ///     Async: Convert database entities list to html string and then
+        ///     send to to an email.
         /// </summary>
         /// <param name="classes">List of items</param>
         /// <param name="email">Email address to send the email.</param>
@@ -200,29 +199,24 @@ namespace DevMVCComponent.EntityConversion {
         #region Declarations
 
         /// <summary>
-        /// 
         /// </summary>
         public const string FontCss =
             "font-size: 12px ;font-family: 'Segoe UI','Calibri', 'Sans-Serif', 'Lucida Grande' ,'Trebuchet MS','Verdana','Arial';";
 
         /// <summary>
-        /// 
         /// </summary>
         public const string TableCss = "border: solid 1px #E8EEF4; border-collapse: collapse;" + FontCss;
 
         /// <summary>
-        /// 
         /// </summary>
         public const string ThCss =
             "padding: 6px 5px;text-align: left;background-color:#E8EEF4;border: solid 1px #E8EEF4;" + FontCss;
 
         /// <summary>
-        /// 
         /// </summary>
         public const string TdCss = "padding: 5px;border: solid 1px #E8EEF4;" + FontCss;
 
         /// <summary>
-        /// 
         /// </summary>
         public const string TableCaptionCss =
             " background-color: #D0DEC2;font-weight: bold;padding: 5px;text-align: center;" + FontCss;

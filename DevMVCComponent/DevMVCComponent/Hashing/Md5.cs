@@ -6,7 +6,7 @@ using System.Text;
 
 #endregion
 
-namespace DevMVCComponent.Encryption.Generator {
+namespace DevMVCComponent.Hashing {
     /// <summary>
     ///     Generates clean MD5 code.
     /// </summary>

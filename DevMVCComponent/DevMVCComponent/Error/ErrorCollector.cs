@@ -13,20 +13,20 @@ namespace DevMVCComponent.Error {
     /// <summary>
     /// </summary>
     public class ErrorCollector : IDisposable {
-        /// <summary>
-        /// </summary>
-        public string SolutionStateLinkClass = "label label-info error-solution-solutionLink-color";
-
-        /// <summary>
-        /// </summary>
-        public string SolutionStateClass = "label label-success";
-
         private const string HighRisk = "label label-danger high-priority";
         private const string MidRisk = "label label-danger medium-priority";
         private const string LowRisk = "label label-warning low-priority";
         private int _defaultCapacity = 20;
         private List<BasicError> _errors;
         private short _orderIncrementer;
+
+        /// <summary>
+        /// </summary>
+        public string SolutionStateClass = "label label-success";
+
+        /// <summary>
+        /// </summary>
+        public string SolutionStateLinkClass = "label label-info error-solution-solutionLink-color";
 
         /// <summary>
         /// </summary>
@@ -40,15 +40,16 @@ namespace DevMVCComponent.Error {
             _errors = null;
             GC.Collect();
         }
+
         /// <summary>
-        /// Get cssClass class names
+        ///     Get cssClass class names
         /// </summary>
         /// <param name="e"></param>
         /// <returns>
-        /// By default :
-        /// High : label label-danger high-priority
-        /// Medium : label label-danger medium-priority
-        /// low : label label-warning low-priority
+        ///     By default :
+        ///     High : label label-danger high-priority
+        ///     Medium : label label-danger medium-priority
+        ///     low : label label-warning low-priority
         /// </returns>
         public string GetCssClassForError(BasicError e) {
             if (!string.IsNullOrEmpty(e.CssClass)) {
@@ -78,7 +79,8 @@ namespace DevMVCComponent.Error {
             return false;
         }
 
-        private BasicError GetNewBasicError(string msg, ErrorType type, string cssClass = "", string solution = "", string link = "", string linkTitle = "") {
+        private BasicError GetNewBasicError(string msg, ErrorType type, string cssClass = "", string solution = "",
+            string link = "", string linkTitle = "") {
             var error = new BasicError {
                 Type = type,
                 OrderId = _orderIncrementer++,
@@ -96,19 +98,19 @@ namespace DevMVCComponent.Error {
         /// </summary>
         /// <param name="msg">set your message.</param>
         /// <param name="cssClass">
-        /// Specific class for this error label.
-        /// By default :
-        /// High : label label-danger high-priority
-        /// Medium : label label-danger medium-priority
-        /// low : label label-warning low-priority
+        ///     Specific class for this error label.
+        ///     By default :
+        ///     High : label label-danger high-priority
+        ///     Medium : label label-danger medium-priority
+        ///     low : label label-warning low-priority
         /// </param>
         /// <param name="solution">error solution message</param>
         /// <param name="link">error solution solutionLink</param>
         /// <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
         /// <returns>returns the order of the error.</returns>
-        public int Add(string msg, string cssClass = "", string solution = "", string link = "", string solutionDisplayMessage = "") {
+        public int Add(string msg, string cssClass = "", string solution = "", string link = "",
+            string solutionDisplayMessage = "") {
             return Add(msg, ErrorType.Low, cssClass, solution, link, solutionDisplayMessage);
-
         }
 
         /// <summary>
@@ -116,19 +118,19 @@ namespace DevMVCComponent.Error {
         /// </summary>
         /// <param name="msg">set your message.</param>
         /// <param name="cssClass">
-        /// Specific class for this error label.
-        /// By default :
-        /// High : label label-danger high-priority
-        /// Medium : label label-danger medium-priority
-        /// low : label label-warning low-priority
+        ///     Specific class for this error label.
+        ///     By default :
+        ///     High : label label-danger high-priority
+        ///     Medium : label label-danger medium-priority
+        ///     low : label label-warning low-priority
         /// </param>
         /// <param name="solution">error solution message</param>
         /// <param name="link">error solution solutionLink</param>
         /// <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
         /// <returns>returns the order of the error.</returns>
-        public int AddHigh(string msg, string cssClass = "", string solution = "", string link = "", string solutionDisplayMessage = "") {
+        public int AddHigh(string msg, string cssClass = "", string solution = "", string link = "",
+            string solutionDisplayMessage = "") {
             return Add(msg, ErrorType.High, cssClass, solution, link, solutionDisplayMessage);
-
         }
 
         /// <summary>
@@ -136,17 +138,18 @@ namespace DevMVCComponent.Error {
         /// </summary>
         /// <param name="msg">set your message.</param>
         /// <param name="cssClass">
-        /// Specific class for this error label.
-        /// By default :
-        /// High : label label-danger high-priority
-        /// Medium : label label-danger medium-priority
-        /// low : label label-warning low-priority
+        ///     Specific class for this error label.
+        ///     By default :
+        ///     High : label label-danger high-priority
+        ///     Medium : label label-danger medium-priority
+        ///     low : label label-warning low-priority
         /// </param>
         /// <param name="solution">error solution message</param>
         /// <param name="link">error solution solutionLink</param>
         /// <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
         /// <returns>returns the order of the error.</returns>
-        public int AddMedium(string msg, string cssClass = "", string solution = "", string link = "", string solutionDisplayMessage = "") {
+        public int AddMedium(string msg, string cssClass = "", string solution = "", string link = "",
+            string solutionDisplayMessage = "") {
             return Add(msg, ErrorType.Medium, cssClass, solution, link, solutionDisplayMessage);
         }
 
@@ -156,17 +159,18 @@ namespace DevMVCComponent.Error {
         /// <param name="msg">set your message.</param>
         /// <param name="type">Type of your error message.</param>
         /// <param name="cssClass">
-        /// Specific class for this error label.
-        /// By default :
-        /// High : label label-danger high-priority
-        /// Medium : label label-danger medium-priority
-        /// low : label label-warning low-priority
+        ///     Specific class for this error label.
+        ///     By default :
+        ///     High : label label-danger high-priority
+        ///     Medium : label label-danger medium-priority
+        ///     low : label label-warning low-priority
         /// </param>
         /// <param name="solution">error solution message</param>
         /// <param name="solutionLink">error solution solutionLink</param>
         /// <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
         /// <returns>returns the order of the error.</returns>
-        public int Add(string msg, ErrorType type, string cssClass = "", string solution = "", string solutionLink = "", string solutionDisplayMessage = "") {
+        public int Add(string msg, ErrorType type, string cssClass = "", string solution = "", string solutionLink = "",
+            string solutionDisplayMessage = "") {
             var error = GetNewBasicError(msg, type, cssClass, solution, solutionLink, solutionDisplayMessage);
             _errors.Add(error);
             return error.OrderId;
@@ -181,13 +185,13 @@ namespace DevMVCComponent.Error {
         }
 
         /// <summary>
-        /// Call it when printing it in the view.
+        ///     Call it when printing it in the view.
         /// </summary>
         /// <returns>Returns all errors ordered by as a string list of html list item ( all classes will be added ).</returns>
         public string GetListItems(string eachItemClasses = "") {
             // codes start from here.
             var errorsList = GetErrorsSorted();
-            var sb = new StringBuilder(errorsList.Count * 15);
+            var sb = new StringBuilder(errorsList.Count*15);
             foreach (var error in errorsList) {
                 var cssClass = GetCssClassForError(error);
                 sb.Append("<li class='generic-error-item " + eachItemClasses + "'>");
@@ -200,12 +204,12 @@ namespace DevMVCComponent.Error {
                     sb.Append("</span>");
                 }
                 if (!string.IsNullOrEmpty(error.SolutionLink)) {
-                    sb.Append("<a class='" + SolutionStateLinkClass + "' href='" + error.SolutionLink + "' title='" + error.SolutionDisplayMessage + "'>");
+                    sb.Append("<a class='" + SolutionStateLinkClass + "' href='" + error.SolutionLink + "' title='" +
+                              error.SolutionDisplayMessage + "'>");
                     sb.Append(error.SolutionDisplayMessage);
                     sb.Append("</a>");
                 }
                 sb.Append("</li>");
-
             }
             return sb.ToString();
         }
@@ -219,8 +223,9 @@ namespace DevMVCComponent.Error {
             }
             return null;
         }
+
         /// <summary>
-        /// remove msg from the list
+        ///     remove msg from the list
         /// </summary>
         public void Remove(int orderId) {
             var error = _errors.FirstOrDefault(n => n.OrderId == orderId);
@@ -228,8 +233,9 @@ namespace DevMVCComponent.Error {
                 _errors.Remove(error);
             }
         }
+
         /// <summary>
-        /// remove msg from the list
+        ///     remove msg from the list
         /// </summary>
         /// <param name="message"></param>
         public void Remove(string message) {
@@ -286,7 +292,7 @@ namespace DevMVCComponent.Error {
         }
 
         /// <summary>
-        /// Returns errors in sorted order.
+        ///     Returns errors in sorted order.
         /// </summary>
         /// <returns>Returns errors in sorted order.</returns>
         public List<BasicError> GetErrorsSorted() {

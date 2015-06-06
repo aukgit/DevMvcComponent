@@ -9,13 +9,13 @@ using DevMVCComponent.DataTypeFormat;
 
 namespace DevMVCComponent.EntityConversion {
     /// <summary>
-    /// Generates any class to ObjectProperty data type 
+    ///     Generates any class to ObjectProperty data type
     /// </summary>
     public static class ObjectToArrary {
-        const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+        private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
-        /// Generates any class to ObjectProperty data type 
+        ///     Generates any class to ObjectProperty data type
         /// </summary>
         /// <param name="Class">Give any class object to retrieve it's property and values.</param>
         /// <returns></returns>

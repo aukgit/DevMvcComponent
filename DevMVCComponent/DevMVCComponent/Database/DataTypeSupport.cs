@@ -6,13 +6,13 @@ using System;
 
 namespace DevMVCComponent.Database {
     /// <summary>
-    /// Data type supporting class, which check whether 
-    /// the data type is known(guid, datetime, number etc...) or a custom type.
-    /// If known then get the value for other task.
+    ///     Data type supporting class, which check whether
+    ///     the data type is known(guid, datetime, number etc...) or a custom type.
+    ///     If known then get the value for other task.
     /// </summary>
     public class DataTypeSupport {
         /// <summary>
-        /// If datatype is known(guid, datetime, number etc...)
+        ///     If datatype is known(guid, datetime, number etc...)
         /// </summary>
         /// <param name="o"></param>
         /// <returns>True if datatype is number, bool , guid or string</returns>
