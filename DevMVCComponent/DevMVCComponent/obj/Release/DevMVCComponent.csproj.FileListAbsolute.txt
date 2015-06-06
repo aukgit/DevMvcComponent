@@ -58,7 +58,6 @@ E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComp
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMVCComponent.tlb
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMVCComponent.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMVCComponent.pdb
-E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMVCComponent.csprojResolveAssemblyReference.cache
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.dll
 E:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.xml

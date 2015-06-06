@@ -4,6 +4,28 @@
         <name>DevMVCComponent</name>
     </assembly>
     <members>
+        <member name="T:DevMVCComponent.EntityConversion.OneEntityToAnotherExtension">
+            <summary>
+            Convert one entity to another if there is matching properties.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:DevMVCComponent.EntityConversion.OneEntityToAnotherExtension.Cast``1(``0)" -->
+        <member name="M:WereViewApp.Modules.StringExtension.GetStringCutOff(System.String,System.Nullable{System.Int32})">
+            <summary>
+                Split the string into pieces.
+            </summary>
+            <param name="str"></param>
+            <param name="length">If string len is less then return whole string. Null means whole len.</param>
+            <returns></returns>
+        </member>
+        <member name="M:WereViewApp.Modules.StringExtension.GetStringCutOff(System.String,System.Int32,System.Int32)">
+            <summary>
+            </summary>
+            <param name="str"></param>
+            <param name="starting">If previous mid was on 100 , start from 100</param>
+            <param name="length">-1 means whole return last len.</param>
+            <returns></returns>
+        </member>
         <member name="T:DevMVCComponent.Encryption.Generator.Md5">
             <summary>
                 Generates clean MD5 code.
@@ -30,6 +52,18 @@
             <param name="hash"></param>
             <returns></returns>
         </member>
+        <member name="T:DevMVCComponent.EntityConversion.ObjectToArrary">
+            <summary>
+            Generates any class to ObjectProperty data type 
+            </summary>
+        </member>
+        <member name="M:DevMVCComponent.EntityConversion.ObjectToArrary.Get(System.Object)">
+            <summary>
+            Generates any class to ObjectProperty data type 
+            </summary>
+            <param name="Class">Give any class object to retrieve it's property and values.</param>
+            <returns></returns>
+        </member>
         <member name="T:DevMVCComponent.Global.Constants">
             <summary>
             Global constants for this component
@@ -45,17 +79,20 @@
                 UnChanged
             </summary>
         </member>
-        <member name="T:DevMVCComponent.ObjectToArray.ObjectToArrary">
+        <member name="T:DevMVCComponent.DataTypeFormat.ObjectProperty">
             <summary>
-            Generates any class to ObjectProperty data type 
+            Class property name and values object type.
             </summary>
         </member>
-        <member name="M:DevMVCComponent.ObjectToArray.ObjectToArrary.Get(System.Object)">
+        <member name="P:DevMVCComponent.DataTypeFormat.ObjectProperty.Name">
             <summary>
-            Generates any class to ObjectProperty data type 
+            Single property name of the class
             </summary>
-            <param name="Class">Give any class object to retrieve it's property and values.</param>
-            <returns></returns>
+        </member>
+        <member name="P:DevMVCComponent.DataTypeFormat.ObjectProperty.Value">
+            <summary>
+            Property value.
+            </summary>
         </member>
         <member name="T:DevMVCComponent.Processor.CacheProcessor">
             <summary>
@@ -384,12 +421,94 @@
             <param name="cookieName"></param>
             <returns>Return Date time or null.</returns>
         </member>
-        <member name="M:DevMVCComponent.Database.EntityToString.GetHtmlTableRow(System.Object,System.Nullable{System.Int32})">
+        <member name="T:DevMVCComponent.Database.DataTypeSupport">
             <summary>
-                Generating single row of this object.
+            Data type supporting class, which check whether 
+            the data type is known(guid, datetime, number etc...) or a custom type.
+            If known then get the value for other task.
+            </summary>
+        </member>
+        <member name="M:DevMVCComponent.Database.DataTypeSupport.IsSupport(System.Object)">
+            <summary>
+            If datatype is known(guid, datetime, number etc...)
+            </summary>
+            <param name="o"></param>
+            <returns>True if datatype is number, bool , guid or string</returns>
+        </member>
+        <member name="T:DevMVCComponent.EntityConversion.EntityToString">
+            <summary>
+            Convert any database entity to html string for email sending.
+            </summary>
+        </member>
+        <member name="F:DevMVCComponent.EntityConversion.EntityToString.FontCss">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DevMVCComponent.EntityConversion.EntityToString.TableCss">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DevMVCComponent.EntityConversion.EntityToString.ThCss">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DevMVCComponent.EntityConversion.EntityToString.TdCss">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DevMVCComponent.EntityConversion.EntityToString.TableCaptionCss">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DevMVCComponent.EntityConversion.EntityToString.Get(System.Object)">
+            <summary>
+            Get simple html string of a single class object
+            </summary>
+            <param name="Class">Any entity object , can be null.</param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlOfSingleClass(System.Object)">
+            <summary>
+            
             </summary>
             <param name="Class"></param>
             <returns></returns>
+        </member>
+        <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlTableRow(System.Object,System.Text.StringBuilder@,System.Nullable{System.Int32})">
+            <summary>
+                Generating single row from a list of entities.
+            </summary>
+            <param name="Class">Single object</param>
+        </member>
+        <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlTableHeader(System.Object,System.Text.StringBuilder@)">
+            <summary>
+            Generates the html table header rows for single class properties.
+            </summary>
+            <param name="Class"></param>
+            <param name="sb"></param>
+        </member>
+        <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlOfEntities(System.Collections.Generic.IEnumerable{System.Object},System.String)">
+            <summary>
+            Get html table string of any database entity list.
+            </summary>
+            <param name="classes">List of items</param>
+            <param name="tableCaption">Table caption for this entity.</param>
+            <returns>Returns html table string of any database entity list.</returns>
+        </member>
+        <member name="M:DevMVCComponent.EntityConversion.EntityToString.GetHtmlOfEntitiesEmail(System.Collections.Generic.IEnumerable{System.Object},System.String,System.String,System.String)">
+            <summary>
+            Async: Convert database entities list to html string and then 
+            send to to an email. 
+            </summary>
+            <param name="classes">List of items</param>
+            <param name="email">Email address to send the email.</param>
+            <param name="sub">Subject of the email.</param>
+            <param name="tableCaption">Caption of the table for this entity.</param>
         </member>
         <member name="T:DevMVCComponent.Pagination.Pagination">
             <summary>
@@ -881,10 +1000,10 @@
         </member>
         <member name="M:DevMVCComponent.Miscellaneous.Extensions.ClassExtention.GetPropertiesNames(System.Object)">
             <summary>
-                Returns null if no propertise are found.
+                Returns null if no properties are found.
             </summary>
             <param name="objectType">Type of any object/class/</param>
-            <returns>Returns the list of propertise in the class.</returns>
+            <returns>Returns the list of properties in the class.</returns>
         </member>
         <member name="M:DevMVCComponent.Miscellaneous.Extensions.ClassExtention.GetProperties(System.Object)">
             <summary>

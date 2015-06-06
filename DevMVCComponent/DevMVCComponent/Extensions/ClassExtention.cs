@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DevMVCComponent.DataTypeFormat;
 
 #endregion
 
@@ -31,27 +32,20 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
 
         #endregion
 
-        #region Explicit Custom Types
-
-        public class ClassProperty {
-            public string PropertiesName { get; set; }
-            public object PropertiesValue { get; set; }
-        }
-
-        #endregion
+        private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
 
         #region Property Extensions
 
         /// <summary>
-        ///     Returns null if no propertise are found.
+        ///     Returns null if no properties are found.
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
-        /// <returns>Returns the list of propertise in the class.</returns>
+        /// <returns>Returns the list of properties in the class.</returns>
         public static List<string> GetPropertiesNames(this object objectType) {
             //var listOfPropertise = new List<string>(40);
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+            BindingFlags typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-                var properties = objectType.GetType().GetProperties(typeOfPropertise).Select(n => n.Name).ToList();
+                List<string> properties = objectType.GetType().GetProperties(typeOfPropertise).Select(n => n.Name).ToList();
                 return properties;
                 //foreach (var prop in propertise) {
                 //    /*object val = prop.GetValue(objectType, null);
@@ -72,9 +66,9 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         /// <returns>Returns the list of propertise in the class.</returns>
         public static PropertyInfo[] GetProperties(this object objectType) {
             //var listOfPropertise = new List<string>(40);
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+            BindingFlags typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-                var properties = objectType.GetType().GetProperties(typeOfPropertise);
+                PropertyInfo[] properties = objectType.GetType().GetProperties(typeOfPropertise);
                 return properties;
             }
             return null;
@@ -85,17 +79,16 @@ namespace DevMVCComponent.Miscellaneous.Extensions {
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
         /// <returns>Returns the list of properties with values in the class.</returns>
-        public static List<ClassProperty> GetPropertiesValues(this object objectType) {
-            var listOfPropertise = new List<ClassProperty>(100);
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+        public static List<ObjectProperty> GetPropertiesValues(this object objectType) {
+            List<ObjectProperty> listOfPropertise = new List<ObjectProperty>(100);
             if (objectType != null) {
-                var properties = objectType.GetType().GetProperties(typeOfPropertise).ToList();
+                List<PropertyInfo> properties = objectType.GetType().GetProperties(TypeOfPropertise).ToList();
 
                 if (properties != null && properties.Count > 0) {
-                    foreach (var prop in properties) {
-                        var property = new ClassProperty {
-                            PropertiesName = prop.Name,
-                            PropertiesValue = prop.GetValue(objectType, null)
+                    foreach (PropertyInfo prop in properties) {
+                        ObjectProperty property = new ObjectProperty {
+                            Name = prop.Name,
+                            Value = prop.GetValue(objectType, null)
                         };
                         listOfPropertise.Add(property);
                     }

@@ -4,19 +4,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
+using DevMVCComponent.Database;
 
 #endregion
 
-namespace DevMVCComponent.Database {
+namespace DevMVCComponent.EntityConversion {
+    /// <summary>
+    /// Convert any database entity to html string for email sending.
+    /// </summary>
     public class EntityToString {
+        const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+
+        /// <summary>
+        /// Get simple html string of a single class object
+        /// </summary>
+        /// <param name="Class">Any entity object , can be null.</param>
+        /// <returns></returns>
         public static string Get(object Class) {
             var output = "";
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(typeOfPropertise)
+                        .GetProperties(TypeOfPropertise)
                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
 
                 foreach (var prop in propertise) {
@@ -33,13 +44,17 @@ namespace DevMVCComponent.Database {
             return output;
         }
 
-        public static string GetHtml(object Class) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Class"></param>
+        /// <returns></returns>
+        public static string GetHtmlOfSingleClass(object Class) {
             var output = "";
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(typeOfPropertise)
+                        .GetProperties(TypeOfPropertise)
                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
 
                 foreach (var prop in propertise) {
@@ -65,89 +80,89 @@ namespace DevMVCComponent.Database {
         //}
 
         /// <summary>
-        ///     Generating single row of this object.
+        ///     Generating single row from a list of entities.
         /// </summary>
-        /// <param name="Class"></param>
-        /// <returns></returns>
-        public static string GetHtmlTableRow(object Class, int? count = null) {
-            var output = "";
+        /// <param name="Class">Single object</param>
+        public static void GetHtmlTableRow(object Class, ref StringBuilder sb, int? count = null) {
+
             //generating single row.
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(typeOfPropertise)
+                        .GetProperties(TypeOfPropertise)
                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
-                output += "<tr>";
+                sb.AppendLine("<tr>");
                 byte count2 = 0;
                 foreach (var prop in propertise) {
                     count2++;
                     var val = prop.GetValue(Class, null);
-                    var str = "";
                     if (count != null && count2 == 1) {
                         //generate serial col.
-                        str += String.Format("<td style=\"{0}\">{1}</td>", TdCss, count);
+                        sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, count));
                     }
 
                     if (DataTypeSupport.IsSupport(val)) {
-                        str += String.Format("<td style=\"{0}\">{1}</td>", TdCss, val);
+                        sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, val));
                     }
-                    output += str;
                 }
-                output += "</tr>";
+                sb.AppendLine("</tr>");
             }
-            return output;
         }
-
-        private static string GetHtmlTableHeader(object Class) {
-            var output = "";
+        /// <summary>
+        /// Generates the html table header rows for single class properties.
+        /// </summary>
+        /// <param name="Class"></param>
+        /// <param name="sb"></param>
+        private static void GetHtmlTableHeader(object Class, ref StringBuilder sb) {
             //generating single row for headers.
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(typeOfPropertise)
+                        .GetProperties(TypeOfPropertise)
                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
-                output += "<tr>";
+                sb.AppendLine("<tr>");
                 var count = 0;
                 foreach (var prop in propertise) {
                     count++;
                     var val = prop.GetValue(Class, null);
-                    var str = "";
                     if (count == 1) {
                         //generate serial number
-                        str += String.Format("<th style=\"{0}\">{1}</th>", ThCss, "SL.");
+                        sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, "SL."));
                     }
                     if (DataTypeSupport.IsSupport(val)) {
-                        str += String.Format("<th style=\"{0}\">{1}</th>", ThCss, prop.Name);
+                        sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, prop.Name));
                     }
-                    output += str;
                 }
-                output += "</tr>";
+                sb.AppendLine("</tr>");
             }
-            return output;
         }
 
+        /// <summary>
+        /// Get html table string of any database entity list.
+        /// </summary>
+        /// <param name="classes">List of items</param>
+        /// <param name="tableCaption">Table caption for this entity.</param>
+        /// <returns>Returns html table string of any database entity list.</returns>
         public static string GetHtmlOfEntities(IEnumerable<object> classes, string tableCaption = "") {
             if (classes == null)
                 return "";
-
-            var output = string.Format("<h1 style=\"{0}\">Total Items : {1}</h1><table style=\"{2}\">", TableCaptionCss,
-                classes.Count(), TableCss);
-            if (tableCaption != "")
-                output += string.Format("<caption style=\"{0}\">{1}</caption>", TableCaptionCss, tableCaption);
-
+            var sb = new StringBuilder(classes.Count() + 200);
+            sb.Append(string.Format("<h1 style=\"{0}\">Total Items : {1}</h1><table style=\"{2}\">", TableCaptionCss,
+                classes.Count(), TableCss));
+            if (tableCaption != "") {
+                sb.Append(string.Format("<caption style=\"{0}\">{1}</caption>", TableCaptionCss, tableCaption));
+            }
             var count = 0;
             foreach (var classObject in classes.ToList()) {
-                count++;
+                count++; // 1 for first time it is one.
                 if (count == 1) {
-                    //generate Table Header.
-                    output += GetHtmlTableHeader(classObject);
+                    //only add generate Table Header for first time.
+                    GetHtmlTableHeader(classObject, ref sb);
                 }
-                output += GetHtmlTableRow(classObject, count);
+                GetHtmlTableRow(classObject, ref sb, count);
             }
-            output += "</table>";
-            return output;
+            sb.Append("</table>");
+            return sb.ToString();
         }
 
         private static string GetHtmlOfEntitiesEmailGenerate(IEnumerable<object> classes, string email, string sub,
@@ -156,13 +171,25 @@ namespace DevMVCComponent.Database {
                 return "";
             var output = GetHtmlOfEntities(classes, tableCaption);
             if (Starter.Mailer != null) {
+                //async
                 Starter.Mailer.QuickSend(email, sub, output);
             }
 
             return output;
         }
 
-        public static void GetHtmlOfEntitiesEmail(IEnumerable<object> classes, string email, string sub,
+        /// <summary>
+        /// Async: Convert database entities list to html string and then 
+        /// send to to an email. 
+        /// </summary>
+        /// <param name="classes">List of items</param>
+        /// <param name="email">Email address to send the email.</param>
+        /// <param name="sub">Subject of the email.</param>
+        /// <param name="tableCaption">Caption of the table for this entity.</param>
+        public static void GetHtmlOfEntitiesEmail(
+            IEnumerable<object> classes,
+            string email,
+            string sub,
             string tableCaption = "") {
             if (classes == null || !classes.Any())
                 return;
@@ -172,17 +199,32 @@ namespace DevMVCComponent.Database {
 
         #region Declarations
 
-        private const string FontCss =
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string FontCss =
             "font-size: 12px ;font-family: 'Segoe UI','Calibri', 'Sans-Serif', 'Lucida Grande' ,'Trebuchet MS','Verdana','Arial';";
 
-        private const string TableCss = "border: solid 1px #E8EEF4; border-collapse: collapse;" + FontCss;
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string TableCss = "border: solid 1px #E8EEF4; border-collapse: collapse;" + FontCss;
 
-        private const string ThCss =
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string ThCss =
             "padding: 6px 5px;text-align: left;background-color:#E8EEF4;border: solid 1px #E8EEF4;" + FontCss;
 
-        private const string TdCss = "padding: 5px;border: solid 1px #E8EEF4;" + FontCss;
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string TdCss = "padding: 5px;border: solid 1px #E8EEF4;" + FontCss;
 
-        private const string TableCaptionCss =
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string TableCaptionCss =
             " background-color: #D0DEC2;font-weight: bold;padding: 5px;text-align: center;" + FontCss;
 
         #endregion

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Specialized;
 using System.Web;
 using DevMVCComponent.Database;
-using DevMVCComponent.ObjectToArray;
+using DevMVCComponent.EntityConversion;
 
 #endregion
 

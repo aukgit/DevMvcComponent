@@ -4,6 +4,7 @@ using System;
 using System.Data.Entity.Validation;
 using System.Threading.Tasks;
 using DevMVCComponent.Database;
+using DevMVCComponent.EntityConversion;
 
 #endregion
 
@@ -190,7 +191,7 @@ namespace DevMVCComponent.Error {
                     body += "<h1> Entity Description :</h1>";
                     body += "<h1> " + entitySingleObject + "</h1>";
                     try {
-                        body += "<div style='color:green'> " + EntityToString.GetHtml(entitySingleObject) + "</div>";
+                        body += "<div style='color:green'> " + EntityToString.GetHtmlOfSingleClass(entitySingleObject) + "</div>";
                     } catch (Exception ex2) {
                         body += "<div style='color:red'> Error Can't Read Entity: " + ex2.Message + "</div>";
                     }

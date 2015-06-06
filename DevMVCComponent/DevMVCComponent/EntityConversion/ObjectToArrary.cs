@@ -7,7 +7,7 @@ using DevMVCComponent.DataTypeFormat;
 
 #endregion
 
-namespace DevMVCComponent.ObjectToArray {
+namespace DevMVCComponent.EntityConversion {
     /// <summary>
     /// Generates any class to ObjectProperty data type 
     /// </summary>
