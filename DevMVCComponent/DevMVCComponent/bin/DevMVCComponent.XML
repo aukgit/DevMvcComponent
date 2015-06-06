@@ -4,12 +4,12 @@
         <name>DevMVCComponent</name>
     </assembly>
     <members>
-        <member name="T:DevMVCComponent.EntityConversion.OneEntityToAnotherExtension">
+        <member name="T:DevMVCComponent.Extensions.OneEntityToAnotherExtension">
             <summary>
                 Convert one entity to another if there is matching properties.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:DevMVCComponent.EntityConversion.OneEntityToAnotherExtension.Cast``1(``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:DevMVCComponent.Extensions.OneEntityToAnotherExtension.Cast``1(``0)" -->
         <member name="M:DevMVCComponent.Extensions.StringExtension.GetStringCutOff(System.String,System.Nullable{System.Int32})">
             <summary>
                 Split the string into pieces.

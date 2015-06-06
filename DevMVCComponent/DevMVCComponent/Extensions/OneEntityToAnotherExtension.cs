@@ -6,7 +6,7 @@ using System.Reflection;
 
 #endregion
 
-namespace DevMVCComponent.EntityConversion {
+namespace DevMVCComponent.Extensions {
     /// <summary>
     ///     Convert one entity to another if there is matching properties.
     /// </summary>

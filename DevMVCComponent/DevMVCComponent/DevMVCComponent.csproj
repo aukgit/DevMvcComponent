@@ -87,7 +87,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityConversion\OneEntityToAnotherExtension.cs" />
+    <Compile Include="Extensions\OneEntityToAnotherExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Hashing\Hasher.cs" />
     <Compile Include="Hashing\Md5.cs" />
