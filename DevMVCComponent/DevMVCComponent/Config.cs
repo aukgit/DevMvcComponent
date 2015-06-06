@@ -9,10 +9,10 @@ namespace DevMVCComponent {
     ///     Must setup this class.
     /// </summary>
     public static class Config {
-        /// <summary>
-        ///     System admin email
-        /// </summary>
-        public static string AdminEmail = null;
+        ///// <summary>
+        /////     System admin email
+        ///// </summary>
+        //public static string AdminEmail = null;
 
         /// <summary>
         ///     Developer email

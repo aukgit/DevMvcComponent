@@ -30,6 +30,11 @@
             <param name="hash"></param>
             <returns></returns>
         </member>
+        <member name="T:DevMVCComponent.Global.Constants">
+            <summary>
+            Global constants for this component
+            </summary>
+        </member>
         <member name="F:DevMVCComponent.Global.Constants.Changed">
             <summary>
                 Changed
@@ -39,6 +44,18 @@
             <summary>
                 UnChanged
             </summary>
+        </member>
+        <member name="T:DevMVCComponent.ObjectToArray.ObjectToArrary">
+            <summary>
+            Generates any class to ObjectProperty data type 
+            </summary>
+        </member>
+        <member name="M:DevMVCComponent.ObjectToArray.ObjectToArrary.Get(System.Object)">
+            <summary>
+            Generates any class to ObjectProperty data type 
+            </summary>
+            <param name="Class">Give any class object to retrieve it's property and values.</param>
+            <returns></returns>
         </member>
         <member name="T:DevMVCComponent.Processor.CacheProcessor">
             <summary>
@@ -190,11 +207,6 @@
         <member name="T:DevMVCComponent.Config">
             <summary>
                 Must setup this class.
-            </summary>
-        </member>
-        <member name="F:DevMVCComponent.Config.AdminEmail">
-            <summary>
-                System admin email
             </summary>
         </member>
         <member name="F:DevMVCComponent.Config.DeveloperEmail">
@@ -551,18 +563,37 @@
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.ErrorMessage">
             <summary>
+            What is the error and what is the cause of the error.
             </summary>
         </member>
         <member name="P:DevMVCComponent.DataTypeFormat.BasicError.Solution">
             <summary>
+            Solution message
             </summary>
         </member>
-        <member name="P:DevMVCComponent.DataTypeFormat.BasicError.Link">
+        <member name="P:DevMVCComponent.DataTypeFormat.BasicError.CssClass">
             <summary>
+            Specific class for this error label.
+            By default :
+            High : label label-danger high-priority
+            Medium : label label-danger medium-priority
+            low : label label-warning low-priority
             </summary>
         </member>
-        <member name="P:DevMVCComponent.DataTypeFormat.BasicError.LinkTitle">
+        <member name="P:DevMVCComponent.DataTypeFormat.BasicError.SolutionLink">
             <summary>
+            Where user can solve this problem.
+            Could be null or empty.
+            </summary>
+        </member>
+        <member name="P:DevMVCComponent.DataTypeFormat.BasicError.SolutionDisplayMessage">
+            <summary>
+            Title attribute of the link
+            </summary>
+        </member>
+        <member name="P:DevMVCComponent.DataTypeFormat.BasicError.Type">
+            <summary>
+            Type of the error
             </summary>
         </member>
         <member name="T:DevMVCComponent.Error.Handler">
@@ -673,6 +704,28 @@
             <param name="method"></param>
             <param name="entitySingleObject"></param>
         </member>
+        <member name="M:DevMVCComponent.Error.Handler.ByEmail(System.Exception,System.String,System.String,System.Object)">
+            <summary>
+            Sends an quick email to the developer.
+            </summary>
+            <param name="exception"></param>
+            <param name="methodName"></param>
+            <param name="subject"></param>
+            <param name="entity"></param>
+        </member>
+        <member name="T:DevMVCComponent.Mailer.CustomMailConfig">
+            <summary>
+            Any mail server generic config methods.
+            There is no need to inherit MailConfig all the time.
+            Create this class with contructor parameters and
+            then initialize it in the starter.
+            </summary>
+        </member>
+        <member name="T:DevMVCComponent.Mailer.MailConfig">
+            <summary>
+            Must configure this to your smtpclient
+            </summary>
+        </member>
         <member name="M:DevMVCComponent.Mailer.MailConfig.#ctor">
             <summary>
                 By default:
@@ -712,6 +765,7 @@
             <param name="subject"></param>
             <param name="body"></param>
             <param name="type">Regular, CC, BCC</param>
+            <param name="searchForCommas"></param>
         </member>
         <member name="M:DevMVCComponent.Mailer.MailConfig.QuickSend(System.String,System.String[],System.String,System.String,DevMVCComponent.Enums.MailingType)">
             <summary>
@@ -781,6 +835,16 @@
             <param name="host"></param>
             <param name="port"></param>
         </member>
+        <member name="M:DevMVCComponent.Mailer.CustomMailConfig.#ctor(System.String,System.String,System.String,System.Int32,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="email"></param>
+            <param name="password"></param>
+            <param name="host"></param>
+            <param name="port"></param>
+            <param name="isSsl"></param>
+        </member>
         <member name="T:DevMVCComponent.Mailer.GmailConfig">
             <summary>
             </summary>
@@ -843,6 +907,7 @@
         </member>
         <member name="F:DevMVCComponent.Starter.Error">
             <summary>
+            Handles all kinds of errors and then finally sends an email to the client.
             </summary>
         </member>
         <member name="F:DevMVCComponent.Starter.Cookies">
@@ -853,19 +918,35 @@
             <summary>
             </summary>
         </member>
-        <member name="F:DevMVCComponent.Starter.ErrorCollection">
-            <summary>
-            </summary>
-        </member>
         <member name="F:DevMVCComponent.Starter.Mailer">
             <summary>
                 Must re-setup with appropriate developer credentials.
             </summary>
         </member>
-        <member name="M:DevMVCComponent.Starter.Setup">
+        <member name="M:DevMVCComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,DevMVCComponent.Mailer.MailConfig)">
             <summary>
                 Setup the component plugin
             </summary>
+            <param name="applicationName">Name of your application or software.</param>
+            <param name="developerEmail">Developer email</param>
+            <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
+            <param name="mailer">
+            Get your own custom mailer or GmailConfig or setup CustomConfig.
+            new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
+            </param>
+        </member>
+        <member name="M:DevMVCComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,System.String,System.String,System.String,System.Int32,System.Boolean)">
+            <summary>
+                Setup the component plugin
+            </summary>
+            <param name="applicationName">Name of your application or software.</param>
+            <param name="developerEmail">Developer email</param>
+            <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
+            <param name="senderEmail">Smtp sender email address.</param>
+            <param name="senderPassword">Smtp sender password.</param>
+            <param name="hostName">host name, i.e. smtp.gmail.com</param>
+            <param name="senderPort">port number</param>
+            <param name="isSSL"></param>
         </member>
         <member name="T:DevMVCComponent.Error.ErrorCollector">
             <summary>
@@ -884,50 +965,119 @@
             </summary>
             <param name="def"></param>
         </member>
+        <member name="M:DevMVCComponent.Error.ErrorCollector.GetCssClassForError(DevMVCComponent.DataTypeFormat.BasicError)">
+            <summary>
+            Get cssClass class names
+            </summary>
+            <param name="e"></param>
+            <returns>
+            By default :
+            High : label label-danger high-priority
+            Medium : label label-danger medium-priority
+            low : label label-warning low-priority
+            </returns>
+        </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.IsExist">
             <summary>
                 Is any error exist in the list?
             </summary>
             <returns>Returns true if any error exist.</returns>
         </member>
-        <member name="M:DevMVCComponent.Error.ErrorCollector.Add(System.String,System.String,System.String,System.String)">
+        <member name="M:DevMVCComponent.Error.ErrorCollector.Add(System.String,System.String,System.String,System.String,System.String)">
             <summary>
                 add error message with low priority
             </summary>
             <param name="msg">set your message.</param>
-            <param name="quantityTypeIsNotValidPleaseSelectAValidQuantityType"></param>
-            <param name="solution"></param>
+            <param name="cssClass">
+            Specific class for this error label.
+            By default :
+            High : label label-danger high-priority
+            Medium : label label-danger medium-priority
+            low : label label-warning low-priority
+            </param>
+            <param name="solution">error solution message</param>
+            <param name="link">error solution solutionLink</param>
+            <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
+            <returns>returns the order of the error.</returns>
         </member>
-        <member name="M:DevMVCComponent.Error.ErrorCollector.AddHigh(System.String,System.String,System.String,System.String)">
+        <member name="M:DevMVCComponent.Error.ErrorCollector.AddHigh(System.String,System.String,System.String,System.String,System.String)">
             <summary>
                 add error message with high priority
             </summary>
             <param name="msg">set your message.</param>
-            <param name="solution"></param>
+            <param name="cssClass">
+            Specific class for this error label.
+            By default :
+            High : label label-danger high-priority
+            Medium : label label-danger medium-priority
+            low : label label-warning low-priority
+            </param>
+            <param name="solution">error solution message</param>
+            <param name="link">error solution solutionLink</param>
+            <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
+            <returns>returns the order of the error.</returns>
         </member>
-        <member name="M:DevMVCComponent.Error.ErrorCollector.AddMedium(System.String,System.String,System.String,System.String)">
+        <member name="M:DevMVCComponent.Error.ErrorCollector.AddMedium(System.String,System.String,System.String,System.String,System.String)">
             <summary>
                 add error message with medium priority
             </summary>
             <param name="msg">set your message.</param>
-            <param name="solution"></param>
+            <param name="cssClass">
+            Specific class for this error label.
+            By default :
+            High : label label-danger high-priority
+            Medium : label label-danger medium-priority
+            low : label label-warning low-priority
+            </param>
+            <param name="solution">error solution message</param>
+            <param name="link">error solution solutionLink</param>
+            <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
+            <returns>returns the order of the error.</returns>
         </member>
-        <member name="M:DevMVCComponent.Error.ErrorCollector.Add(System.String,DevMVCComponent.Enums.ErrorType,System.String,System.String,System.String)">
+        <member name="M:DevMVCComponent.Error.ErrorCollector.Add(System.String,DevMVCComponent.Enums.ErrorType,System.String,System.String,System.String,System.String)">
             <summary>
                 add error message with given priority
             </summary>
             <param name="msg">set your message.</param>
             <param name="type">Type of your error message.</param>
+            <param name="cssClass">
+            Specific class for this error label.
+            By default :
+            High : label label-danger high-priority
+            Medium : label label-danger medium-priority
+            low : label label-warning low-priority
+            </param>
+            <param name="solution">error solution message</param>
+            <param name="solutionLink">error solution solutionLink</param>
+            <param name="solutionDisplayMessage">Error solution solutionLink title attribute</param>
+            <returns>returns the order of the error.</returns>
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.GetMessages">
             <summary>
             </summary>
             <returns>Returns all error message as string list.</returns>
         </member>
+        <member name="M:DevMVCComponent.Error.ErrorCollector.GetListItems(System.String)">
+            <summary>
+            Call it when printing it in the view.
+            </summary>
+            <returns>Returns all errors ordered by as a string list of html list item ( all classes will be added ).</returns>
+        </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.GetErrors">
             <summary>
             </summary>
-            <returns>Returns all error message as Error Object.</returns>
+            <returns>Returns all error message as BasicError type.</returns>
+        </member>
+        <member name="M:DevMVCComponent.Error.ErrorCollector.Remove(System.Int32)">
+            <summary>
+            remove msg from the list
+            </summary>
+        </member>
+        <member name="M:DevMVCComponent.Error.ErrorCollector.Remove(System.String)">
+            <summary>
+            remove msg from the list
+            </summary>
+            <param name="message"></param>
         </member>
         <member name="M:DevMVCComponent.Error.ErrorCollector.Clear">
             <summary>
@@ -953,6 +1103,12 @@
             <summary>
             </summary>
             <returns>Returns all error message as string list of sorted by order id.</returns>
+        </member>
+        <member name="M:DevMVCComponent.Error.ErrorCollector.GetErrorsSorted">
+            <summary>
+            Returns errors in sorted order.
+            </summary>
+            <returns>Returns errors in sorted order.</returns>
         </member>
     </members>
 </doc>

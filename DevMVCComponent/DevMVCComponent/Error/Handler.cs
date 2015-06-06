@@ -117,7 +117,7 @@ namespace DevMVCComponent.Error {
         /// <param name="methodName"></param>
         /// <param name="optional"></param>
         /// <returns></returns>
-        public string GetEntityValidationHtml(DbEntityValidationException e, string methodName, string optional = "") {
+        public virtual string GetEntityValidationHtml(DbEntityValidationException e, string methodName, string optional = "") {
             var showError = String.Format("(Failed)Method: {0}\n" +
                                           "<br/>Exception :{1}\n" +
                                           "<br/><b>Stack Trace :{2}</b>\n" +
@@ -145,7 +145,7 @@ namespace DevMVCComponent.Error {
         /// <param name="methodName"></param>
         /// <param name="optional"></param>
         /// <returns></returns>
-        public string GetErrorMsgHtml(Exception e, string methodName, string optional = "") {
+        public virtual string GetErrorMsgHtml(Exception e, string methodName, string optional = "") {
             var inner = "";
             if (e is DbEntityValidationException) {
                 return GetEntityValidationHtml((DbEntityValidationException) e, methodName, optional);
@@ -172,15 +172,15 @@ namespace DevMVCComponent.Error {
         /// <param name="body"></param>
         /// <param name="method"></param>
         /// <param name="entitySingleObject"></param>
-        public void GenerateErrorBody(Exception ex, ref string subject, ref string body, string method = "",
+        public virtual void GenerateErrorBody(Exception ex, ref string subject, ref string body, string method = "",
             object entitySingleObject = null) {
             if (body == null)
                 body = "";
 
-            if (Config.DeveloperEmail != null && Config.DeveloperEmail != "" && Config.IsNotifyDeveloper) {
+            if (!string.IsNullOrEmpty(Config.DeveloperEmail) && Config.IsNotifyDeveloper) {
                 body += GetErrorMsgHtml(ex, method);
 
-                if (subject == null || subject == "")
+                if (string.IsNullOrEmpty(subject))
                     subject = string.Format("[{0}] [Error] on [{1}] method at {2}", Config.ApplicationName, method,
                         DateTime.UtcNow);
 
@@ -200,6 +200,13 @@ namespace DevMVCComponent.Error {
             }
         }
 
+        /// <summary>
+        /// Sends an quick email to the developer.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="methodName"></param>
+        /// <param name="subject"></param>
+        /// <param name="entity"></param>
         private void ByEmail(Exception exception, string methodName, string subject = "", object entity = null) {
             new Task(() => {
                 if (Config.DeveloperEmail != null && Config.IsNotifyDeveloper) {

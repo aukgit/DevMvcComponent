@@ -12,6 +12,9 @@ using DevMVCComponent.Miscellaneous.Extensions;
 #endregion
 
 namespace DevMVCComponent.Mailer {
+    /// <summary>
+    /// Must configure this to your smtpclient
+    /// </summary>
     public abstract class MailConfig : SmtpClient {
         private bool _async = true;
         private bool _isCredentialConfigured;
@@ -137,6 +140,7 @@ namespace DevMVCComponent.Mailer {
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="type">Regular, CC, BCC</param>
+        /// <param name="searchForCommas"></param>
         public void QuickSend(string to, string subject, string body, MailingType type = MailingType.RegularMail,
             bool searchForCommas = false) {
             if (IsConfigured && !to.IsEmpty()) {

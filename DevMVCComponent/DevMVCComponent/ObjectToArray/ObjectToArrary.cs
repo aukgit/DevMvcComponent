@@ -8,13 +8,22 @@ using DevMVCComponent.DataTypeFormat;
 #endregion
 
 namespace DevMVCComponent.ObjectToArray {
-    public class ObjectToArrary {
+    /// <summary>
+    /// Generates any class to ObjectProperty data type 
+    /// </summary>
+    public static class ObjectToArrary {
+        const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
+
+        /// <summary>
+        /// Generates any class to ObjectProperty data type 
+        /// </summary>
+        /// <param name="Class">Give any class object to retrieve it's property and values.</param>
+        /// <returns></returns>
         public static List<ObjectProperty> Get(object Class) {
             if (Class != null) {
-                var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
                 var propertise =
                     Class.GetType()
-                        .GetProperties(typeOfPropertise)
+                        .GetProperties(TypeOfPropertise)
                         .Where(p => /* p.Name != "EntityKey" &&*/ p.Name != "EntityState");
 
                 var list = new List<ObjectProperty>(propertise.Count());
