@@ -1,4 +1,4 @@
-﻿namespace DevMVCComponent.Mailer {
+﻿namespace DevMvcComponent.Mailer {
     /// <summary>
     /// </summary>
     public class GmailConfig : MailConfig {

@@ -1,4 +1,4 @@
-﻿namespace DevMVCComponent.Encryption {
+﻿namespace DevMvcComponent.Encryption {
     /// <summary>
     ///     Not yet implemented
     /// </summary>

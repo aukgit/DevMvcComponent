@@ -6,12 +6,12 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading;
-using DevMVCComponent.Enums;
-using DevMVCComponent.Extensions;
+using DevMvcComponent.Enums;
+using DevMvcComponent.Extensions;
 
 #endregion
 
-namespace DevMVCComponent.Mailer {
+namespace DevMvcComponent.Mailer {
     /// <summary>
     ///     Must configure this to your smtpclient
     /// </summary>

@@ -6,7 +6,7 @@ using System.Text;
 
 #endregion
 
-namespace DevMVCComponent.Pagination {
+namespace DevMvcComponent.Pagination {
     /// <summary>
     ///     Generates pagination
     /// </summary>

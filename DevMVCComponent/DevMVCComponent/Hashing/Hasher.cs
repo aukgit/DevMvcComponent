@@ -1,4 +1,4 @@
-﻿namespace DevMVCComponent.Hashing {
+﻿namespace DevMvcComponent.Hashing {
     public static class Hasher {
         /// <summary>
         ///     Checks nulls and returns only codes for existing ones.

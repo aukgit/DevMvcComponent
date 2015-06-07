@@ -1,4 +1,4 @@
-﻿namespace DevMVCComponent.Global {
+﻿namespace DevMvcComponent.Global {
     /// <summary>
     ///     Global constants for this component
     /// </summary>

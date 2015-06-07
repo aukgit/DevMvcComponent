@@ -3,12 +3,12 @@
 using System;
 using System.Collections.Specialized;
 using System.Web;
-using DevMVCComponent.Database;
-using DevMVCComponent.EntityConversion;
+using DevMvcComponent.Database;
+using DevMvcComponent.EntityConversion;
 
 #endregion
 
-namespace DevMVCComponent.Processor {
+namespace DevMvcComponent.Processor {
     /// <summary>
     ///     Set cookies in response
     ///     Retrieve cookies from request.

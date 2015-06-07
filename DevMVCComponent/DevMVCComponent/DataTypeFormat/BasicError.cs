@@ -1,11 +1,11 @@
 ﻿#region using block
 
 using System.ComponentModel.DataAnnotations;
-using DevMVCComponent.Enums;
+using DevMvcComponent.Enums;
 
 #endregion
 
-namespace DevMVCComponent.DataTypeFormat {
+namespace DevMvcComponent.DataTypeFormat {
     /// <summary>
     /// </summary>
     public class BasicError {

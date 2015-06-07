@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DevMVCComponent.DataTypeFormat;
-using DevMVCComponent.Enums;
+using DevMvcComponent.DataTypeFormat;
+using DevMvcComponent.Enums;
 
 #endregion
 
-namespace DevMVCComponent.Error {
+namespace DevMvcComponent.Error {
     /// <summary>
     /// </summary>
     public class ErrorCollector : IDisposable {

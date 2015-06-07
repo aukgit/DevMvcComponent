@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DevMVCComponent.DataTypeFormat;
+using DevMvcComponent.DataTypeFormat;
 
 #endregion
 
-namespace DevMVCComponent.Extensions {
+namespace DevMvcComponent.Extensions {
     /// <summary>
     ///     Get the list of classes to exporting format
     /// </summary>

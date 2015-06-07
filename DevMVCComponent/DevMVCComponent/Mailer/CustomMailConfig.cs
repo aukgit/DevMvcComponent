@@ -1,4 +1,4 @@
-﻿namespace DevMVCComponent.Mailer {
+﻿namespace DevMvcComponent.Mailer {
     /// <summary>
     ///     Any mail server generic config methods.
     ///     There is no need to inherit MailConfig all the time.

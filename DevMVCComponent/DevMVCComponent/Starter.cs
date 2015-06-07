@@ -1,13 +1,13 @@
 ﻿#region using block
 
 using System.Reflection;
-using DevMVCComponent.Error;
-using DevMVCComponent.Mailer;
-using DevMVCComponent.Processor;
+using DevMvcComponent.Error;
+using DevMvcComponent.Mailer;
+using DevMvcComponent.Processor;
 
 #endregion
 
-namespace DevMVCComponent {
+namespace DevMvcComponent {
     /// <summary>
     ///     Must setup this starter class and Config class.
     /// </summary>

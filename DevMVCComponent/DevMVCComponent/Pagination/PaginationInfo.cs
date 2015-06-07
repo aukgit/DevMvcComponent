@@ -1,4 +1,4 @@
-﻿namespace DevMVCComponent.Pagination {
+﻿namespace DevMvcComponent.Pagination {
     public class PaginationInfo {
         /// <summary>
         ///     Set from user side to indicate the user numbers.

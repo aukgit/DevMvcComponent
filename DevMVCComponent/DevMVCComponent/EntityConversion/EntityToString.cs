@@ -6,11 +6,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using DevMVCComponent.Database;
+using DevMvcComponent.Database;
 
 #endregion
 
-namespace DevMVCComponent.EntityConversion {
+namespace DevMvcComponent.EntityConversion {
     /// <summary>
     ///     Convert any database entity to html string for email sending.
     /// </summary>

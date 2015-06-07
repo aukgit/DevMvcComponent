@@ -3,11 +3,11 @@
 using System;
 using System.Data.Entity.Validation;
 using System.Threading.Tasks;
-using DevMVCComponent.EntityConversion;
+using DevMvcComponent.EntityConversion;
 
 #endregion
 
-namespace DevMVCComponent.Error {
+namespace DevMvcComponent.Error {
     /// <summary>
     /// </summary>
     public class Handler {

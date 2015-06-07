@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace DevMVCComponent.Database {
+namespace DevMvcComponent.Database {
     /// <summary>
     ///     Data type supporting class, which check whether
     ///     the data type is known(guid, datetime, number etc...) or a custom type.

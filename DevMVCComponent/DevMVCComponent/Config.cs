@@ -4,7 +4,7 @@ using System.Reflection;
 
 #endregion
 
-namespace DevMVCComponent {
+namespace DevMvcComponent {
     /// <summary>
     ///     Must setup this class.
     /// </summary>

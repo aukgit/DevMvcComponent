@@ -1,4 +1,4 @@
-﻿namespace DevMVCComponent.Extensions {
+﻿namespace DevMvcComponent.Extensions {
     public static class StringExtension {
         /// <summary>
         ///     Split the string into pieces.

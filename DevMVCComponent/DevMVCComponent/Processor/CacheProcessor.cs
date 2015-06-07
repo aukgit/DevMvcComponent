@@ -6,11 +6,11 @@ using System.IO;
 using System.Threading;
 using System.Web;
 using System.Web.Caching;
-using DevMVCComponent.Global;
+using DevMvcComponent.Global;
 
 #endregion
 
-namespace DevMVCComponent.Processor {
+namespace DevMvcComponent.Processor {
     /// <summary>
     ///     Default Sliding 2 Hours
     ///     Default Expiration 5 Hours

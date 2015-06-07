@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DevMVCComponent.DataTypeFormat;
+using DevMvcComponent.DataTypeFormat;
 
 #endregion
 
-namespace DevMVCComponent.EntityConversion {
+namespace DevMvcComponent.EntityConversion {
     /// <summary>
     ///     Generates any class to ObjectProperty data type
     /// </summary>
