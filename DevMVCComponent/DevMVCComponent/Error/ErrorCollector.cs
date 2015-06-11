@@ -32,12 +32,12 @@ namespace DevMvcComponent.Error {
         /// <summary>
         /// Solution message css class.
         /// </summary>
-        public string SolutionStateCssClass = "label label-success";
+        public static string SolutionStateCssClass = "label label-success";
 
         /// <summary>
         /// Solution link css class.
         /// </summary>
-        public string SolutionStateLinkCssClass = "label label-info error-solution-solutionLink-color";
+        public static string SolutionStateLinkCssClass = "label label-info error-solution-solutionLink-color";
 
         /// <summary>
         /// </summary>
