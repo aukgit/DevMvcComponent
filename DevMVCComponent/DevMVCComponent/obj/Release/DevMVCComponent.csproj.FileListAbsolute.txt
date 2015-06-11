@@ -73,3 +73,4 @@ D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.dll
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.pdb
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.tlb
+D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.csprojResolveAssemblyReference.cache
