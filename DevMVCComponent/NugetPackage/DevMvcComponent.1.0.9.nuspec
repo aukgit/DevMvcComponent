@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>DevMvcComponent</id>
+        <version>1.0.9</version>
+        <title>DevMvcComponent</title>
+        <authors>Alim Ul Karim</authors>
+        <owners>Developers Organism</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <developmentDependency>true</developmentDependency>
+        <description>Enables rapid mailing, error mailing, entity to string or send email, send multiple list items to email, auto map one entity to another by casting, hashing and many more.
+It solve all regular MVC required functionalities like sending emails, caching, cookies handling, track errors with email, session and so on.</description>
+        <summary>It solve all regular MVC required functionalities like sending emails, caching, cookies handling, track errors with email, session and so on.</summary>
+        <releaseNotes>Changed namespace to "DevMvcComponent"</releaseNotes>
+        <copyright>Developers Organism ©  2015</copyright>
+        <language>en-US</language>
+        <tags>Developers Organism, MVC , Component, Mailing Caching, Cookie component entity object to string, list of email, error detection and error, mapper, entitymapper</tags>
+    </metadata>
+    <files>
+        <file src="lib\DevMVCComponent.dll" target="lib\DevMVCComponent.dll" />
+        <file src="lib\DevMVCComponent.pdb" target="lib\DevMVCComponent.pdb" />
+        <file src="lib\DevMVCComponent.tlb" target="lib\DevMVCComponent.tlb" />
+        <file src="lib\DevMVCComponent.XML" target="lib\DevMVCComponent.XML" />
+    </files>
+</package>

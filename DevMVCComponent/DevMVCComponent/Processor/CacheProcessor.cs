@@ -37,7 +37,11 @@ namespace DevMvcComponent.Processor {
         }
 
         #region Retrieve Cache Value
-
+        /// <summary>
+        /// Retrieve the cache value.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public dynamic Get(string name) {
             if (HttpContext.Current.Cache != null) {
                 return HttpContext.Current.Cache[name];
@@ -163,7 +167,6 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="key">Key object to look for.</param>
         /// <param name="data">Save any type of data.</param>
-        /// <param name="expires">[in mins]</param>
         /// <param name="sliding">[in mins]If data is not accessed for certain time then it will be deleted from the cache memory.</param>
         /// <param name="tableName">Name of the table for dependency.</param>
         public void Set(string key, object data, int sliding, string tableName) {
@@ -195,20 +198,19 @@ namespace DevMvcComponent.Processor {
             var cacheSliding = Cache.NoSlidingExpiration;
 
             if (expires != null) {
-                var expires2 = (double) expires;
+                var expires2 = (double)expires;
                 expiration = DateTime.Now.AddMinutes(expires2);
             }
             if (sliding != null) {
-                var sliding2 = (double) sliding;
+                var sliding2 = (double)sliding;
                 cacheSliding = TimeSpan.FromMinutes(sliding2);
             }
 
             if (data != null && key != null) {
                 new Thread(
-                    () => {
-                        cache.Insert(key, data, _defaultCacheDependency, expiration, cacheSliding, priority, null);
-                    })
-                    .Start();
+                () => {
+                    cache.Insert(key, data, _defaultCacheDependency, expiration, cacheSliding, priority, null);
+                }).Start();
             }
         }
 
@@ -229,10 +231,10 @@ namespace DevMvcComponent.Processor {
             var cacheSliding = Cache.NoSlidingExpiration;
 
             if (expires != null) {
-                expiration = (DateTime) expires;
+                expiration = (DateTime)expires;
             }
             if (sliding != null) {
-                cacheSliding = (TimeSpan) sliding;
+                cacheSliding = (TimeSpan)sliding;
             }
             if (data != null && key != null) {
                 cache.Insert(key, data, cacheDependency, expiration, cacheSliding, priority, null);
@@ -256,10 +258,10 @@ namespace DevMvcComponent.Processor {
             var cacheSliding = Cache.NoSlidingExpiration;
 
             if (expires != null) {
-                expiration = (DateTime) expires;
+                expiration = (DateTime)expires;
             }
             if (sliding != null) {
-                cacheSliding = (TimeSpan) sliding;
+                cacheSliding = (TimeSpan)sliding;
             }
             if (data != null && key != null) {
                 cache.Insert(key, data, cacheDependency, expiration, cacheSliding, priority, onRemoveMethod);
@@ -321,7 +323,7 @@ namespace DevMvcComponent.Processor {
 
         public void RemoveAllFromCache() {
             foreach (DictionaryEntry entry in HttpContext.Current.Cache) {
-                HttpContext.Current.Cache.Remove((string) entry.Key);
+                HttpContext.Current.Cache.Remove((string)entry.Key);
             }
         }
 

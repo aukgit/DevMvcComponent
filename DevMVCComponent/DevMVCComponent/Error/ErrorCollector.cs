@@ -13,20 +13,31 @@ namespace DevMvcComponent.Error {
     /// <summary>
     /// </summary>
     public class ErrorCollector : IDisposable {
-        private const string HighRisk = "label label-danger high-priority";
-        private const string MidRisk = "label label-danger medium-priority";
-        private const string LowRisk = "label label-warning low-priority";
+        /// <summary>
+        /// High risk error css class.
+        /// </summary>
+        public static string HighRiskCssClass = "label label-danger high-priority";
+        /// <summary>
+        /// Medium risk error css class.
+        /// </summary>
+        public static string MidRiskCssClass = "label label-danger medium-priority";
+        /// <summary>
+        /// Low risk error css class.
+        /// </summary>
+        public static string LowRiskCssClass = "label label-warning low-priority";
         private int _defaultCapacity = 20;
         private List<BasicError> _errors;
         private short _orderIncrementer;
 
         /// <summary>
+        /// Solution message css class.
         /// </summary>
-        public string SolutionStateClass = "label label-success";
+        public string SolutionStateCssClass = "label label-success";
 
         /// <summary>
+        /// Solution link css class.
         /// </summary>
-        public string SolutionStateLinkClass = "label label-info error-solution-solutionLink-color";
+        public string SolutionStateLinkCssClass = "label label-info error-solution-solutionLink-color";
 
         /// <summary>
         /// </summary>
@@ -57,15 +68,15 @@ namespace DevMvcComponent.Error {
             }
 
             if (e.Type == ErrorType.High) {
-                return HighRisk;
+                return HighRiskCssClass;
             }
             if (e.Type == ErrorType.Medium) {
-                return MidRisk;
+                return MidRiskCssClass;
             }
             if (e.Type == ErrorType.Low) {
-                return LowRisk;
+                return LowRiskCssClass;
             }
-            return LowRisk;
+            return LowRiskCssClass;
         }
 
         /// <summary>
@@ -199,12 +210,12 @@ namespace DevMvcComponent.Error {
                 sb.Append(error.ErrorMessage);
                 sb.Append("</span>");
                 if (!string.IsNullOrEmpty(error.Solution)) {
-                    sb.Append("<span class='" + SolutionStateClass + "'>");
+                    sb.Append("<span class='" + SolutionStateCssClass + "'>");
                     sb.Append(error.Solution);
                     sb.Append("</span>");
                 }
                 if (!string.IsNullOrEmpty(error.SolutionLink)) {
-                    sb.Append("<a class='" + SolutionStateLinkClass + "' href='" + error.SolutionLink + "' title='" +
+                    sb.Append("<a class='" + SolutionStateLinkCssClass + "' href='" + error.SolutionLink + "' title='" +
                               error.SolutionDisplayMessage + "'>");
                     sb.Append(error.SolutionDisplayMessage);
                     sb.Append("</a>");
