@@ -140,3 +140,12 @@ D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.dll
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.pdb
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.dll.config
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.pdb
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.xml
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.pdb

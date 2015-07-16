@@ -17,7 +17,7 @@ namespace DevMvcComponent {
         /// <summary>
         ///     Developer email
         /// </summary>
-        public static string DeveloperEmail = null;
+        public static string DeveloperEmail = "";
 
         /// <summary>
         ///     Sets Assembly = Assembly.GetExecutingAssembly();

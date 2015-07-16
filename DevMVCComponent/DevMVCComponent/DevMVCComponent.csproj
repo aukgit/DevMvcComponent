@@ -35,6 +35,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,12 +51,12 @@
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>c:\users\alim\documents\visual studio 2013\Projects\ConsoleApplication1\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>c:\users\alim\documents\visual studio 2013\Projects\ConsoleApplication1\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -84,13 +87,17 @@
     <Compile Include="EntityConversion\ObjectToArrary.cs" />
     <Compile Include="Global\Constants.cs" />
     <Compile Include="DataTypeFormat\ObjectProperty.cs" />
+    <Compile Include="Pagination\Pagination.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pagination\PaginationInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Processor\CacheProcessor.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Processor\CookieProcessor.cs" />
     <Compile Include="Database\DataTypeSupport.cs" />
     <Compile Include="EntityConversion\EntityToString.cs" />
-    <Compile Include="Pagination\Pagination.cs" />
-    <Compile Include="Pagination\PaginationInfo.cs" />
     <Compile Include="Encryption\Cryptography.cs" />
     <Compile Include="Enums\CommonEnums.cs" />
     <Compile Include="DataTypeFormat\BasicError.cs" />
@@ -104,7 +111,7 @@
     <Compile Include="Error\ErrorCollector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="AppData\" />
     <Folder Include="Miscellaneous\" />
   </ItemGroup>
   <ItemGroup>

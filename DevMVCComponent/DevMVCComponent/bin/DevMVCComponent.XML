@@ -106,6 +106,85 @@
                 Property value.
             </summary>
         </member>
+        <member name="T:DevMvcComponent.Pagination.Pagination">
+            <summary>
+                Generates pagination
+            </summary>
+        </member>
+        <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Linq.IQueryable{``0},System.String,System.Nullable{System.Int32}@,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Boolean)">
+            <summary>
+                Get pagination data based on the page number with cached pages count.
+            </summary>
+            <param name="entities">Sent Entities as IQueryable</param>
+            <param name="pages">
+                Send a ref of integer to get the pages number. It will be generated from method. Use it to generate
+                pages. It indicated how many pages exist
+            </param>
+            <param name="page">Based on the page number it returns data. </param>
+            <param name="items">
+                How many items should a page contain? (Default is 30 defined in the PageItems Property of the
+                class)
+            </param>
+            <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
+            <param name="retrivePagesExist">
+                If false then no count query will be executed. If yes then count query will only
+                generated if needed and not exist in the cache.
+            </param>
+            <returns>IQueryable data based on the page number.</returns>
+        </member>
+        <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Linq.IQueryable{``0},DevMvcComponent.Pagination.PaginationInfo,System.String,System.Boolean)">
+            <summary>
+                Get pagination data based on the page number with cached pages count.
+            </summary>
+            <param name="entities">Sent Entities as IQueryable</param>
+            <param name="pageInfo">
+                Send a ref of integer to get the pages number. It will be generated from method. Use it to
+                generate pages. It indicated how many pages exist
+            </param>
+            <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
+            <param name="retrivePagesExist">
+                If false then no count query will be executed. If yes then count query will only
+                generated if needed and not exist in the cache.
+            </param>
+            <returns>IQueryable data based on the page number.</returns>
+        </member>
+        <member name="M:DevMvcComponent.Pagination.Pagination.GetList(DevMvcComponent.Pagination.PaginationInfo,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+                Generates list items with unordered list with bootstrap pagination.
+            </summary>
+            <param name="pageInfo"></param>
+            <param name="url"></param>
+            <param name="content"></param>
+            <param name="title"></param>
+            <param name="unorderedListClass"></param>
+            <param name="withoutUnorderedList"></param>
+            <param name="liClass"></param>
+            <param name="cacheName"></param>
+            <param name="class"></param>
+            <param name="maxNumbersOfPagesShow"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="P:DevMvcComponent.Pagination.Pagination.PageItems">
+            <summary>
+                Total number of items in a page.
+            </summary>
+        </member>
+        <member name="P:DevMvcComponent.Pagination.PaginationInfo.ItemsInPage">
+            <summary>
+                Set from user side to indicate the user numbers.
+            </summary>
+        </member>
+        <member name="P:DevMvcComponent.Pagination.PaginationInfo.PagesExists">
+            <summary>
+                Receive from method
+            </summary>
+        </member>
+        <member name="P:DevMvcComponent.Pagination.PaginationInfo.PageNumber">
+            <summary>
+                Set from user side. To get the items for that page.
+            </summary>
+        </member>
         <member name="T:DevMvcComponent.Processor.CacheProcessor">
             <summary>
                 Default Sliding 2 Hours
@@ -521,85 +600,6 @@
             <param name="email">Email address to send the email.</param>
             <param name="sub">Subject of the email.</param>
             <param name="tableCaption">Caption of the table for this entity.</param>
-        </member>
-        <member name="T:DevMvcComponent.Pagination.Pagination">
-            <summary>
-                Generates pagination
-            </summary>
-        </member>
-        <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Linq.IQueryable{``0},System.String,System.Nullable{System.Int32}@,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Boolean)">
-            <summary>
-                Get pagination data based on the page number with cached pages count.
-            </summary>
-            <param name="entities">Sent Entities as IQueryable</param>
-            <param name="pages">
-                Send a ref of integer to get the pages number. It will be generated from method. Use it to generate
-                pages. It indicated how many pages exist
-            </param>
-            <param name="page">Based on the page number it returns data. </param>
-            <param name="items">
-                How many items should a page contain? (Default is 30 defined in the PageItems Property of the
-                class)
-            </param>
-            <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
-            <param name="retrivePagesExist">
-                If false then no count query will be executed. If yes then count query will only
-                generated if needed and not exist in the cache.
-            </param>
-            <returns>IQueryable data based on the page number.</returns>
-        </member>
-        <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Linq.IQueryable{``0},DevMvcComponent.Pagination.PaginationInfo,System.String,System.Boolean)">
-            <summary>
-                Get pagination data based on the page number with cached pages count.
-            </summary>
-            <param name="entities">Sent Entities as IQueryable</param>
-            <param name="pageInfo">
-                Send a ref of integer to get the pages number. It will be generated from method. Use it to
-                generate pages. It indicated how many pages exist
-            </param>
-            <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
-            <param name="retrivePagesExist">
-                If false then no count query will be executed. If yes then count query will only
-                generated if needed and not exist in the cache.
-            </param>
-            <returns>IQueryable data based on the page number.</returns>
-        </member>
-        <member name="M:DevMvcComponent.Pagination.Pagination.GetList(DevMvcComponent.Pagination.PaginationInfo,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.String,System.Int32,System.String)">
-            <summary>
-                Generates list items with unordered list with bootstrap pagination.
-            </summary>
-            <param name="pageInfo"></param>
-            <param name="url"></param>
-            <param name="content"></param>
-            <param name="title"></param>
-            <param name="unorderedListClass"></param>
-            <param name="withoutUnorderedList"></param>
-            <param name="liClass"></param>
-            <param name="cacheName"></param>
-            <param name="class"></param>
-            <param name="maxNumbersOfPagesShow"></param>
-            <param name="format"></param>
-            <returns></returns>
-        </member>
-        <member name="P:DevMvcComponent.Pagination.Pagination.PageItems">
-            <summary>
-                Total number of items in a page.
-            </summary>
-        </member>
-        <member name="P:DevMvcComponent.Pagination.PaginationInfo.ItemsInPage">
-            <summary>
-                Set from user side to indicate the user numbers.
-            </summary>
-        </member>
-        <member name="P:DevMvcComponent.Pagination.PaginationInfo.PagesExists">
-            <summary>
-                Receive from method
-            </summary>
-        </member>
-        <member name="P:DevMvcComponent.Pagination.PaginationInfo.PageNumber">
-            <summary>
-                Set from user side. To get the items for that page.
-            </summary>
         </member>
         <member name="T:DevMvcComponent.Encryption.Cryptography">
             <summary>
@@ -1055,7 +1055,8 @@
         </member>
         <member name="M:DevMvcComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,DevMvcComponent.Mailer.MailConfig)">
             <summary>
-                Setup the component plugin
+                Setup the component plugin.
+                Please make sure that your executing directory is writable if not then please add a folder "DataCache"
             </summary>
             <param name="applicationName">Name of your application or software.</param>
             <param name="developerEmail">Developer email</param>
@@ -1063,11 +1064,13 @@
             <param name="mailer">
                 Get your own custom mailer or GmailConfig or setup CustomConfig.
                 new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
+                By default email sender is async , to make it sync you can use property on MailConfig.SendAsynchronousEmails = false;
             </param>
         </member>
         <member name="M:DevMvcComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,System.String,System.String,System.String,System.Int32,System.Boolean)">
             <summary>
-                Setup the component plugin
+                Setup the component plugin.
+                Please make sure that your executing directory is writable if not then please add a folder "DataCache"
             </summary>
             <param name="applicationName">Name of your application or software.</param>
             <param name="developerEmail">Developer email</param>
