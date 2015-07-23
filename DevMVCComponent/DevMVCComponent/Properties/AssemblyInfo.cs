@@ -12,10 +12,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DevMvcComponent")]
 [assembly: AssemblyDescription("MVC Common components that every developer needs.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Developers Organism")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DevMvcComponent")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
-[assembly: AssemblyTrademark("Developers Organism")]
+[assembly: AssemblyTrademark("Alim Ul Karim")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -38,5 +38,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("1.0.14.0")]
-[assembly: AssemblyFileVersion("1.0.14.0")]
+[assembly: AssemblyVersion("1.0.19.0")]
+[assembly: AssemblyFileVersion("1.0.19.0")]

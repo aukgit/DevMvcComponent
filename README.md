@@ -66,7 +66,7 @@ To send blind carbon copy email through mailer ( please make sure that you impor
     	DevMvcComponent.Starter.Error.HandleBy(ex,"method name"); // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
 		// user should be notified by nice message by sending -1 or anything else.
     }   
-###Database using Entityframework and we have an entity:
+###Database exception handling using Entityframework, assume that we have an entity object which is failed during the transaction period:
 
     try
     {
@@ -75,7 +75,7 @@ To send blind carbon copy email through mailer ( please make sure that you impor
     {
     	DevMvcComponent.Starter.Error.HandleBy(ex,"method name", EnityObject); // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
 		// if any meaningful subject requires then 
-    	// DevMvcComponent.Starter.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); 
+    	// DevMvcComponent.Starter.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); // email will be sent with this entity information 
 		// user should be notified by nice message by sending -1 or anything else.
     }   
 
@@ -95,7 +95,7 @@ Direct pagination on IQueryable ( must understand the differene between IQueryab
         n.ProductName,
         n.Dated
     })
-    .OrderBy(n=> n.ProductID); // must order by with a clustered index for better performance before pagination.
+    .OrderBy(n=> n.ProductID); // Must order by (a clustered index would be better for performance) before pagination.
 
 	if (page <= 0) {
 	    page = 1;
@@ -116,6 +116,7 @@ Examples :
 
 - [jQuery Server Side Combo Project](http://bit.ly/1OnTnyW)   ([code file](http://bit.ly/1OnTquy "Code file for pagination"))  
 - [We Review App](http://bit.ly/1OnTJFM)   ([code file](http://bit.ly/1OnTI4B "Code file for pagination"))  
+- [Server side pagination unordered list generate](http://bit.ly/1CRFvfK "Server side HTML ul list for SEO optimization")  [ **any js based pagination generate will not saved search engines, so it must be generated from server side** ]
 
 ## Difference Between IQueryable and IEnumerable
 

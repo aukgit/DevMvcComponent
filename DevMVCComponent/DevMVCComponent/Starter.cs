@@ -45,16 +45,32 @@ namespace DevMvcComponent {
         public static void Setup(string applicationName, string developerEmail, Assembly assembly, MailConfig mailer) {
             Config.ApplicationName = applicationName;
             Config.DeveloperEmail = developerEmail;
-            Config.Assembly = assembly;
             //Configure this with add a sender email.
             Mailer = mailer; //
-            InitalizeDefaults();
+            InitalizeDefaults(assembly);
         }
 
-        private static void InitalizeDefaults() {
+        private static void InitalizeDefaults(Assembly assembly)
+        {
+            Config.Assembly = assembly;
             Error = new Handler();
             Cookies = new CookieProcessor();
             Caches = new CacheProcessor();
+        }
+
+
+        /// <summary>
+        ///     Setup the component plugin.
+        ///     Please make sure that your executing directory is writable if not then please add a folder "DataCache"
+        ///     ** Warning : By this instantiation you can't handle exception by email or send quick emails through Starter.Mailer.SendQuick(..) **
+        /// </summary>
+        /// <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
+        public static void Setup(Assembly assembly)
+        {
+            Config.ApplicationName = "";
+            Config.DeveloperEmail = "";
+            //Configure this with add a sender email.
+            InitalizeDefaults(assembly);
         }
 
         /// <summary>

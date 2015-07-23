@@ -111,6 +111,43 @@
                 Generates pagination
             </summary>
         </member>
+        <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Collections.Generic.IList{``0},System.String,System.Nullable{System.Int32}@,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Boolean)">
+            <summary>
+                Get pagination data based on the page number with cached pages count.
+            </summary>
+            <param name="entities">Send Entities as List</param>
+            <param name="pages">
+                Send a ref of integer to get the pages number. It will be generated from method. Use it to generate
+                pages. It indicated how many pages exist
+            </param>
+            <param name="page">Based on the page number it returns data. </param>
+            <param name="items">
+                How many items should a page contain? (Default is 30 defined in the PageItems Property of the
+                class)
+            </param>
+            <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
+            <param name="retrivePagesExist">
+                If false then no count query will be executed. If yes then count query will only
+                generated if needed and not exist in the cache.
+            </param>
+            <returns>IEnumerable data based on the page number.</returns>
+        </member>
+        <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Collections.Generic.IList{``0},DevMvcComponent.Pagination.PaginationInfo,System.String,System.Boolean)">
+            <summary>
+                Get pagination data based on the page number with cached pages count.
+            </summary>
+            <param name="entities">Send Entities as IList</param>
+            <param name="pageInfo">
+                Send a ref of integer to get the pages number. It will be generated from method. Use it to
+                generate pages. It indicated how many pages exist
+            </param>
+            <param name="cacheName">Create cache by this exact same name. If null then no cache created.</param>
+            <param name="retrivePagesExist">
+                If false then no count query will be executed. If yes then count query will only
+                generated if needed and not exist in the cache.
+            </param>
+            <returns>IEnumerable data based on the page number.</returns>
+        </member>
         <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Linq.IQueryable{``0},System.String,System.Nullable{System.Int32}@,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Boolean)">
             <summary>
                 Get pagination data based on the page number with cached pages count.
@@ -205,6 +242,13 @@
         <member name="M:DevMvcComponent.Processor.CacheProcessor.Get(System.String)">
             <summary>
             Retrieve the cache value.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Processor.CacheProcessor.GetString(System.String)">
+            <summary>
+            Retrieve the cache value as string or null.
             </summary>
             <param name="name"></param>
             <returns></returns>
@@ -1066,6 +1110,14 @@
                 new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
                 By default email sender is async , to make it sync you can use property on MailConfig.SendAsynchronousEmails = false;
             </param>
+        </member>
+        <member name="M:DevMvcComponent.Starter.Setup(System.Reflection.Assembly)">
+            <summary>
+                Setup the component plugin.
+                Please make sure that your executing directory is writable if not then please add a folder "DataCache"
+                ** Warning : By this instantiation you can't handle exception by email or send quick emails through Starter.Mailer.SendQuick(..) **
+            </summary>
+            <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
         </member>
         <member name="M:DevMvcComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,System.String,System.String,System.String,System.Int32,System.Boolean)">
             <summary>
