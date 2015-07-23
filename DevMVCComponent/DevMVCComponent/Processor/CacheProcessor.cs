@@ -23,7 +23,7 @@ namespace DevMvcComponent.Processor {
         private CacheDependency _defaultCacheDependency;
 
         private string _defaultDependencyFileLocation;
-        private readonly string _appData = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+
         private readonly string _cacheName = "";
         private readonly int _defaultExpiration;
 
@@ -33,7 +33,12 @@ namespace DevMvcComponent.Processor {
         private readonly int _defaultSliding;
 
         private void SetDefaults() {
-            _defaultDependencyFileLocation = _appData + @"\DatabaseTables\";
+            var rootFolder = Directory.GetParent((new System.Uri(Config.Assembly.CodeBase)).AbsolutePath);
+            var dataFolder = rootFolder + "\\DataCache\\";
+            if (!Directory.Exists(dataFolder)) {
+                Directory.CreateDirectory(dataFolder);
+                _defaultDependencyFileLocation = dataFolder;
+            }
         }
 
         #region Retrieve Cache Value
