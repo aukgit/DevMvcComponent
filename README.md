@@ -15,69 +15,97 @@ Reach [Alim Ul Karim](https://github.com/aukgit "Alim Ul Karim (Github account)"
 
 However, it can be also used inside console or windows forms or any other app , just configure before running for the first time.
 
-    protected void Application_Start()
-    {
-	   	//... all other codes
-	    DevMvcComponent.Starter.Setup(...)
-    }
+```csharp
+protected void Application_Start()
+{
+    //... all other codes
+    DevMvcComponent.Starter.Setup(...)
+}
+```
    
 
 ### One way to setup (note that by default sending emails will be async, however we can disable it in this approach):
 
-    var mailer = new DevMvcComponent.Mailer. CustomMailConfig(senderEmail, senderPassword, hostName, senderPort, isSSL);
-	// to have an non-async mailer, use this
-	// mailer.SendAsynchronousEmails = false;
-    DevMvcComponent.Starter.Setup("Application Name", "Primary developer email", System.Reflection.Assembly.GetExecutingAssembly(), mailer);
+```csharp
+var mailer = new DevMvcComponent.Mailer. CustomMailConfig(senderEmail, senderPassword, hostName, senderPort, isSSL);
+// to have an non-async mailer, use this
+// mailer.SendAsynchronousEmails = false;
+DevMvcComponent.Starter.Setup("Application Name", "Primary developer email", System.Reflection.Assembly.GetExecutingAssembly(), mailer);
+```
 
 ### Another way to setup(note that by default sending emails will be async):
 
-    DevMvcComponent.Starter.Setup("Application Name", "Primary developer email", System.Reflection.Assembly.GetExecutingAssembly(), senderEmail, senderPassword, hostName, senderPort, isSSL);
+```csharp
+DevMvcComponent.Starter.Setup("Application Name", "Primary developer email", System.Reflection.Assembly.GetExecutingAssembly(), senderEmail, senderPassword, hostName, senderPort, isSSL);
+```
 
 ### Mailer can also be created easily for gmail:
 
-    var gmailer = new GmailConfig("you@gmail.com", "password"); // by default port is 587 and SSL secure.
-    var gmailer2 = new GmailConfig("you@gmail.com", "password", "smtp.gmail.com", 587); // change ports as well.
+```csharp
+var gmailer = new GmailConfig("you@gmail.com", "password"); // by default port is 587 and SSL secure.
+var gmailer2 = new GmailConfig("you@gmail.com", "password", "smtp.gmail.com", 587); // change ports as well.
+```
 
 Any mailer configs ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
 
-    gmailer.EnableSsl = true;
-    gmailer.Port = 587;
-    gmailer.Host = "smtp.gmail.com";
-    gmailer.SendAsynchronousEmails = true;
+```csharp
+gmailer.EnableSsl = true;
+gmailer.Port = 587;
+gmailer.Host = "smtp.gmail.com";
+gmailer.SendAsynchronousEmails = true;
+```
 
 To send email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
-    
-    gmailer.QuickSend("sendingto@gmail.com", "Subject", "HTML body"); // an email will be send to the "sendingto@gmail.com" async style, which can be modified via gmailer.SendAsynchronousEmails property.
+
+```csharp    
+// an email will be send to the "sendingto@gmail.com" async style, which can be modified via gmailer.SendAsynchronousEmails property.
+gmailer.QuickSend("sendingto@gmail.com", "Subject", "HTML body");
+```
 
 To send carbon copy email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
-    
-    gmailer.QuickSend("sendingto1@gmail.com,sendingto2@gmail.com", "Subject", "HTML body", MailingType.CarbonCopy, searchForCommas: true); // an email will be send to "sendingto@gmail.com" and "sendingto2@gmail.com" as a carbon-copy and async style.
+
+```csharp    
+// an email will be send to "sendingto@gmail.com" and "sendingto2@gmail.com" as a carbon-copy and async style.
+gmailer.QuickSend("sendingto1@gmail.com,sendingto2@gmail.com", "Subject", "HTML body", MailingType.CarbonCopy, searchForCommas: true);
+```
+
 To send blind carbon copy email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
-    
-    gmailer.QuickSend("sendingto1@gmail.com,sendingto2@gmail.com", "Subject", "HTML body", MailingType.MailBlindCarbonCopy, searchForCommas: true); // an email will be send to "sendingto@gmail.com" and "sendingto2@gmail.com" as a carbon-copy and async style.
 
-###Handle any exception through an email (these will be sent based on the configuration done in the starter):
+```csharp    
+// an email will be send to "sendingto@gmail.com" and "sendingto2@gmail.com" as a carbon-copy and async style.
+gmailer.QuickSend("sendingto1@gmail.com,sendingto2@gmail.com", "Subject", "HTML body", MailingType.MailBlindCarbonCopy, searchForCommas: true);
+```
 
-    try
-    {
-    	... done anything...
-    } catch (Exception ex)
-    {
-    	DevMvcComponent.Starter.Error.HandleBy(ex,"method name"); // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
-		// user should be notified by nice message by sending -1 or anything else.
-    }   
+### Handle any exception through an email (these will be sent based on the configuration done in the starter):
+
+```csharp
+try
+{
+    //... done anything...
+} catch (Exception ex)
+{
+    // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
+    DevMvcComponent.Starter.Error.HandleBy(ex,"method name");
+    // user should be notified by nice message by sending -1 or anything else.
+}
+```
+
 ###Database exception handling using Entityframework, assume that we have an entity object which is failed during the transaction period:
 
-    try
-    {
-    	... saving things to database ...
-    } catch (Exception ex)
-    {
-    	DevMvcComponent.Starter.Error.HandleBy(ex,"method name", EnityObject); // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
-		// if any meaningful subject requires then 
-    	// DevMvcComponent.Starter.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); // email will be sent with this entity information 
-		// user should be notified by nice message by sending -1 or anything else.
-    }   
+```csharp
+try
+{
+    //... saving things to database ...
+} catch (Exception ex)
+{
+    // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
+    DevMvcComponent.Starter.Error.HandleBy(ex,"method name", EnityObject);
+    // if any meaningful subject requires then 
+    // DevMvcComponent.Starter.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); 
+    // email will be sent with this entity information 
+    // user should be notified by nice message by sending -1 or anything else.
+}
+```
 
 ### Database pagination (with caching for total counting):
 
@@ -87,30 +115,32 @@ Direct pagination on IQueryable ( must understand the differene between IQueryab
 
 **Must order by (a clustered index would be better for performance) before pagination.**
 
-	using DevMvcComponent.Pagination;
+```csharp
+using DevMvcComponent.Pagination;
 
-    var products = db.Products
-    .Select(n => new {
-        n.ProductID,
-        n.ProductName,
-        n.Dated
-    })
-    .OrderBy(n=> n.ProductID); // Must order by (a clustered index would be better for performance) before pagination.
+var products = db.Products.Select(n => new {
+    n.ProductID,
+    n.ProductName,
+    n.Dated
+}).OrderBy(n=> n.ProductID); // Must order by (a clustered index would be better for performance) before pagination.
 
-	if (page <= 0) {
-	    page = 1;
-	}
-	var pageInfo = new PaginationInfo() {
-	    PageNumber = page,
-	    PagesExists = null,
-	    ItemsInPage = 30
-	};
-	var paged = products.GetPageData(pageInfo, cacaheName: "Products.Get.Count");
-	var newPaged = products.ToList().Select(n => new {
-	    n.ProductID,
-	    n.ProductName,
-	    Dated = n.Dated.ToString("dd-MMM-yyyy")
-	});
+if (page <= 0) {
+    page = 1;
+}
+
+var pageInfo = new PaginationInfo() {
+    PageNumber = page,
+    PagesExists = null,
+    ItemsInPage = 30
+};
+
+var paged = products.GetPageData(pageInfo, cacaheName: "Products.Get.Count");
+var newPaged = products.ToList().Select(n => new {
+    n.ProductID,
+    n.ProductName,
+    Dated = n.Dated.ToString("dd-MMM-yyyy")
+});
+```
 
 Examples : 
 
@@ -124,33 +154,37 @@ Unlike List<> (in memory object) generic type IQueryable<>(lazy) or IEnumerable<
 
 Example:
 
-	var arr = new int[] { 1, 2, 3, 4, 10, 5 };
-    var greaterThanFive = arr.Where(singleItem => singleItem > 5); // this doesn't get executed until it is needed. And it is an IEnumerable type of list right now.
-	// when we execute 
-	foreach(var item in greaterThanFive) {...} // now it got executed and give us emurated data. So far IQueryable and IEnumerable does the same thing.
+```csharp
+var arr = new int[] { 1, 2, 3, 4, 10, 5 };
+var greaterThanFive = arr.Where(singleItem => singleItem > 5); // this doesn't get executed until it is needed. And it is an IEnumerable type of list right now.
+// when we execute 
+foreach(var item in greaterThanFive) {...} // now it got executed and give us emurated data. So far IQueryable and IEnumerable does the same thing.
+```
 
 So far IQueryable and IEnumerable does the same thing in terms of lazy operation.
 ***However , IEnumerable is lazy for C# objects and IQueryable is lazy for database objects.***
 
 Example 1 ( after that if we do pagination there is no value of it ) :	
 
-    using(var db = new DbContext()){
-    	//using removes db from memory when the operation is done.
-    	var query1 = db.Table.Where(row=> row.Id > 50); // IQueryable<>  query doesn't run yet.
-    	var query2 = query1.Where(row=> row.Id < 100); // IQueryable<> query doesn't run yet.
-    	IEnumerable<Table> results = query2.AsEnumerable(); // query runs on the database and now we get plain C# objects. "Select * from Table Where id > 50 AND id < 100;"
-    	// after that if we do pagination there is no value of it.
-    }
-
+```csharp
+using(var db = new DbContext()){
+    //using removes db from memory when the operation is done.
+    var query1 = db.Table.Where(row=> row.Id > 50); // IQueryable<>  query doesn't run yet.
+    var query2 = query1.Where(row=> row.Id < 100); // IQueryable<> query doesn't run yet.
+    IEnumerable<Table> results = query2.AsEnumerable(); // query runs on the database and now we get plain C# objects. "Select * from Table Where id > 50 AND id < 100;"
+    // after that if we do pagination there is no value of it.
+}
+```
 
 Example 2 ( after that if we do pagination there is no value of it ) :	
 
-    using(var db = new DbContext()){
-    	//using removes db from memory when the operation is done.
-    	var query1 = db.Table.Where(row=> row.Id > 50); // IQueryable<> query doesn't run yet.
-    	var query2 = query1.Where(row=> row.Id < 100); // IQueryable<> query doesn't run yet.
-    	IEnumerable<Table> results = query2.ToList(); // query runs on the database and now we get plain C# objects. "Select * from Table Where id > 50 AND id < 100;"
-    	// after that if we do pagination there is no value of it.
-    }
-
+```csharp
+using(var db = new DbContext()){
+    //using removes db from memory when the operation is done.
+    var query1 = db.Table.Where(row=> row.Id > 50); // IQueryable<> query doesn't run yet.
+    var query2 = query1.Where(row=> row.Id < 100); // IQueryable<> query doesn't run yet.
+    IEnumerable<Table> results = query2.ToList(); // query runs on the database and now we get plain C# objects. "Select * from Table Where id > 50 AND id < 100;"
+    // after that if we do pagination there is no value of it.
+}
+```
 **In summary, there is no benefit of having database pagination with IEnumerable or IList or any other list type , if it is not IQueryable<>.**
