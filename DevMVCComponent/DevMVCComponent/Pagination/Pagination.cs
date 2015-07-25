@@ -65,6 +65,7 @@ namespace DevMvcComponent.Pagination
                 if (cachePagesString != null)
                 {
                     cachePages = int.Parse(cachePagesString);
+                    pages = cachePages;
                 }
             }
             if (cachePages < 0 && retrivePagesExist)
@@ -114,6 +115,7 @@ namespace DevMvcComponent.Pagination
                 if (cachePagesString != null)
                 {
                     cachePages = int.Parse(cachePagesString);
+                    pageInfo.PagesExists = cachePages;
                 }
                 saveCache = true;
             }
@@ -174,6 +176,7 @@ namespace DevMvcComponent.Pagination
                 if (cachePagesString != null)
                 {
                     cachePages = int.Parse(cachePagesString);
+                    pages = cachePages;
                 }
             }
             if (cachePages < 0 && retrivePagesExist)
@@ -223,6 +226,7 @@ namespace DevMvcComponent.Pagination
                 if (cachePagesString != null)
                 {
                     cachePages = int.Parse(cachePagesString);
+                    pageInfo.PagesExists = cachePages;
                 }
                 saveCache = true;
             }
@@ -265,7 +269,7 @@ namespace DevMvcComponent.Pagination
             bool withoutUnorderedList = true, string @liClass = "", string cacheName = "", string @class = "",
             int maxNumbersOfPagesShow = 5,
             string format =
-                "<li class='@is-active-state @liClass'><a href='@url' class='@class' title='@title' >@content</a></li>")
+                "<li class='@is-active-state @liClass' data-page='@page'><a href='@url' class='@class' title='@title' >@content</a></li>")
         {
             // code started
             string firstPageLink = "",
