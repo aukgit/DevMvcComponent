@@ -18,56 +18,63 @@ namespace DevMvcComponent.EntityConversion {
         private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
-        ///     Get simple html string of a single class object
+        ///     Get simple string of a single class object
         /// </summary>
         /// <param name="Class">Any entity object , can be null.</param>
-        /// <returns></returns>
+        /// <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
         public static string Get(object Class) {
-            var output = "";
             if (Class != null) {
                 var propertise =
                     Class.GetType()
                         .GetProperties(TypeOfPropertise)
-                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
+                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
+                        .ToList();
+                var sb = new StringBuilder(propertise.Count + 2);
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
-                    var str = "";
                     if (DataTypeSupport.IsSupport(val)) {
-                        str = String.Format("\n{0} : {1}", prop.Name, val);
+                        var str = String.Format("\n{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
+                        sb.AppendLine(str);
                     }
-                    output += str;
                 }
-                //output += "\n";
+                var output = sb.ToString();
+                sb = null;
+                GC.Collect();
+                return output;
             }
-            return output;
+            return "";
         }
 
         /// <summary>
+        ///     Get simple Html string of a single class object with only new lines
         /// </summary>
-        /// <param name="Class"></param>
-        /// <returns></returns>
+        /// <param name="Class">Any entity object , can be null.</param>
+        /// <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
         public static string GetHtmlOfSingleClass(object Class) {
-            var output = "";
             if (Class != null) {
                 var propertise =
                     Class.GetType()
                         .GetProperties(TypeOfPropertise)
-                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
+                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
+                        .ToList();
+                var sb = new StringBuilder(propertise.Count + 2);
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
-                    var str = "";
                     if (DataTypeSupport.IsSupport(val)) {
-                        str = String.Format("<br/>{0} : {1}", prop.Name, val);
+                        var str = String.Format("<br/>{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
+                        sb.AppendLine(str);
                     }
-                    output += str;
                 }
-                //output += "\n";
+                var output = sb.ToString();
+                sb = null;
+                GC.Collect();
+                return output;
             }
-            return output;
+            return "";
         }
 
         // public static string GetHTML(object Class , byte StructDisplayFormattype) {
@@ -161,7 +168,10 @@ namespace DevMvcComponent.EntityConversion {
                 GetHtmlTableRow(classObject, ref sb, count);
             }
             sb.Append("</table>");
-            return sb.ToString();
+            var output = sb.ToString();
+            sb = null;
+            GC.Collect();
+            return output;
         }
 
         private static string GetHtmlOfEntitiesEmailGenerate(IEnumerable<object> classes, string email, string sub,

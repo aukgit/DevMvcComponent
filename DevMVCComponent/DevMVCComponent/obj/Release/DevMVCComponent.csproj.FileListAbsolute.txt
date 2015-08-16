@@ -80,3 +80,4 @@ D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.dll
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.pdb
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.tlb
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.csprojResolveAssemblyReference.cache

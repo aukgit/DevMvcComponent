@@ -1,4 +1,7 @@
 ﻿namespace DevMvcComponent.Extensions {
+    /// <summary>
+    /// String extensions
+    /// </summary>
     public static class StringExtension {
         /// <summary>
         ///     Split the string into pieces.
@@ -39,6 +42,23 @@
             length = length - starting;
 
             return str.Substring(starting, length);
+        }
+
+        /// <summary>
+        /// First char upper case and others are in lowercase
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string FirstCharUppercase(this string value) {
+            //
+            // Uppercase the first letter in the string.
+            //
+            if (value.Length > 0) {
+                char[] array = value.ToCharArray();
+                array[0] = char.ToUpper(array[0]);
+                return new string(array);
+            }
+            return value;
         }
     }
 }

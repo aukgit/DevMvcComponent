@@ -10,6 +10,11 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "M:DevMvcComponent.Extensions.OneEntityToAnotherExtension.Cast``1(``0)" -->
+        <member name="T:DevMvcComponent.Extensions.StringExtension">
+            <summary>
+            String extensions
+            </summary>
+        </member>
         <member name="M:DevMvcComponent.Extensions.StringExtension.GetStringCutOff(System.String,System.Nullable{System.Int32})">
             <summary>
                 Split the string into pieces.
@@ -24,6 +29,13 @@
             <param name="str"></param>
             <param name="starting">If previous mid was on 100 , start from 100</param>
             <param name="length">-1 means whole return last len.</param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.FirstCharUppercase(System.String)">
+            <summary>
+            First char upper case and others are in lowercase
+            </summary>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="T:DevMvcComponent.Hashing.Hasher">
@@ -603,16 +615,17 @@
         </member>
         <member name="M:DevMvcComponent.EntityConversion.EntityToString.Get(System.Object)">
             <summary>
-                Get simple html string of a single class object
+                Get simple string of a single class object
             </summary>
             <param name="Class">Any entity object , can be null.</param>
-            <returns></returns>
+            <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
         </member>
         <member name="M:DevMvcComponent.EntityConversion.EntityToString.GetHtmlOfSingleClass(System.Object)">
             <summary>
+                Get simple Html string of a single class object with only new lines
             </summary>
-            <param name="Class"></param>
-            <returns></returns>
+            <param name="Class">Any entity object , can be null.</param>
+            <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
         </member>
         <member name="M:DevMvcComponent.EntityConversion.EntityToString.GetHtmlTableRow(System.Object,System.Text.StringBuilder@,System.Nullable{System.Int32})">
             <summary>
