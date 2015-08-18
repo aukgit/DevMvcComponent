@@ -10,7 +10,7 @@ namespace DevMvcComponent.Database {
     ///     the data type is known(guid, datetime, number etc...) or a custom type.
     ///     If known then get the value for other task.
     /// </summary>
-    public class DataTypeSupport {
+    public static class DataTypeSupport {
         /// <summary>
         ///     If datatype is known(guid, datetime, number etc...)
         /// </summary>

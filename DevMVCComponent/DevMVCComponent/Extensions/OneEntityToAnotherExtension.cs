@@ -12,7 +12,9 @@ namespace DevMvcComponent.Extensions {
     /// </summary>
     public static class OneEntityToAnotherExtension {
         /// <summary>
-        ///     Extension method for casting one type to another if there is any matching in the property name
+        ///     Extension method for casting one type to another if there is any matching in the property name.
+        ///     It returns a new object. So referencing will not work with previous object. 
+        ///     Keep in mind that it is very expensive operation as 'Select' conversion.
         /// </summary>
         /// <param name="myobj"></param>
         /// <typeparam name="T"></typeparam>
@@ -22,23 +24,21 @@ namespace DevMvcComponent.Extensions {
         ///     Obj1 obj1_ =  {a = "hello"}
         ///     Obj2 obj2_ =  obj1_.Cast<Obj2>()
         /// </returns>
-        public static T Cast<T>(this T myobj) {
-            var target = typeof (T);
+        public static TNewType Cast<TBaseType, TNewType>(this TBaseType myobj) {
+            var target = typeof(TNewType);
             var x = Activator.CreateInstance(target, false);
-            var destination = from src in target.GetMembers().ToList()
-                where src.MemberType == MemberTypes.Property
-                select src;
+            var destination = target.GetMembers().Where(n => n.MemberType == MemberTypes.Property).ToList();
+     
             var members = destination.Where(memberInfo =>
                 destination.Select(c => c.Name).ToList().Contains(memberInfo.Name)).ToList();
             PropertyInfo propertyInfo;
             object value;
             foreach (var memberInfo in members) {
-                propertyInfo = typeof (T).GetProperty(memberInfo.Name);
+                propertyInfo = typeof(TNewType).GetProperty(memberInfo.Name);
                 value = myobj.GetType().GetProperty(memberInfo.Name).GetValue(myobj, null);
-
                 propertyInfo.SetValue(x, value, null);
             }
-            return (T) x;
+            return (TNewType)x;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace DevMvcComponent.EntityConversion {
     /// <summary>
     ///     Convert any database entity to html string for email sending.
     /// </summary>
-    public class EntityToString {
+    public static class EntityToString {
         private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>

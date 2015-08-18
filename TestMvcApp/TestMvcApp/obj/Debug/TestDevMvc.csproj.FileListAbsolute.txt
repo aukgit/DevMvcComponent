@@ -1,0 +1,11 @@
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\TestDevMvc.exe.config
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.csprojResolveAssemblyReference.cache
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\TestDevMvc.exe
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\TestDevMvc.pdb
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.dll
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\EntityFramework.dll
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.pdb
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.xml
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\EntityFramework.xml
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.exe
+D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.pdb

@@ -10,10 +10,10 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("DevMvcComponent")]
-[assembly: AssemblyDescription("MVC Common components that every developer needs.")]
+[assembly: AssemblyDescription("ASP.NET MVC Common components that every developer needs.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DevMvcComponent")]
+[assembly: AssemblyProduct("Developers Mvc Component")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("Alim Ul Karim")]
 [assembly: AssemblyCulture("")]
