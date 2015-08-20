@@ -9,7 +9,7 @@
                 Convert one entity to another if there is matching properties.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:DevMvcComponent.Extensions.OneEntityToAnotherExtension.Cast``1(``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:DevMvcComponent.Extensions.OneEntityToAnotherExtension.Cast``2(``0)" -->
         <member name="T:DevMvcComponent.Extensions.StringExtension">
             <summary>
             String extensions
@@ -34,6 +34,27 @@
         <member name="M:DevMvcComponent.Extensions.StringExtension.FirstCharUppercase(System.String)">
             <summary>
             First char upper case and others are in lowercase
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.ToInt(System.String)">
+            <summary>
+            Returns 0 if can't convert to an int.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.ToDecimal(System.String)">
+            <summary>
+            Returns 0 if can't convert to an decimal.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.ToDouble(System.String)">
+            <summary>
+            Returns 0 if can't convert to an decimal.
             </summary>
             <param name="value"></param>
             <returns></returns>
@@ -197,7 +218,7 @@
             </param>
             <returns>IQueryable data based on the page number.</returns>
         </member>
-        <member name="M:DevMvcComponent.Pagination.Pagination.GetList(DevMvcComponent.Pagination.PaginationInfo,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.String,System.Int32,System.String)">
+        <member name="M:DevMvcComponent.Pagination.Pagination.GetList(DevMvcComponent.Pagination.PaginationInfo,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.String,System.Int32,System.String,System.String)">
             <summary>
                 Generates list items with unordered list with bootstrap pagination.
             </summary>
@@ -212,6 +233,7 @@
             <param name="class"></param>
             <param name="maxNumbersOfPagesShow"></param>
             <param name="format"></param>
+            <param name="activeClass"></param>
             <returns></returns>
         </member>
         <member name="P:DevMvcComponent.Pagination.Pagination.PageItems">

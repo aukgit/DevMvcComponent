@@ -81,3 +81,10 @@ D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcCo
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.pdb
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.tlb
 D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.csprojResolveAssemblyReference.cache
+E:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.dll.config
+E:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.xml
+E:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.dll
+E:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.pdb
+E:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.tlb
+E:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.dll
+E:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.pdb
