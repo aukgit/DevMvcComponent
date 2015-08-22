@@ -37,22 +37,43 @@ namespace DevMvcComponent {
         /// </summary>
         public static bool IsNotifyDeveloper = true;
 
+        /// <summary>
+        /// Common margin and padding style for email.
+        ///  ";margin-top: 12px; padding: 11px; border-radius: 4px;'"
+        /// </summary>
         public static string CommonStyles {
             get { return _commonStyles; }
             set { _commonStyles = value; }
         }
-
+        /// <summary>
+        /// Eg. GetAssemblyAttribute<AssemblyTitleAttribute>(a => a.Title)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static string GetAssemblyAttribute<T>(Func<T, string> value)
                                     where T : Attribute {
             T attribute = (T)Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(T));
             return value.Invoke(attribute);
         }
+        /// <summary>
+        /// Get assembly information of any assembly
+        /// Eg. GetAssemblyAttribute<AssemblyTitleAttribute>(Assembly, a => a.Title)
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="value"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static string GetAssemblyAttribute<T>(Assembly assembly,Func<T, string> value)
                                   where T : Attribute {
                                       T attribute = (T)Attribute.GetCustomAttribute(assembly, typeof(T));
             return value.Invoke(attribute);
         }
-
+        /// <summary>
+        /// Wraps with strong tag.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string GetBold(string str) {
             return "<strong title='" + str + "'>" + str + "</strong>";
         }

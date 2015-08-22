@@ -4,50 +4,38 @@
         <name>DevMvcComponent</name>
     </assembly>
     <members>
-        <member name="T:DevMvcComponent.Extensions.DirectoryExtension">
+        <member name="T:DevMvcComponent.Miscellaneous.DirectoryExtension">
             <summary>
             Directory extensions
             Consist of solutions http://stackoverflow.com/questions/6041332/best-way-to-get-application-folder-path
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Extensions.DirectoryExtension.GetBaseOrAppDirectory">
+        <member name="M:DevMvcComponent.Miscellaneous.DirectoryExtension.GetBaseOrAppDirectory">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DevMvcComponent.Extensions.DirectoryExtension.GetCurrentDirectory">
+        <member name="M:DevMvcComponent.Miscellaneous.DirectoryExtension.GetCurrentDirectory">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DevMvcComponent.Extensions.DirectoryExtension.GetWebAppRootDirectory">
+        <member name="M:DevMvcComponent.Miscellaneous.DirectoryExtension.GetWebAppRootDirectory">
             <summary>
             Returns web's root directory absolute location.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DevMvcComponent.Extensions.DirectoryExtension.GetWebAppDirectory(System.String)">
+        <member name="M:DevMvcComponent.Miscellaneous.DirectoryExtension.GetWebAppDirectory(System.String)">
             <summary>
             Get web directory absolute path.
             </summary>
             <param name="relativePath">Give web directory relative path using telda sign, E.g. ~\AppData</param>
             <returns></returns>
         </member>
-        <member name="M:DevMvcComponent.Extensions.DirectoryExtension.GetAssemblyCodeBaseDirectory">
-            <summary>
-            Get current assembly's code base method.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:DevMvcComponent.Extensions.DirectoryExtension.GetExecutingDirectory">
-            <summary>
-            Returns the executing directory.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:DevMvcComponent.Extensions.DirectoryExtension.GetAllDirectoriesList">
+        <member name="M:DevMvcComponent.Miscellaneous.DirectoryExtension.GetAllDirectoriesList">
             <summary>
             Get a string display what all methods returns.
             </summary>
@@ -681,7 +669,7 @@
                 Must setup this class.
             </summary>
         </member>
-        <member name="F:DevMvcComponent.Config.DeveloperEmail">
+        <member name="F:DevMvcComponent.Config.DeveloperEmails">
             <summary>
                 Developer email
             </summary>
@@ -701,11 +689,26 @@
                 Notify Developer on Error if true.
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Config.GetApplicationNameHtml">
+        <!-- Badly formed XML comment ignored for member "M:DevMvcComponent.Config.GetAssemblyAttribute``1(System.Func{``0,System.String})" -->
+        <!-- Badly formed XML comment ignored for member "M:DevMvcComponent.Config.GetAssemblyAttribute``1(System.Reflection.Assembly,System.Func{``0,System.String})" -->
+        <member name="M:DevMvcComponent.Config.GetBold(System.String)">
+            <summary>
+            Wraps with strong tag.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Config.GetApplicationNameHtml(System.Boolean)">
             <summary>
                 Attach application information from the AssemblyInfo given the Assembly = Assembly.GetExecutingAssembly().
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:DevMvcComponent.Config.CommonStyles">
+            <summary>
+            Common margin and padding style for email.
+             ";margin-top: 12px; padding: 11px; border-radius: 4px;'"
+            </summary>
         </member>
         <member name="T:DevMvcComponent.Processor.CookieProcessor">
             <summary>
@@ -1127,6 +1130,7 @@
         </member>
         <member name="T:DevMvcComponent.Error.Handler">
             <summary>
+            Error handler
             </summary>
         </member>
         <member name="M:DevMvcComponent.Error.Handler.#ctor">
@@ -1242,6 +1246,26 @@
             <param name="subject"></param>
             <param name="entity"></param>
         </member>
+        <member name="M:DevMvcComponent.Error.Handler.ByEmail(System.Exception,System.String,System.String,System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="mailingAddresses">Comma separated email address.</param>
+            <param name="methodName"></param>
+            <param name="subject"></param>
+            <param name="entity"></param>
+        </member>
+        <member name="M:DevMvcComponent.Error.Handler.ByEmail(System.Exception,System.String[],System.String,System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="mailingAddresses"></param>
+            <param name="methodName"></param>
+            <param name="subject"></param>
+            <param name="entity"></param>
+        </member>
         <member name="T:DevMvcComponent.Mail.CustomMailServer">
             <summary>
                 Any mail server generic config methods.
@@ -1282,13 +1306,12 @@
                 Setup credentials automatic.
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Mail.MailServer.GetNewMailMessage(System.String,System.String,System.String,System.String,System.Boolean,System.Text.Encoding,System.Net.Mail.DeliveryNotificationOptions)">
+        <member name="M:DevMvcComponent.Mail.MailServer.GetNewMailMessage(System.String,System.String,System.String,System.Boolean,System.Text.Encoding,System.Net.Mail.DeliveryNotificationOptions)">
             <summary>
             Get a new mail message.
             Use SmtpClient to send that mail message.
             </summary>
             <param name="sender">Your mail address</param>
-            <param name="receiver"></param>
             <param name="subject">Email subject</param>
             <param name="body">emailAddress body</param>
             <param name="isHtmlBody">By default : true</param>
@@ -1307,7 +1330,22 @@
             </summary>
             <returns>Returns a deep copy instance of the given object.</returns>
         </member>
-        <member name="M:DevMvcComponent.Mail.MailServer.QuickSend(System.String,System.String,System.String,DevMvcComponent.Enums.MailingType,System.Boolean,System.Collections.Generic.List{System.Net.Mail.Attachment},System.Boolean,System.Object,System.Net.Mail.SendCompletedEventHandler)">
+        <member name="M:DevMvcComponent.Mail.MailServer.QuickSend(System.String[],System.String,System.String,DevMvcComponent.Enums.MailingType,System.Collections.Generic.List{System.Net.Mail.Attachment},System.Boolean,System.Boolean,System.Object,System.Net.Mail.SendCompletedEventHandler)">
+            <summary>
+                Quickly send an emailAddress.
+            </summary>
+            <param name="to"></param>
+            <param name="subject"></param>
+            <param name="body"></param>
+            <param name="type"></param>
+            <param name="attachments"></param>
+            <param name="isAsync"></param>
+            <param name="isHtml"></param>
+            <param name="userToken"></param>
+            <param name="sendCompletedEventHandler"></param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:DevMvcComponent.Mail.MailServer.QuickSend(System.String,System.String,System.String,DevMvcComponent.Enums.MailingType,System.Boolean,System.Collections.Generic.List{System.Net.Mail.Attachment},System.Boolean,System.Boolean,System.Object,System.Net.Mail.SendCompletedEventHandler)">
             <summary>
                 Quickly send an emailAddress.
             </summary>
@@ -1317,7 +1355,8 @@
             <param name="type"></param>
             <param name="searchCommas"></param>
             <param name="attachments"></param>
-            <param name="async"></param>
+            <param name="isAsync"></param>
+            <param name="isHtml"></param>
             <param name="userToken"></param>
             <param name="sendCompletedEventHandler"></param>
             <exception cref="T:System.Exception"></exception>
@@ -1333,7 +1372,7 @@
             <param name="password"></param>
             <param name="type">Regular, CC, BCC</param>
         </member>
-        <member name="M:DevMvcComponent.Mail.MailServer.SendWithAttachments(System.String,System.String,System.String,System.Collections.Generic.List{System.Net.Mail.Attachment},DevMvcComponent.Enums.MailingType,System.Boolean,System.Boolean,System.Object,System.Net.Mail.SendCompletedEventHandler)">
+        <member name="M:DevMvcComponent.Mail.MailServer.SendWithAttachments(System.String,System.String,System.String,System.Collections.Generic.List{System.Net.Mail.Attachment},DevMvcComponent.Enums.MailingType,System.Boolean,System.Boolean,System.Boolean,System.Object,System.Net.Mail.SendCompletedEventHandler)">
             <summary>
             Send emailAddress with attachments
             </summary>
@@ -1343,12 +1382,13 @@
             <param name="attachments"></param>
             <param name="type"></param>
             <param name="searchCommas"></param>
-            <param name="async"></param>
+            <param name="isAsync"></param>
+            <param name="isHtml"></param>
             <param name="userToken"></param>
             <param name="sendCompletedEventHandler"></param>
             <exception cref="T:System.Exception"></exception>
         </member>
-        <member name="M:DevMvcComponent.Mail.MailServer.SendWithAttachments(System.String[],System.String,System.String,System.String[],System.Collections.Generic.List{System.Net.Mail.Attachment},DevMvcComponent.Enums.MailingType,System.Boolean,System.Object,System.Net.Mail.SendCompletedEventHandler)">
+        <member name="M:DevMvcComponent.Mail.MailServer.SendWithAttachments(System.String[],System.String,System.String,System.String[],System.Collections.Generic.List{System.Net.Mail.Attachment},DevMvcComponent.Enums.MailingType,System.Boolean,System.Boolean,System.Object,System.Net.Mail.SendCompletedEventHandler)">
             <summary>
             Send emailAddress with attachments
             </summary>
@@ -1358,7 +1398,8 @@
             <param name="ccMails"></param>
             <param name="attachments"></param>
             <param name="type"></param>
-            <param name="async"></param>
+            <param name="isAsync"></param>
+            <param name="isHtml">Is the body is Html or only text.</param>
             <param name="userToken"></param>
             <param name="sendCompletedEventHandler"></param>
             <exception cref="T:System.Exception"></exception>
@@ -1510,12 +1551,11 @@
                 Please make sure that your executing directory is writable if not then please add a folder "DataCache"
             </summary>
             <param name="applicationName">Name of your application or software.</param>
-            <param name="developerEmail">Developer email</param>
+            <param name="developerEmail">Comma separated developers emails</param>
             <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
             <param name="mailer">
                 Get your own custom mailer or GmailConfig or setup CustomConfig.
                 new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
-                By default email sender is async , to make it sync you can use property on MailConfig.SendAsynchronousEmails = false;
             </param>
         </member>
         <member name="M:DevMvcComponent.Mvc.Setup(System.Reflection.Assembly)">
@@ -1538,7 +1578,7 @@
             <param name="senderPassword">Smtp sender password.</param>
             <param name="hostName">host name, i.e. smtp.gmail.com</param>
             <param name="senderPort">port number</param>
-            <param name="isSSL"></param>
+            <param name="isSsl"></param>
         </member>
         <member name="T:DevMvcComponent.Error.ErrorCollector">
             <summary>

@@ -103,6 +103,7 @@ namespace DevMvcComponent.Mail {
         }
         #endregion
 
+        #region Mail message
         /// <summary>
         /// Get a new mail message.
         /// Use SmtpClient to send that mail message.
@@ -128,7 +129,8 @@ namespace DevMvcComponent.Mail {
             mail.From = mailAddress;
             //mail.ReplyToList.Add(mailAddress);
             return mail;
-        }
+        } 
+        #endregion
 
         #region Cloning Smtp
         /// <summary>

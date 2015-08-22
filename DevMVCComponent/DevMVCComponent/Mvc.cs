@@ -60,6 +60,7 @@ namespace DevMvcComponent {
             Error = new Handler();
             Cookies = new CookieProcessor();
             Caches = new CacheProcessor();
+            Config.GetApplicationNameHtml(true);
         }
 
 
@@ -88,13 +89,12 @@ namespace DevMvcComponent {
         /// <param name="senderPassword">Smtp sender password.</param>
         /// <param name="hostName">host name, i.e. smtp.gmail.com</param>
         /// <param name="senderPort">port number</param>
-        /// <param name="isSSL"></param>
+        /// <param name="isSsl"></param>
         public static void Setup(string applicationName, string developerEmail, Assembly assembly, string senderEmail,
-            string senderPassword, string hostName, int senderPort, bool isSSL) {
+            string senderPassword, string hostName, int senderPort, bool isSsl) {
            
             //Configure this with add a sender email.
-            Mailer = new CustomMailServer(senderEmail, senderPassword, hostName, senderPort, isSSL); //
-
+            Mailer = new CustomMailServer(senderEmail, senderPassword, hostName, senderPort, isSsl); //
             Setup(applicationName, developerEmail, assembly, Mailer);
         }
     }
