@@ -100,7 +100,7 @@ namespace DevMvcComponent.Mail {
             EnableSsl = true;
             DeliveryMethod = SmtpDeliveryMethod.Network;
             Timeout = 100000;
-        } 
+        }
         #endregion
 
         /// <summary>
@@ -108,20 +108,25 @@ namespace DevMvcComponent.Mail {
         /// Use SmtpClient to send that mail message.
         /// </summary>
         /// <param name="sender">Your mail address</param>
-        /// <param name="receiver"></param>
         /// <param name="subject">Email subject</param>
         /// <param name="body">emailAddress body</param>
         /// <param name="isHtmlBody">By default : true</param>
         /// <param name="bodyEncoding">By default : Encoding.UTF8</param>
         /// <returns></returns>
-        public MailMessage GetNewMailMessage(string sender, string receiver, string subject = "", string body = "", bool isHtmlBody = true, Encoding bodyEncoding = null, DeliveryNotificationOptions deliveryNotification = DeliveryNotificationOptions.OnFailure) {
+        public MailMessage GetNewMailMessage(string sender, string subject = "", string body = "", bool isHtmlBody = true, Encoding bodyEncoding = null, DeliveryNotificationOptions deliveryNotification = DeliveryNotificationOptions.OnFailure) {
             bodyEncoding = bodyEncoding ?? Encoding.UTF8;
-            var mail = new MailMessage(sender, receiver) {
+            var mail = new MailMessage() {
                 BodyEncoding = bodyEncoding,
                 DeliveryNotificationOptions = deliveryNotification,
                 IsBodyHtml = isHtmlBody,
-                Body = body
+                Body = body,
+                Subject = subject
             };
+            var mailAddress = new MailAddress(sender);
+
+            mail.Sender = mailAddress;
+            mail.From = mailAddress;
+            //mail.ReplyToList.Add(mailAddress);
             return mail;
         }
 
@@ -147,10 +152,35 @@ namespace DevMvcComponent.Mail {
             mailSender.Port = smtp.Port;
             mailSender.Host = smtp.Host;
             return mailSender;
-        } 
+        }
         #endregion
-        #region Quick sending emailAddress methods with Attachments
 
+        #region Quick sending emailAddress methods with Attachments
+        /// <summary>
+        ///     Quickly send an emailAddress.
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="type"></param>
+        /// <param name="attachments"></param>
+        /// <param name="isAsync"></param>
+        /// <param name="isHtml"></param>
+        /// <param name="userToken"></param>
+        /// <param name="sendCompletedEventHandler"></param>
+        /// <exception cref="Exception"></exception>
+        public void QuickSend(
+            string[] to,
+            string subject,
+            string body,
+            MailingType type = MailingType.RegularMail,
+            List<Attachment> attachments = null,
+            bool isAsync = true,
+            bool isHtml = true,
+            object userToken = null,
+            SendCompletedEventHandler sendCompletedEventHandler = null) {
+            SendWithAttachments(to, subject, body, null, attachments, type, isAsync,isHtml,userToken,sendCompletedEventHandler);
+        }
         /// <summary>
         ///     Quickly send an emailAddress.
         /// </summary>
@@ -160,7 +190,8 @@ namespace DevMvcComponent.Mail {
         /// <param name="type"></param>
         /// <param name="searchCommas"></param>
         /// <param name="attachments"></param>
-        /// <param name="async"></param>
+        /// <param name="isAsync"></param>
+        /// <param name="isHtml"></param>
         /// <param name="userToken"></param>
         /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
@@ -171,7 +202,8 @@ namespace DevMvcComponent.Mail {
             MailingType type = MailingType.RegularMail,
             bool searchCommas = true,
             List<Attachment> attachments = null,
-            bool async = true,
+            bool isAsync = true,
+            bool isHtml = true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
             SendWithAttachments(
@@ -181,7 +213,8 @@ namespace DevMvcComponent.Mail {
                   attachments: attachments,
                   type: type,
                   searchCommas: searchCommas,
-                  async: async,
+                  isAsync: isAsync,
+                  isHtml: isHtml,
                   userToken: userToken,
                   sendCompletedEventHandler: sendCompletedEventHandler);
         }
@@ -219,7 +252,8 @@ namespace DevMvcComponent.Mail {
         /// <param name="attachments"></param>
         /// <param name="type"></param>
         /// <param name="searchCommas"></param>
-        /// <param name="async"></param>
+        /// <param name="isAsync"></param>
+        /// <param name="isHtml"></param>
         /// <param name="userToken"></param>
         /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
@@ -230,7 +264,8 @@ namespace DevMvcComponent.Mail {
             List<Attachment> attachments = null,
             MailingType type = MailingType.RegularMail,
             bool searchCommas = true,
-            bool async = true,
+            bool isAsync = true,
+            bool isHtml = true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
             var sendingToEmails = GetEmailAddressList(mailingTo, searchCommas);
@@ -241,11 +276,12 @@ namespace DevMvcComponent.Mail {
                 ccMails: null,
                 attachments: attachments,
                 type: type,
-                async: async,
+                isAsync: isAsync,
+                isHtml: isHtml,
                 userToken: userToken,
                 sendCompletedEventHandler: sendCompletedEventHandler);
         }
-        
+
         #endregion
 
         #region Original Attachment Method
@@ -259,7 +295,8 @@ namespace DevMvcComponent.Mail {
         /// <param name="ccMails"></param>
         /// <param name="attachments"></param>
         /// <param name="type"></param>
-        /// <param name="async"></param>
+        /// <param name="isAsync"></param>
+        /// <param name="isHtml">Is the body is Html or only text.</param>
         /// <param name="userToken"></param>
         /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
@@ -267,14 +304,15 @@ namespace DevMvcComponent.Mail {
             string[] mailingTos,
             string subject,
             string body,
-            string [] ccMails, 
+            string[] ccMails,
             List<Attachment> attachments = null,
             MailingType type = MailingType.RegularMail,
-            bool async = true,
+            bool isAsync = true,
+            bool isHtml = true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
             if (IsConfigured && !mailingTos.IsEmpty()) {
-                var mail = GetNewMailMessage(SenderEmailAddress, "", subject, body);
+                var mail = GetNewMailMessage(_senderMail, subject, body, isHtml);
                 MailingAddressAttach(ref mail, mailingTos, ccMails, type);
                 if (attachments != null) {
                     foreach (var attachment in attachments) {
@@ -283,13 +321,13 @@ namespace DevMvcComponent.Mail {
                 }
                 var server = CloneSmtpClient();
                 var mailSendingWrapper = new MailSendingWrapper(server, mail);
-                SendMail(mailSendingWrapper, async, userToken, sendCompletedEventHandler);
+                SendMail(mailSendingWrapper, isAsync, userToken, sendCompletedEventHandler);
             } else {
                 throw new Exception(
                     "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
             }
         }
-        
+
         #endregion
 
         #region Send emails
@@ -327,7 +365,7 @@ namespace DevMvcComponent.Mail {
             if (searchComma && !mailingTos.IsEmpty() && mailingTos.IndexOf(",", StringComparison.Ordinal) > -1) {
                 return mailingTos.Split(',').ToArray();
             } else if (!mailingTos.IsEmpty()) {
-                return new string[] {mailingTos};
+                return new string[] { mailingTos };
             }
             return null;
         }
@@ -343,12 +381,14 @@ namespace DevMvcComponent.Mail {
             }
         }
 
-     
+
 
         private void MailingAddressAttach(ref MailMessage mail, string[] mailTos, string[] mailCc, MailingType type) {
             mail.To.Clear();
             foreach (var mailTo in mailTos) {
-                mail.To.Add(new MailAddress(mailTo));
+                var mailAddress = new MailAddress(mailTo);
+                mail.ReplyToList.Add(mailAddress);
+                mail.To.Add(mailAddress);
             }
             if (mailCc == null) {
                 return;
@@ -362,7 +402,7 @@ namespace DevMvcComponent.Mail {
                     mail.Bcc.Add(new MailAddress(address));
                 }
             }
-        } 
+        }
         #endregion
 
 

@@ -4,11 +4,13 @@ using System;
 using System.Data.Entity.Validation;
 using System.Threading.Tasks;
 using DevMvcComponent.EntityConversion;
+using DevMvcComponent.Mail;
 
 #endregion
 
 namespace DevMvcComponent.Error {
     /// <summary>
+    /// Error handler
     /// </summary>
     public class Handler {
         /// <summary>
@@ -40,7 +42,7 @@ namespace DevMvcComponent.Error {
         /// <param name="method">Method name should contains parenthesis.()</param>
         /// <param name="subject">Email subject</param>
         public Handler(Exception ex, string method, string subject) {
-            ByEmail(ex, method, subject);
+            ByEmail(ex, method, subject, null);
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace DevMvcComponent.Error {
         /// <param name="method">Method name should contains parenthesis.()</param>
         /// <param name="subject">Email subject</param>
         public void HandleBy(Exception exception, string method, string subject) {
-            ByEmail(exception, method, subject);
+            ByEmail(exception, method, subject, null);
         }
 
         /// <summary>
@@ -117,7 +119,7 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName"></param>
         /// <param name="optional"></param>
         /// <returns></returns>
-        public virtual string GetEntityValidationHtml(DbEntityValidationException e, string methodName,
+        public string GetEntityValidationHtml(DbEntityValidationException e, string methodName,
             string optional = "") {
             var showError = String.Format("(Failed)Method: {0}\n" +
                                           "<br/>Exception :{1}\n" +
@@ -146,10 +148,10 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName"></param>
         /// <param name="optional"></param>
         /// <returns></returns>
-        public virtual string GetErrorMsgHtml(Exception e, string methodName, string optional = "") {
+        public string GetErrorMsgHtml(Exception e, string methodName, string optional = "") {
             var inner = "";
             if (e is DbEntityValidationException) {
-                return GetEntityValidationHtml((DbEntityValidationException) e, methodName, optional);
+                return GetEntityValidationHtml((DbEntityValidationException)e, methodName, optional);
             }
             if (e.InnerException != null) {
                 inner = e.InnerException.ToString();
@@ -160,7 +162,7 @@ namespace DevMvcComponent.Error {
                                           "Source:{3}<br>" +
                                           "Inner Exception:{4}<br>" +
                                           "Stack Trace:{5}<br>" +
-                                          "Optional:{6}<br><hr />", methodName, e, e.Message, e.Source, inner,
+                                          "Optional:{6}<br>", methodName, e, e.Message, e.Source, inner,
                 e.StackTrace, optional);
 
             return showError;
@@ -173,33 +175,31 @@ namespace DevMvcComponent.Error {
         /// <param name="body"></param>
         /// <param name="method"></param>
         /// <param name="entitySingleObject"></param>
-        public virtual void GenerateErrorBody(Exception ex, ref string subject, ref string body, string method = "",
+        public void GenerateErrorBody(Exception ex, ref string subject, ref string body, string method = "",
             object entitySingleObject = null) {
             if (body == null)
                 body = "";
 
-            if (!string.IsNullOrEmpty(Config.DeveloperEmail) && Config.IsNotifyDeveloper) {
-                body += GetErrorMsgHtml(ex, method);
+            body += GetErrorMsgHtml(ex, method);
 
-                if (string.IsNullOrEmpty(subject))
-                    subject = string.Format("[{0}] [Error] on [{1}] method at {2}", Config.ApplicationName, method,
-                        DateTime.UtcNow);
+            if (string.IsNullOrEmpty(subject))
+                subject = string.Format("[{0}] [Error] on [{1}] method at {2}", Config.ApplicationName, method,
+                    DateTime.UtcNow);
 
-                if (entitySingleObject != null) {
-                    body += "<hr/>";
+            if (entitySingleObject != null) {
+                body += "<hr/>";
 
-                    body += "<h1> Entity Description :</h1>";
-                    body += "<h1> " + entitySingleObject + "</h1>";
-                    try {
-                        body += "<div style='color:green'> " + EntityToString.GetHtmlOfSingleClass(entitySingleObject) +
-                                "</div>";
-                    } catch (Exception ex2) {
-                        body += "<div style='color:red'> Error Can't Read Entity: " + ex2.Message + "</div>";
-                    }
+                body += "<h1> Entity Description :</h1>";
+                body += "<h1> " + entitySingleObject + "</h1>";
+                try {
+                    body += "<div style='color:green'> " + EntityToString.GetHtmlOfSingleClass(entitySingleObject) +
+                            "</div>";
+                } catch (Exception ex2) {
+                    body += "<div style='color:red'> Error Can't Read Entity: " + ex2.Message + "</div>";
                 }
-                body += "<hr />";
-                body += "<div style='background-color:yellow'> Stack Trace: " + ex.StackTrace + "</div>";
             }
+            body += "<hr />";
+            body += "<div style='background-color:#FFFFD1" + Config.CommonStyles + "> Stack Trace: " + ex.StackTrace + "</div>";
         }
 
         /// <summary>
@@ -209,17 +209,51 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName"></param>
         /// <param name="subject"></param>
         /// <param name="entity"></param>
-        private void ByEmail(Exception exception, string methodName, string subject = "", object entity = null) {
-            new Task(() => {
-                if (Config.DeveloperEmail != null && Config.IsNotifyDeveloper) {
-                    var body = "";
+        public void ByEmail(Exception exception, string methodName = "", string subject = "", object entity = null) {
+            ByEmail(exception, Mvc.Mailer, methodName, subject, entity);
+        }
 
+        public void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
+            new Task(() => {
+                if (Config.DeveloperEmails != null && Config.IsNotifyDeveloper) {
+                    var body = "";
                     GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                     body += Config.GetApplicationNameHtml();
-                    if (Mvc.Mailer != null) {
-                        Mvc.Mailer.QuickSend(Config.DeveloperEmail, subject, body);
+                    if (mailServer != null) {
+                        mailServer.QuickSend(Config.DeveloperEmails, subject, body);
                     }
                 }
+            }).Start();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="mailingAddresses">Comma separated email address.</param>
+        /// <param name="methodName"></param>
+        /// <param name="subject"></param>
+        /// <param name="entity"></param>
+        public void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
+            if (mailingAddresses != null) {
+                ByEmail(exception, mailingAddresses.Split(','), methodName, subject, entity);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="mailingAddresses"></param>
+        /// <param name="methodName"></param>
+        /// <param name="subject"></param>
+        /// <param name="entity"></param>
+        public void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
+            new Task(() => {
+                var body = "";
+                GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
+                body += Config.GetApplicationNameHtml();
+                Mvc.Mailer.QuickSend(mailingAddresses, subject, body, Enums.MailingType.CarbonCopy);
             }).Start();
         }
     }

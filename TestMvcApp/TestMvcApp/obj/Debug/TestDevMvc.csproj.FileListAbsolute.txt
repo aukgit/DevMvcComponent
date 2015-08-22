@@ -9,3 +9,14 @@ D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.xml
 D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\EntityFramework.xml
 D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.exe
 D:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.pdb
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\TestDevMvc.exe.config
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.exe
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.pdb
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\TestDevMvc.exe
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\TestDevMvc.pdb
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.dll
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\EntityFramework.dll
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.pdb
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.xml
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\EntityFramework.xml
+D:\Working\GitHub\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.csprojResolveAssemblyReference.cache

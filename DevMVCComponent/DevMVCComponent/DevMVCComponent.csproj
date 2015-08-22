@@ -80,7 +80,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\DirectoryExtension.cs" />
+    <Compile Include="Miscellaneous\DirectoryExtension.cs" />
     <Compile Include="Extensions\OneTypeToAnother.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Hashing\BaseHasher.cs" />
@@ -118,7 +118,6 @@
   <ItemGroup>
     <Folder Include="AppData\" />
     <Folder Include="Database\" />
-    <Folder Include="Miscellaneous\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

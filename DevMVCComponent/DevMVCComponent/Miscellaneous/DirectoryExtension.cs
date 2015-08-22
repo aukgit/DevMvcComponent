@@ -1,18 +1,15 @@
-﻿
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Web;
 
-namespace DevMvcComponent.Extensions {
+namespace DevMvcComponent.Miscellaneous {
     /// <summary>
     /// Directory extensions
     /// Consist of solutions http://stackoverflow.com/questions/6041332/best-way-to-get-application-folder-path
     /// </summary>
     public static class DirectoryExtension {
-  
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,7 +30,10 @@ namespace DevMvcComponent.Extensions {
         /// </summary>
         /// <returns></returns>
         public static string GetWebAppRootDirectory() {
-            return HttpContext.Current.Server.MapPath(@"~\");
+            if (HttpContext.Current != null) {
+                return HttpContext.Current.Server.MapPath(@"~\");
+            }
+            return "";
         }
 
         /// <summary>
@@ -45,21 +45,7 @@ namespace DevMvcComponent.Extensions {
             return HttpContext.Current.Server.MapPath(relativePath);
         }
 
-        /// <summary>
-        /// Get current assembly's code base method.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetAssemblyCodeBaseDirectory() {
-            return Config.Assembly.CodeBase;
-        }
 
-        /// <summary>
-        /// Returns the executing directory.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetExecutingDirectory() {
-            return Path.GetFullPath("");
-        }
 
         /// <summary>
         /// Get a string display what all methods returns.
@@ -69,18 +55,18 @@ namespace DevMvcComponent.Extensions {
             var sb = new StringBuilder(8);
             sb.AppendLine("GetBaseOrAppDirectory() : ");
             sb.Append(GetBaseOrAppDirectory());
+            sb.AppendLine();
 
             sb.AppendLine("GetCurrentDirectory() : ");
             sb.Append(GetCurrentDirectory());
+            sb.AppendLine();
 
             sb.AppendLine("GetWebAppRootDirectory() : ");
             sb.Append(GetWebAppRootDirectory());
+            sb.AppendLine();
 
-            sb.AppendLine("GetAssemblyCodeBaseDirectory() : ");
-            sb.Append(GetAssemblyCodeBaseDirectory());
 
-            sb.AppendLine("GetExecutingDirectory() : ");
-            sb.Append(GetExecutingDirectory());
+
             return sb.ToString();
         }
     }

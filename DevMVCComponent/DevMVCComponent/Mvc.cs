@@ -40,16 +40,15 @@ namespace DevMvcComponent {
         ///     Please make sure that your executing directory is writable if not then please add a folder "DataCache"
         /// </summary>
         /// <param name="applicationName">Name of your application or software.</param>
-        /// <param name="developerEmail">Developer email</param>
+        /// <param name="developerEmail">Comma separated developers emails</param>
         /// <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
         /// <param name="mailer">
         ///     Get your own custom mailer or GmailConfig or setup CustomConfig.
         ///     new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
-        ///     By default email sender is async , to make it sync you can use property on MailConfig.SendAsynchronousEmails = false;
         /// </param>
         public static void Setup(string applicationName, string developerEmail, Assembly assembly, MailServer mailer) {
             Config.ApplicationName = applicationName;
-            Config.DeveloperEmail = developerEmail;
+            Config.DeveloperEmails = developerEmail.Split(',');
             //Configure this with add a sender email.
             Mailer = mailer; //
             InitalizeDefaults(assembly);
@@ -73,7 +72,7 @@ namespace DevMvcComponent {
         public static void Setup(Assembly assembly)
         {
             Config.ApplicationName = "";
-            Config.DeveloperEmail = "";
+            Config.DeveloperEmails = null;
             //Configure this with add a sender email.
             InitalizeDefaults(assembly);
         }
