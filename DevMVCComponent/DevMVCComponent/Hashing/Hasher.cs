@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DevMvcComponent.Hashing {
     /// <summary>
@@ -20,15 +23,37 @@ namespace DevMvcComponent.Hashing {
             return sb.ToString().GetHashCode().ToString();
         }
 
+
+        /// <summary>
+        /// Get any file hash with given parameters.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="hasher"></param>
+        /// <returns></returns>
+        public static string GetFileHash(Stream s, HashAlgorithm hasher) {
+            var hash = hasher.ComputeHash(s);
+            var hashStr = Convert.ToBase64String(hash);
+            return hashStr.TrimEnd('=');
+        }
+
         /// <summary>
         ///     Checks nulls and returns only codes for existing ones.
         /// </summary>
-        /// <param name="o">Your hashing parameters</param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public static string GetMd5(string input) {
-            var md5 = new Md5();
-            var output = md5.GenerateCleanMd5(input);
-            return sb.ToString().GetHashCode().ToString();
+            var hasher = new Md5Hasher();
+            return hasher.GetHash(input);
+        }
+
+        /// <summary>
+        ///     Checks nulls and returns only codes for existing ones.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string GetSha1(string input) {
+            var hasher = new Sha1Hasher();
+            return hasher.GetHash(input);
         }
 
         /// <summary>
@@ -49,7 +74,7 @@ namespace DevMvcComponent.Hashing {
         }
 
         /// <summary>
-        ///     Checks previous has with current hash token via cache.
+        ///     Checks previous hash with current hash token via cache.
         ///     Warning: Cache is application specific, to have client specific cache use parameter to pass client id or user id.
         /// </summary>
         /// <param name="cacheName">A unique cache name from your application to check if this current Hash is same as previous.</param>

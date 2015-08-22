@@ -1,11 +1,11 @@
 ﻿#region using block
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading;
 using DevMvcComponent.Enums;
 using DevMvcComponent.Extensions;
 
@@ -16,7 +16,6 @@ namespace DevMvcComponent.Mail {
     ///     Must configure this to your smtpclient
     /// </summary>
     public abstract class MailServer : SmtpClient {
-        private bool _async = true;
         private bool _isCredentialConfigured;
         private string _senderMail;
         private string _senderPassword;
@@ -35,11 +34,11 @@ namespace DevMvcComponent.Mail {
 
         /// <summary>
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="emailAddress"></param>
         /// <param name="password"></param>
-        public MailServer(string email, string password) {
+        protected MailServer(string emailAddress, string password) {
             DefaultConfigarationSetup();
-            SenderEmail = email;
+            SenderEmailAddress = emailAddress;
             SenderEmailPassword = password;
             _isCredentialConfigured = true;
         }
@@ -47,7 +46,7 @@ namespace DevMvcComponent.Mail {
         /// <summary>
         ///     Setup credentials automatic.
         /// </summary>
-        public string SenderEmail {
+        public string SenderEmailAddress {
             get { return _senderMail; }
             set {
                 _senderMail = value;
@@ -67,22 +66,14 @@ namespace DevMvcComponent.Mail {
             }
         }
 
-        /// <summary>
-        ///     Default = true
-        /// </summary>
-        public bool SendAsynchronousEmails {
-            get { return _async; }
-            set { _async = value; }
-        }
 
+
+        #region Configuration
         /// <summary>
         /// </summary>
         public bool IsConfigured {
             get {
-                if (_isCredentialConfigured && IsHostConfigured) {
-                    return true;
-                }
-                return false;
+                return _isCredentialConfigured && IsHostConfigured;
             }
         }
 
@@ -92,7 +83,7 @@ namespace DevMvcComponent.Mail {
         /// <param name="email"></param>
         /// <param name="password"></param>
         public void ChangeCredentials(string email, string password) {
-            SenderEmail = email;
+            SenderEmailAddress = email;
             SenderEmailPassword = password;
             _isCredentialConfigured = true;
         }
@@ -101,7 +92,7 @@ namespace DevMvcComponent.Mail {
         ///     Setup credentials automatic.
         /// </summary>
         private void SetupCredentials() {
-            Credentials = new NetworkCredential(SenderEmail, SenderEmailPassword);
+            Credentials = new NetworkCredential(SenderEmailAddress, SenderEmailPassword);
         }
 
         private void DefaultConfigarationSetup() {
@@ -109,29 +100,32 @@ namespace DevMvcComponent.Mail {
             EnableSsl = true;
             DeliveryMethod = SmtpDeliveryMethod.Network;
             Timeout = 100000;
-        }
+        } 
+        #endregion
 
         /// <summary>
         /// Get a new mail message.
+        /// Use SmtpClient to send that mail message.
         /// </summary>
         /// <param name="sender">Your mail address</param>
         /// <param name="receiver"></param>
         /// <param name="subject">Email subject</param>
-        /// <param name="body">email body</param>
+        /// <param name="body">emailAddress body</param>
         /// <param name="isHtmlBody">By default : true</param>
         /// <param name="bodyEncoding">By default : Encoding.UTF8</param>
         /// <returns></returns>
-        public MailMessage GetNewMailMessage(string sender, string receiver, string subject = "", string body = "", bool isHtmlBody = true, Encoding bodyEncoding = null) {
+        public MailMessage GetNewMailMessage(string sender, string receiver, string subject = "", string body = "", bool isHtmlBody = true, Encoding bodyEncoding = null, DeliveryNotificationOptions deliveryNotification = DeliveryNotificationOptions.OnFailure) {
             bodyEncoding = bodyEncoding ?? Encoding.UTF8;
             var mail = new MailMessage(sender, receiver) {
                 BodyEncoding = bodyEncoding,
-                DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure,
+                DeliveryNotificationOptions = deliveryNotification,
                 IsBodyHtml = isHtmlBody,
                 Body = body
             };
             return mail;
         }
 
+        #region Cloning Smtp
         /// <summary>
         /// Copy current smtp mailer to an new instance.
         /// </summary>
@@ -142,91 +136,60 @@ namespace DevMvcComponent.Mail {
         /// <summary>
         /// Copy any smtp mailer to an new instance.
         /// </summary>
-        /// <returns></returns>
-        public SmtpClient CloneSmtpClient(SmtpClient smpt) {
+        /// <returns>Returns a deep copy instance of the given object.</returns>
+        public SmtpClient CloneSmtpClient(SmtpClient smtp) {
             var mailSender = new SmtpClient();
-            mailSender.UseDefaultCredentials = smpt.UseDefaultCredentials;
-            mailSender.EnableSsl = smpt.EnableSsl;
-            mailSender.DeliveryMethod = smpt.DeliveryMethod;
-            mailSender.Timeout = smpt.Timeout;
-            mailSender.Credentials = smpt.Credentials;
-            mailSender.Port = smpt.Port;
-            mailSender.Host = smpt.Host;
+            mailSender.UseDefaultCredentials = smtp.UseDefaultCredentials;
+            mailSender.EnableSsl = smtp.EnableSsl;
+            mailSender.DeliveryMethod = smtp.DeliveryMethod;
+            mailSender.Timeout = smtp.Timeout;
+            mailSender.Credentials = smtp.Credentials;
+            mailSender.Port = smtp.Port;
+            mailSender.Host = smtp.Host;
             return mailSender;
-        }
+        } 
+        #endregion
+        #region Quick sending emailAddress methods with Attachments
 
         /// <summary>
-        ///     Send quick mail synchronously or  asynchronously.
-        /// </summary>
-        /// <param name="to">Comma to separate multiple email addresses.</param>
-        /// <param name="subject"></param>
-        /// <param name="body"></param>
-        /// <param name="type">Regular, CC, BCC</param>
-        /// <param name="searchForCommas"></param>
-        public void QuickSend(string to, string subject, string body, MailingType type = MailingType.RegularMail,
-            bool searchForCommas = false) {
-            if (IsConfigured && !to.IsEmpty()) {
-                var t = new Thread(() => {
-                    var mail = GetNewMailMessage(SenderEmail, to, subject,body);
-                    MailingAddressAttach(ref mail, to, type, searchForCommas);
-       
-                    try {
-                        var mailer = CloneSmtpClient();
-                        if (SendAsynchronousEmails) {
-                            mailer.SendAsync(mail, "none");
-                        } else {
-                            mailer.Send(mail);
-                        }
-                    } catch (Exception ex) {
-                        Console.WriteLine("Mail Sending Error: " + ex.Message);
-                        throw ex;
-                    }
-                });
-                t.Start();
-            } else {
-                throw new Exception(
-                    "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
-            }
-        }
-
-        /// <summary>
-        ///     Quickly send an email.
+        ///     Quickly send an emailAddress.
         /// </summary>
         /// <param name="to"></param>
-        /// <param name="carbonCopyEmails"></param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="type"></param>
+        /// <param name="searchCommas"></param>
+        /// <param name="attachments"></param>
+        /// <param name="async"></param>
+        /// <param name="userToken"></param>
+        /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
-        public void QuickSend(string to, string[] carbonCopyEmails, string subject, string body,
-            MailingType type = MailingType.CarbonCopy) {
-            if (IsConfigured && !to.IsEmpty()) {
-                var t = new Thread(() => {
-                    var mail = GetNewMailMessage(SenderEmail, to, subject, body);
-                    MailingAddressAttach(ref mail, to, carbonCopyEmails, type);
-                    try {
-                        var mailer = CloneSmtpClient();
-                        if (SendAsynchronousEmails) {
-                            mailer.SendAsync(mail, "none");
-                        } else {
-                            mailer.Send(mail);
-                        }
-                    } catch (Exception ex) {
-                        Console.WriteLine("Mail Sending Error: " + ex.Message);
-                        throw ex;
-                    }
-                });
-                t.Start();
-            } else {
-                throw new Exception(
-                    "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
-            }
+        public void QuickSend(
+            string to,
+            string subject,
+            string body,
+            MailingType type = MailingType.RegularMail,
+            bool searchCommas = true,
+            List<Attachment> attachments = null,
+            bool async = true,
+            object userToken = null,
+            SendCompletedEventHandler sendCompletedEventHandler = null) {
+            SendWithAttachments(
+                  mailingTo: to,
+                  subject: subject,
+                  body: body,
+                  attachments: attachments,
+                  type: type,
+                  searchCommas: searchCommas,
+                  async: async,
+                  userToken: userToken,
+                  sendCompletedEventHandler: sendCompletedEventHandler);
         }
 
         /// <summary>
         ///     Sends mail asynchronously.
         /// </summary>
-        /// <param name="to">Comma to seperate multiple email addresses.</param>
+        /// <param name="to">Comma to seperate multiple emailAddress addresses.</param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="from"></param>
@@ -234,60 +197,143 @@ namespace DevMvcComponent.Mail {
         /// <param name="type">Regular, CC, BCC</param>
         public void QuickSend(string to, string subject, string body, string from, string password,
             MailingType type = MailingType.RegularMail) {
-            var emailBack = SenderEmail;
+            var emailBack = SenderEmailAddress;
             var passwordBack = SenderEmailPassword;
 
-            SenderEmail = from;
+            SenderEmailAddress = from;
             SenderEmailPassword = password;
             SetupCredentials();
             QuickSend(to, subject, body);
 
-            SenderEmail = emailBack;
+            SenderEmailAddress = emailBack;
             SenderEmailPassword = passwordBack;
             SetupCredentials();
         }
 
         /// <summary>
+        /// Send emailAddress with attachments
         /// </summary>
-        /// <param name="to"></param>
+        /// <param name="mailingTo"></param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
-        /// <param name="fileName"></param>
+        /// <param name="attachments"></param>
         /// <param name="type"></param>
-        /// <param name="searchForCommas"></param>
+        /// <param name="searchCommas"></param>
+        /// <param name="async"></param>
+        /// <param name="userToken"></param>
+        /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
-        public void SendMailWithAttachments(string to, string subject, string body, string fileName,
-            MailingType type = MailingType.RegularMail, bool searchForCommas = false) {
-            if (IsConfigured && !to.IsEmpty()) {
-                var t = new Thread(() => {
-                    var mail = GetNewMailMessage(SenderEmail, to);
-                    MailingAddressAttach(ref mail, to, type, searchForCommas);
-                    mail.Subject = subject;
-                    mail.Body = body;
-                    try {
-                        var messageAttachment = new Attachment(fileName);
-                        mail.Attachments.Add(messageAttachment);
-                        var mailer = CloneSmtpClient();
-                        if (SendAsynchronousEmails) {
-                            new Thread(() => mailer.Send(mail)).Start();
-                        } else {
-                            mailer.Send(mail);
-                        }
-                    } catch (Exception ex) {
-                        Console.WriteLine("Mail Sending Error: " + ex.Message);
-                        throw ex;
+        public void SendWithAttachments(
+            string mailingTo,
+            string subject,
+            string body,
+            List<Attachment> attachments = null,
+            MailingType type = MailingType.RegularMail,
+            bool searchCommas = true,
+            bool async = true,
+            object userToken = null,
+            SendCompletedEventHandler sendCompletedEventHandler = null) {
+            var sendingToEmails = GetEmailAddressList(mailingTo, searchCommas);
+            SendWithAttachments(
+                mailingTos: sendingToEmails,
+                subject: subject,
+                body: body,
+                ccMails: null,
+                attachments: attachments,
+                type: type,
+                async: async,
+                userToken: userToken,
+                sendCompletedEventHandler: sendCompletedEventHandler);
+        }
+        
+        #endregion
+
+        #region Original Attachment Method
+
+        /// <summary>
+        /// Send emailAddress with attachments
+        /// </summary>
+        /// <param name="mailingTos"></param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="ccMails"></param>
+        /// <param name="attachments"></param>
+        /// <param name="type"></param>
+        /// <param name="async"></param>
+        /// <param name="userToken"></param>
+        /// <param name="sendCompletedEventHandler"></param>
+        /// <exception cref="Exception"></exception>
+        public void SendWithAttachments(
+            string[] mailingTos,
+            string subject,
+            string body,
+            string [] ccMails, 
+            List<Attachment> attachments = null,
+            MailingType type = MailingType.RegularMail,
+            bool async = true,
+            object userToken = null,
+            SendCompletedEventHandler sendCompletedEventHandler = null) {
+            if (IsConfigured && !mailingTos.IsEmpty()) {
+                var mail = GetNewMailMessage(SenderEmailAddress, "", subject, body);
+                MailingAddressAttach(ref mail, mailingTos, ccMails, type);
+                if (attachments != null) {
+                    foreach (var attachment in attachments) {
+                        mail.Attachments.Add(attachment);
                     }
-                });
-                t.Start();
+                }
+                var server = CloneSmtpClient();
+                var mailSendingWrapper = new MailSendingWrapper(server, mail);
+                SendMail(mailSendingWrapper, async, userToken, sendCompletedEventHandler);
             } else {
                 throw new Exception(
                     "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
             }
         }
+        
+        #endregion
+
+        #region Send emails
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mailWrapper"></param>
+        /// <param name="async"></param>
+        /// <param name="userToken"></param>
+        /// <param name="completeEvent">
+        /// private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e) {}
+        /// </param>
+        /// <returns></returns>
+        public void SendMail(MailSendingWrapper mailWrapper, bool async = true, object userToken = null, SendCompletedEventHandler completeEvent = null) {
+            var server = mailWrapper.MailServer;
+            var message = mailWrapper.MailMessage;
+            if (server != null && message != null) {
+                if (completeEvent != null) {
+                    server.SendCompleted += completeEvent;
+                }
+                if (async) {
+                    userToken = userToken ?? "None";
+                    server.SendAsync(message, userToken);
+                } else {
+                    server.Send(message);
+                }
+            }
+        }
+        #endregion
+
+        #region Mail address attachments
+
+        private string[] GetEmailAddressList(string mailingTos, bool searchComma = false) {
+            if (searchComma && !mailingTos.IsEmpty() && mailingTos.IndexOf(",", StringComparison.Ordinal) > -1) {
+                return mailingTos.Split(',').ToArray();
+            } else if (!mailingTos.IsEmpty()) {
+                return new string[] {mailingTos};
+            }
+            return null;
+        }
 
         private void MailingAddressAttach(ref MailMessage mail, string mailTo, MailingType type) {
             mail.To.Clear();
-
             if (type == MailingType.RegularMail) {
                 mail.To.Add(new MailAddress(mailTo));
             } else if (type == MailingType.CarbonCopy) {
@@ -297,34 +343,16 @@ namespace DevMvcComponent.Mail {
             }
         }
 
-        private void MailingAddressAttach(ref MailMessage mail, string mailTo, MailingType type, bool searchForComma) {
+     
+
+        private void MailingAddressAttach(ref MailMessage mail, string[] mailTos, string[] mailCc, MailingType type) {
             mail.To.Clear();
-            if (searchForComma && mailTo.IndexOf(",") > -1) {
-                var mailingAddresses = mailTo.Split(',').ToArray();
-                foreach (var address in mailingAddresses) {
-                    if (type == MailingType.RegularMail) {
-                        mail.To.Add(new MailAddress(address));
-                    } else if (type == MailingType.CarbonCopy) {
-                        mail.CC.Add(new MailAddress(address));
-                    } else {
-                        mail.Bcc.Add(new MailAddress(address));
-                    }
-                }
-            } else {
-                if (type == MailingType.RegularMail) {
-                    mail.To.Add(new MailAddress(mailTo));
-                } else if (type == MailingType.CarbonCopy) {
-                    mail.CC.Add(new MailAddress(mailTo));
-                } else {
-                    mail.Bcc.Add(new MailAddress(mailTo));
-                }
+            foreach (var mailTo in mailTos) {
+                mail.To.Add(new MailAddress(mailTo));
             }
-        }
-
-        private void MailingAddressAttach(ref MailMessage mail, string mailTo, string[] mailCc, MailingType type) {
-            mail.To.Clear();
-            mail.To.Add(new MailAddress(mailTo));
-
+            if (mailCc == null) {
+                return;
+            }
             foreach (var address in mailCc) {
                 if (type == MailingType.RegularMail) {
                     mail.To.Add(new MailAddress(address));
@@ -334,7 +362,9 @@ namespace DevMvcComponent.Mail {
                     mail.Bcc.Add(new MailAddress(address));
                 }
             }
-        }
+        } 
+        #endregion
+
 
         /// <summary>
         ///     Specific host setup. Must ensure the boolean isHostConfigured = true.

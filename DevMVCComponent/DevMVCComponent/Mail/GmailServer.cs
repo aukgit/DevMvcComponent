@@ -10,20 +10,20 @@
 
         /// <summary>
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="emailAddress"></param>
         /// <param name="password"></param>
-        public GmailServer(string email, string password) : base(email, password) {
+        public GmailServer(string emailAddress, string password) : base(emailAddress, password) {
             HostSetup();
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="emailAddress"></param>
         /// <param name="password"></param>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public GmailServer(string email, string password, string host, int port)
-            : base(email, password) {
+        public GmailServer(string emailAddress, string password, string host, int port)
+            : base(emailAddress, password) {
             HostSetup();
             Port = port;
             Host = host;

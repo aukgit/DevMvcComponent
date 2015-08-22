@@ -1,8 +1,10 @@
 ﻿#region using block
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
@@ -43,6 +45,38 @@ namespace DevMvcComponent.Extensions {
             value = null;
             GC.Collect();
             return (TNewType)x;
+        }
+
+        /// <summary>
+        ///     Object to binary 
+        /// </summary>
+        /// <param name="obj">Must be a Serializable object.</param>
+        /// <returns>Returns : null if given object is null.</returns>
+        public static byte[] ToBytesArray(this object obj) {
+            if (obj == null) { 
+                return null;
+            }
+            var bf = new BinaryFormatter();
+            var ms = new MemoryStream();
+            bf.Serialize(ms, obj);
+            return ms.ToArray();
+        }
+
+        /// <summary>
+        ///     Read Binary to Object
+        /// </summary>
+        /// <param name="arrBytes"></param>
+        /// <returns></returns>
+        public static object BinaryToObject(this byte[] arrBytes) {
+            if (arrBytes == null || arrBytes.Length == 0) {
+                return null;
+            }
+            var memStream = new MemoryStream();
+            var binForm = new BinaryFormatter();
+            memStream.Write(arrBytes, 0, arrBytes.Length);
+            memStream.Seek(0, SeekOrigin.Begin);
+            var obj = binForm.Deserialize(memStream);
+            return obj;
         }
     }
 }

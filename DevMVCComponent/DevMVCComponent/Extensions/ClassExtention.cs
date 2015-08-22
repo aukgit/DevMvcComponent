@@ -43,11 +43,10 @@ namespace DevMvcComponent.Extensions {
         /// <returns>Returns the list of properties in the class.</returns>
         public static List<string> GetPropertiesNames(this object objectType) {
             //var listOfPropertise = new List<string>(40);
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-                var properties = objectType.GetType().GetProperties(typeOfPropertise).Select(n => n.Name).ToList();
+                var properties = objectType.GetType().GetProperties(TypeOfPropertise).Select(n => n.Name).ToList();
                 return properties;
-                //foreach (var prop in propertise) {
+                //foreach (var prop in properties) {
                 //    /*object val = prop.GetValue(objectType, null);
                 //    string str = "";
                 //    str = String.Format("\n{0} : {1}", prop.Name.ToString(), val);
@@ -60,15 +59,14 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        ///     Returns null if no propertise are found.
+        ///     Returns null if no properties are found.
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
-        /// <returns>Returns the list of propertise in the class.</returns>
+        /// <returns>Returns the list of properties in the class.</returns>
         public static PropertyInfo[] GetProperties(this object objectType) {
             //var listOfPropertise = new List<string>(40);
-            var typeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
             if (objectType != null) {
-                var properties = objectType.GetType().GetProperties(typeOfPropertise);
+                var properties = objectType.GetType().GetProperties(TypeOfPropertise);
                 return properties;
             }
             return null;

@@ -83,12 +83,15 @@
     <Compile Include="Extensions\DirectoryExtension.cs" />
     <Compile Include="Extensions\OneTypeToAnother.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Hashing\BaseHasher.cs" />
     <Compile Include="Hashing\Hasher.cs" />
-    <Compile Include="Hashing\ShA1.cs" />
-    <Compile Include="Hashing\Md5.cs" />
+    <Compile Include="Hashing\Sha1Hasher.cs" />
+    <Compile Include="Hashing\Md5Hasher.cs" />
     <Compile Include="EntityConversion\ObjectToArrary.cs" />
     <Compile Include="Global\Constants.cs" />
     <Compile Include="DataTypeFormat\ObjectProperty.cs" />
+    <Compile Include="Mail\MailSendingWrapper.cs" />
+    <Compile Include="Extensions\BinaryFileExtenstion.cs" />
     <Compile Include="Pagination\Pagination.cs">
       <SubType>Code</SubType>
     </Compile>

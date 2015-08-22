@@ -1,6 +1,7 @@
 ﻿#region using block
 
 using System;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -53,6 +54,15 @@ namespace DevMvcComponent.DataTypeFormat {
         }
 
         /// <summary>
+        ///     If data type is number(int, decimal, float or single etc...) then return true.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns>Returns : true if data-type is number(int, decimal, float or single etc...)</returns>
+        public static bool IsStringNumber(string o) {
+            return Regex.IsMatch(o, @"^\d+.\d+$");
+        }
+
+        /// <summary>
         ///     If data type is non-floating point(long,int,single, byte) number then return true.
         /// </summary>
         /// <param name="o"></param>
@@ -76,6 +86,15 @@ namespace DevMvcComponent.DataTypeFormat {
         /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
         public static bool IsNonFloatingPointNumber(object o) {
             return IsIntOrLongOrByte(o);
+        }
+
+        /// <summary>
+        ///     If data type is non-floating point(long,int,single, byte) number then return true.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        public static bool IsStringNonFloatingPointNumber(string o) {
+            return Regex.IsMatch(o,@"^\d+$");
         }
 
         /// <summary>

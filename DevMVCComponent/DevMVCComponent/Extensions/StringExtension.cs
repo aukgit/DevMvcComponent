@@ -129,44 +129,16 @@ namespace DevMvcComponent.Extensions {
         /// <param name="value"></param>
         /// <returns>Returns : true if data-type is number(int, decimal, float or single etc...)</returns>
         public static bool IsNumber(this string value) {
-            return TypeChecker.IsNumber(value);
+            return TypeChecker.IsStringNumber(value);
         }
 
         /// <summary>
-        ///     If data type is non-floating point(long,int,single, byte) number then return true.
+        ///     If data type is floating point(double, decimal, float, single byte) then return true.
         /// </summary>
         /// <param name="value"></param>
-        /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
-        public static bool IsIntOrLongOrByte(this string value) {
-            return TypeChecker.IsIntOrLongOrByte(value);
-
-        }
-
-        /// <summary>
-        ///     If data type is non-floating point(long,int,single, byte) number then return true.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
         public static bool IsNonFloatingPointNumber(this string value) {
-            return TypeChecker.IsNonFloatingPointNumber(value);
-        }
-
-        /// <summary>
-        ///     If data type is floating point(double, decimal, float, single byte) then return true.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
-        public static bool IsDoubleOrDecimalOrFloat(this string value) {
-            return TypeChecker.IsDoubleOrDecimalOrFloat(value);
-        }
-
-        /// <summary>
-        ///     If data type is floating point(double, decimal, float, single byte) then return true.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
-        public static bool IsFloatingPointNumber(this string value) {
-            return TypeChecker.IsFloatingPointNumber(value);
+            return TypeChecker.IsStringNonFloatingPointNumber(value);
         }
 
         #endregion
