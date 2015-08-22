@@ -2,33 +2,38 @@
 
 using System.Reflection;
 using DevMvcComponent.Error;
-using DevMvcComponent.Mailer;
+using DevMvcComponent.Mail;
 using DevMvcComponent.Processor;
 
 #endregion
 
 namespace DevMvcComponent {
     /// <summary>
+    ///     It's direct singleton pattern class in C#.
     ///     Must setup this starter class and Config class.
+    ///     Note: In java you need to follow traditional singleton pattern , 
+    ///           however in C# you don't require that Instance variable because it already has static keyword.
     /// </summary>
-    public static class Starter {
+    public static class Mvc {
         /// <summary>
         ///     Handles all kinds of errors and then finally sends an email to the client.
         /// </summary>
         public static Handler Error;
 
         /// <summary>
+        /// Cookies are client specific.
         /// </summary>
         public static CookieProcessor Cookies;
 
         /// <summary>
+        /// Caches are application specific.
         /// </summary>
         public static CacheProcessor Caches;
 
         /// <summary>
         ///     Must re-setup with appropriate developer credentials.
         /// </summary>
-        public static MailConfig Mailer;
+        public static MailServer Mailer;
 
         /// <summary>
         ///     Setup the component plugin.
@@ -42,7 +47,7 @@ namespace DevMvcComponent {
         ///     new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
         ///     By default email sender is async , to make it sync you can use property on MailConfig.SendAsynchronousEmails = false;
         /// </param>
-        public static void Setup(string applicationName, string developerEmail, Assembly assembly, MailConfig mailer) {
+        public static void Setup(string applicationName, string developerEmail, Assembly assembly, MailServer mailer) {
             Config.ApplicationName = applicationName;
             Config.DeveloperEmail = developerEmail;
             //Configure this with add a sender email.
@@ -89,7 +94,7 @@ namespace DevMvcComponent {
             string senderPassword, string hostName, int senderPort, bool isSSL) {
            
             //Configure this with add a sender email.
-            Mailer = new CustomMailConfig(senderEmail, senderPassword, hostName, senderPort, isSSL); //
+            Mailer = new CustomMailServer(senderEmail, senderPassword, hostName, senderPort, isSSL); //
 
             Setup(applicationName, developerEmail, assembly, Mailer);
         }

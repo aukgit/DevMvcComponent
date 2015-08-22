@@ -46,7 +46,7 @@ namespace DevMVCComponent.Mailers {
             }
             return t;
         }
-        
+
         #endregion
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace DevMVCComponent.Mailers {
         /// <param name="mail"></param>
         /// <param name="subject"></param>
         /// <param name="to"></param>
-        public void Send(MailMessage mail, string subject = "",  string to = "") {
+        public void Send(MailMessage mail, string subject = "", string to = "") {
             mail = SetMailDefaults(mail);
             if (subject != null && subject == "") {
-                mail.Subject = subject;            
+                mail.Subject = subject;
             }
 
             if (to != null && to != "") {
@@ -86,9 +86,9 @@ namespace DevMVCComponent.Mailers {
                 }).Start();
             } catch (Exception) {
 
-            }  
+            }
         }
     }
 
-    
+
 }

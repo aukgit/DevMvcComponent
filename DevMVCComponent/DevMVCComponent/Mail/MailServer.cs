@@ -11,11 +11,11 @@ using DevMvcComponent.Extensions;
 
 #endregion
 
-namespace DevMvcComponent.Mailer {
+namespace DevMvcComponent.Mail {
     /// <summary>
     ///     Must configure this to your smtpclient
     /// </summary>
-    public abstract class MailConfig : SmtpClient {
+    public abstract class MailServer : SmtpClient {
         private bool _async = true;
         private bool _isCredentialConfigured;
         private string _senderMail;
@@ -29,7 +29,7 @@ namespace DevMvcComponent.Mailer {
         ///     DeliveryMethod = SmtpDeliveryMethod.Network;
         ///     Timeout = 10000;
         /// </summary>
-        protected MailConfig() {
+        protected MailServer() {
             DefaultConfigarationSetup();
         }
 
@@ -37,7 +37,7 @@ namespace DevMvcComponent.Mailer {
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public MailConfig(string email, string password) {
+        public MailServer(string email, string password) {
             DefaultConfigarationSetup();
             SenderEmail = email;
             SenderEmailPassword = password;
@@ -111,32 +111,54 @@ namespace DevMvcComponent.Mailer {
             Timeout = 100000;
         }
 
+        /// <summary>
+        /// Get a new mail message.
+        /// </summary>
         /// <param name="sender">Your mail address</param>
         /// <param name="receiver"></param>
-        private MailMessage MailSetup(string sender, string receiver) {
-            var mail = new MailMessage(sender, receiver);
-            mail.BodyEncoding = Encoding.UTF8;
-            mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-            mail.IsBodyHtml = true;
+        /// <param name="subject">Email subject</param>
+        /// <param name="body">email body</param>
+        /// <param name="isHtmlBody">By default : true</param>
+        /// <param name="bodyEncoding">By default : Encoding.UTF8</param>
+        /// <returns></returns>
+        public MailMessage GetNewMailMessage(string sender, string receiver, string subject = "", string body = "", bool isHtmlBody = true, Encoding bodyEncoding = null) {
+            bodyEncoding = bodyEncoding ?? Encoding.UTF8;
+            var mail = new MailMessage(sender, receiver) {
+                BodyEncoding = bodyEncoding,
+                DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure,
+                IsBodyHtml = isHtmlBody,
+                Body = body
+            };
             return mail;
         }
 
-        private SmtpClient CopySmtpClient() {
+        /// <summary>
+        /// Copy current smtp mailer to an new instance.
+        /// </summary>
+        /// <returns></returns>
+        public SmtpClient CloneSmtpClient() {
+            return CloneSmtpClient(this);
+        }
+        /// <summary>
+        /// Copy any smtp mailer to an new instance.
+        /// </summary>
+        /// <returns></returns>
+        public SmtpClient CloneSmtpClient(SmtpClient smpt) {
             var mailSender = new SmtpClient();
-            mailSender.UseDefaultCredentials = UseDefaultCredentials;
-            mailSender.EnableSsl = EnableSsl;
-            mailSender.DeliveryMethod = DeliveryMethod;
-            mailSender.Timeout = Timeout;
-            mailSender.Credentials = Credentials;
-            mailSender.Port = Port;
-            mailSender.Host = Host;
+            mailSender.UseDefaultCredentials = smpt.UseDefaultCredentials;
+            mailSender.EnableSsl = smpt.EnableSsl;
+            mailSender.DeliveryMethod = smpt.DeliveryMethod;
+            mailSender.Timeout = smpt.Timeout;
+            mailSender.Credentials = smpt.Credentials;
+            mailSender.Port = smpt.Port;
+            mailSender.Host = smpt.Host;
             return mailSender;
         }
 
         /// <summary>
-        ///     Sends mail asynchronously.
+        ///     Send quick mail synchronously or  asynchronously.
         /// </summary>
-        /// <param name="to">Comma to seperate multiple email addresses.</param>
+        /// <param name="to">Comma to separate multiple email addresses.</param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="type">Regular, CC, BCC</param>
@@ -145,12 +167,11 @@ namespace DevMvcComponent.Mailer {
             bool searchForCommas = false) {
             if (IsConfigured && !to.IsEmpty()) {
                 var t = new Thread(() => {
-                    var mail = MailSetup(SenderEmail, to);
+                    var mail = GetNewMailMessage(SenderEmail, to, subject,body);
                     MailingAddressAttach(ref mail, to, type, searchForCommas);
-                    mail.Subject = subject;
-                    mail.Body = body;
+       
                     try {
-                        var mailer = CopySmtpClient();
+                        var mailer = CloneSmtpClient();
                         if (SendAsynchronousEmails) {
                             mailer.SendAsync(mail, "none");
                         } else {
@@ -181,12 +202,10 @@ namespace DevMvcComponent.Mailer {
             MailingType type = MailingType.CarbonCopy) {
             if (IsConfigured && !to.IsEmpty()) {
                 var t = new Thread(() => {
-                    var mail = MailSetup(SenderEmail, to);
+                    var mail = GetNewMailMessage(SenderEmail, to, subject, body);
                     MailingAddressAttach(ref mail, to, carbonCopyEmails, type);
-                    mail.Subject = subject;
-                    mail.Body = body;
                     try {
-                        var mailer = CopySmtpClient();
+                        var mailer = CloneSmtpClient();
                         if (SendAsynchronousEmails) {
                             mailer.SendAsync(mail, "none");
                         } else {
@@ -241,14 +260,14 @@ namespace DevMvcComponent.Mailer {
             MailingType type = MailingType.RegularMail, bool searchForCommas = false) {
             if (IsConfigured && !to.IsEmpty()) {
                 var t = new Thread(() => {
-                    var mail = MailSetup(SenderEmail, to);
+                    var mail = GetNewMailMessage(SenderEmail, to);
                     MailingAddressAttach(ref mail, to, type, searchForCommas);
                     mail.Subject = subject;
                     mail.Body = body;
                     try {
                         var messageAttachment = new Attachment(fileName);
                         mail.Attachments.Add(messageAttachment);
-                        var mailer = CopySmtpClient();
+                        var mailer = CloneSmtpClient();
                         if (SendAsynchronousEmails) {
                             new Thread(() => mailer.Send(mail)).Start();
                         } else {

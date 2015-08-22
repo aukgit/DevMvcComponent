@@ -80,9 +80,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\OneEntityToAnotherExtension.cs" />
+    <Compile Include="Extensions\DirectoryExtension.cs" />
+    <Compile Include="Extensions\OneTypeToAnother.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Hashing\Hasher.cs" />
+    <Compile Include="Hashing\ShA1.cs" />
     <Compile Include="Hashing\Md5.cs" />
     <Compile Include="EntityConversion\ObjectToArrary.cs" />
     <Compile Include="Global\Constants.cs" />
@@ -96,22 +98,23 @@
     <Compile Include="Processor\CacheProcessor.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Processor\CookieProcessor.cs" />
-    <Compile Include="Database\DataTypeSupport.cs" />
+    <Compile Include="DataTypeFormat\TypeChecker.cs" />
     <Compile Include="EntityConversion\EntityToString.cs" />
     <Compile Include="Encryption\Cryptography.cs" />
     <Compile Include="Enums\CommonEnums.cs" />
     <Compile Include="DataTypeFormat\BasicError.cs" />
     <Compile Include="Error\Handler.cs" />
-    <Compile Include="Mailer\CustomMailConfig.cs" />
-    <Compile Include="Mailer\GmailConfig.cs" />
-    <Compile Include="Mailer\MailConfig.cs" />
+    <Compile Include="Mail\CustomMailServer.cs" />
+    <Compile Include="Mail\GmailServer.cs" />
+    <Compile Include="Mail\MailServer.cs" />
     <Compile Include="Extensions\ClassExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Starter.cs" />
+    <Compile Include="Mvc.cs" />
     <Compile Include="Error\ErrorCollector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppData\" />
+    <Folder Include="Database\" />
     <Folder Include="Miscellaneous\" />
   </ItemGroup>
   <ItemGroup>

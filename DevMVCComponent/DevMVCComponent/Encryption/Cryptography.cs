@@ -64,10 +64,10 @@
                     if (assumeLen > len) {
                         //give the last digits calculations
                         //such as if I have 32 digits and want to divide by 5 then at last we will have to pass
-                        pointDiv = len%pointDiv;
+                        pointDiv = len % pointDiv;
                     }
                 }
-                ReturnNow:
+            ReturnNow:
                 return ncode;
             }
             return "";

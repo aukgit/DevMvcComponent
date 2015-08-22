@@ -55,7 +55,7 @@ namespace DevMvcComponent.Pagination {
             var cachePages = pages ?? -1;
 
             if (!string.IsNullOrEmpty(cacheName)) {
-                var cachePagesString = Starter.Caches.GetString(cacheName);
+                var cachePagesString = Mvc.Caches.GetString(cacheName);
                 if (cachePagesString != null) {
                     cachePages = int.Parse(cachePagesString);
                     pages = cachePages;
@@ -65,7 +65,7 @@ namespace DevMvcComponent.Pagination {
                 decimal pagesExist = 1;
                 pagesExist = entities.Count() / (decimal)items;
                 pages = (int)Math.Ceiling(pagesExist);
-                Starter.Caches.Set(cacheName, pages);
+                Mvc.Caches.Set(cacheName, pages);
             }
 
             return entities.Skip(skip).Take(take);
@@ -100,7 +100,7 @@ namespace DevMvcComponent.Pagination {
             var cachePages = pageInfo.PagesExists == null ? -1 : (int)pageInfo.PagesExists;
             var saveCache = false;
             if (!string.IsNullOrEmpty(cacheName)) {
-                var cachePagesString = Starter.Caches.GetString(cacheName);
+                var cachePagesString = Mvc.Caches.GetString(cacheName);
                 if (cachePagesString != null) {
                     cachePages = int.Parse(cachePagesString);
                     pageInfo.PagesExists = cachePages;
@@ -115,7 +115,7 @@ namespace DevMvcComponent.Pagination {
                 pageInfo.PagesExists = cachePages;
             }
             if (saveCache) {
-                Starter.Caches.Set(cacheName, pageInfo.PagesExists);
+                Mvc.Caches.Set(cacheName, pageInfo.PagesExists);
             }
             return entities.Skip(skip).Take(take);
         }
@@ -153,7 +153,7 @@ namespace DevMvcComponent.Pagination {
             var cachePages = pages == null ? -1 : (int)pages;
 
             if (!string.IsNullOrEmpty(cacheName)) {
-                string cachePagesString = Starter.Caches.GetString(cacheName);
+                string cachePagesString = Mvc.Caches.GetString(cacheName);
                 if (cachePagesString != null) {
                     cachePages = int.Parse(cachePagesString);
                     pages = cachePages;
@@ -163,7 +163,7 @@ namespace DevMvcComponent.Pagination {
                 decimal pagesExist = 1;
                 pagesExist = entities.Count() / (decimal)items;
                 pages = (int)Math.Ceiling(pagesExist);
-                Starter.Caches.Set(cacheName, pages);
+                Mvc.Caches.Set(cacheName, pages);
             }
 
             return entities.Skip(skip).Take(take);
@@ -198,7 +198,7 @@ namespace DevMvcComponent.Pagination {
             var cachePages = pageInfo.PagesExists == null ? -1 : (int)pageInfo.PagesExists;
             var saveCache = false;
             if (!string.IsNullOrEmpty(cacheName)) {
-                var cachePagesString = Starter.Caches.GetString(cacheName);
+                var cachePagesString = Mvc.Caches.GetString(cacheName);
                 if (cachePagesString != null) {
                     cachePages = int.Parse(cachePagesString);
                     pageInfo.PagesExists = cachePages;
@@ -213,7 +213,7 @@ namespace DevMvcComponent.Pagination {
                 pageInfo.PagesExists = cachePages;
             }
             if (saveCache) {
-                Starter.Caches.Set(cacheName, pageInfo.PagesExists);
+                Mvc.Caches.Set(cacheName, pageInfo.PagesExists);
             }
             return entities.Skip(skip).Take(take);
         }

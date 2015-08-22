@@ -1,10 +1,10 @@
-﻿namespace DevMvcComponent.Mailer {
+﻿namespace DevMvcComponent.Mail {
     /// <summary>
     /// </summary>
-    public class GmailConfig : MailConfig {
+    public class GmailServer : MailServer {
         /// <summary>
         /// </summary>
-        public GmailConfig() {
+        public GmailServer() {
             HostSetup();
         }
 
@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public GmailConfig(string email, string password) : base(email, password) {
+        public GmailServer(string email, string password) : base(email, password) {
             HostSetup();
         }
 
@@ -22,7 +22,7 @@
         /// <param name="password"></param>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public GmailConfig(string email, string password, string host, int port)
+        public GmailServer(string email, string password, string host, int port)
             : base(email, password) {
             HostSetup();
             Port = port;

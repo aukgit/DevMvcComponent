@@ -4,12 +4,12 @@
         <name>DevMvcComponent</name>
     </assembly>
     <members>
-        <member name="T:DevMvcComponent.Extensions.OneEntityToAnotherExtension">
+        <member name="T:DevMvcComponent.Extensions.OneTypeToAnother">
             <summary>
                 Convert one entity to another if there is matching properties.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:DevMvcComponent.Extensions.OneEntityToAnotherExtension.Cast``2(``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:DevMvcComponent.Extensions.OneTypeToAnother.Cast``2(``0)" -->
         <member name="T:DevMvcComponent.Extensions.StringExtension">
             <summary>
             String extensions
@@ -58,6 +58,41 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.IsNumber(System.String)">
+            <summary>
+                If data type is number(int, decimal, float or single etc...) then return true.
+            </summary>
+            <param name="value"></param>
+            <returns>Returns : true if data-type is number(int, decimal, float or single etc...)</returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.IsIntOrLongOrByte(System.String)">
+            <summary>
+                If data type is non-floating point(long,int,single, byte) number then return true.
+            </summary>
+            <param name="value"></param>
+            <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.IsNonFloatingPointNumber(System.String)">
+            <summary>
+                If data type is non-floating point(long,int,single, byte) number then return true.
+            </summary>
+            <param name="value"></param>
+            <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.IsDoubleOrDecimalOrFloat(System.String)">
+            <summary>
+                If data type is floating point(double, decimal, float, single byte) then return true.
+            </summary>
+            <param name="value"></param>
+            <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.IsFloatingPointNumber(System.String)">
+            <summary>
+                If data type is floating point(double, decimal, float, single byte) then return true.
+            </summary>
+            <param name="value"></param>
+            <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
         </member>
         <member name="T:DevMvcComponent.Hashing.Hasher">
             <summary>
@@ -466,7 +501,6 @@
             <summary>
                 Pass Base.ControllerContext
             </summary>
-            <param name="baseContext">Pass this.HttpContext</param>
             <param name="cookieName">Pass the default cookie name.</param>
         </member>
         <member name="M:DevMvcComponent.Processor.CookieProcessor.Save(System.Object)">
@@ -492,7 +526,7 @@
             <param name="Object">Pass the object</param>
             <param name="checkBeforeExist">Don't save if already exist.</param>
         </member>
-        <member name="M:DevMvcComponent.Processor.CookieProcessor.Save(System.Object,System.String,System.DateTime)">
+        <member name="M:DevMvcComponent.Processor.CookieProcessor.Save(System.Object,System.String,System.Nullable{System.DateTime})">
             <summary>
                 Save a single object as cookie.
                 Save in Response.
@@ -501,7 +535,7 @@
             <param name="cookieName">Cookie name , pass null if constructor CookieName is valid.</param>
             <param name="expiration"></param>
         </member>
-        <member name="M:DevMvcComponent.Processor.CookieProcessor.Save(System.Object,System.String,System.Boolean,System.DateTime)">
+        <member name="M:DevMvcComponent.Processor.CookieProcessor.Save(System.Object,System.String,System.Boolean,System.Nullable{System.DateTime})">
             <summary>
                 Save a single object as cookie.
                 Save in Response.
@@ -596,19 +630,55 @@
             <param name="cookieName"></param>
             <returns>Return Date time or null.</returns>
         </member>
-        <member name="T:DevMvcComponent.Database.DataTypeSupport">
+        <member name="T:DevMvcComponent.DataTypeFormat.TypeChecker">
             <summary>
                 Data type supporting class, which check whether
-                the data type is known(guid, datetime, number etc...) or a custom type.
+                the data type is known(Guid, Datetime, number etc...) or a custom type.
                 If known then get the value for other task.
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Database.DataTypeSupport.IsSupport(System.Object)">
+        <member name="M:DevMvcComponent.DataTypeFormat.TypeChecker.IsPrimitiveOrGuid(System.Object)">
             <summary>
-                If datatype is known(guid, datetime, number etc...)
+                If data type is known(Guid, Datetime, number etc...) or primitive then returns true.
+                It only detects which data-types can be directly converted to string.
             </summary>
             <param name="o"></param>
-            <returns>True if datatype is number, bool , guid or string</returns>
+            <returns>Returns : true if data-type is primitive type or Guid (check MSDN for more info)</returns>
+        </member>
+        <member name="M:DevMvcComponent.DataTypeFormat.TypeChecker.IsNumber(System.Object)">
+            <summary>
+                If data type is number(int, decimal, float or single etc...) then return true.
+            </summary>
+            <param name="o"></param>
+            <returns>Returns : true if data-type is number(int, decimal, float or single etc...)</returns>
+        </member>
+        <member name="M:DevMvcComponent.DataTypeFormat.TypeChecker.IsIntOrLongOrByte(System.Object)">
+            <summary>
+                If data type is non-floating point(long,int,single, byte) number then return true.
+            </summary>
+            <param name="o"></param>
+            <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        </member>
+        <member name="M:DevMvcComponent.DataTypeFormat.TypeChecker.IsNonFloatingPointNumber(System.Object)">
+            <summary>
+                If data type is non-floating point(long,int,single, byte) number then return true.
+            </summary>
+            <param name="o"></param>
+            <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        </member>
+        <member name="M:DevMvcComponent.DataTypeFormat.TypeChecker.IsDoubleOrDecimalOrFloat(System.Object)">
+            <summary>
+                If data type is floating point(double, decimal, float, single byte) then return true.
+            </summary>
+            <param name="o"></param>
+            <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
+        </member>
+        <member name="M:DevMvcComponent.DataTypeFormat.TypeChecker.IsFloatingPointNumber(System.Object)">
+            <summary>
+                If data type is floating point(double, decimal, float, single byte) then return true.
+            </summary>
+            <param name="o"></param>
+            <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
         </member>
         <member name="T:DevMvcComponent.EntityConversion.EntityToString">
             <summary>
@@ -725,6 +795,7 @@
         </member>
         <member name="F:DevMvcComponent.Enums.DateTimeFormatType.Date">
             <summary>
+            Date format
             </summary>
         </member>
         <member name="F:DevMvcComponent.Enums.DateTimeFormatType.Time">
@@ -753,14 +824,17 @@
         </member>
         <member name="F:DevMvcComponent.Enums.MailingType.RegularMail">
             <summary>
+            Regular email category
             </summary>
         </member>
         <member name="F:DevMvcComponent.Enums.MailingType.CarbonCopy">
             <summary>
+            Carbon copy email category
             </summary>
         </member>
         <member name="F:DevMvcComponent.Enums.MailingType.MailBlindCarbonCopy">
             <summary>
+            Blind carbon copy category.
             </summary>
         </member>
         <member name="T:DevMvcComponent.DataTypeFormat.BasicError">
@@ -923,7 +997,7 @@
             <param name="subject"></param>
             <param name="entity"></param>
         </member>
-        <member name="T:DevMvcComponent.Mailer.CustomMailConfig">
+        <member name="T:DevMvcComponent.Mail.CustomMailServer">
             <summary>
                 Any mail server generic config methods.
                 There is no need to inherit MailConfig all the time.
@@ -931,12 +1005,12 @@
                 then initialize it in the starter.
             </summary>
         </member>
-        <member name="T:DevMvcComponent.Mailer.MailConfig">
+        <member name="T:DevMvcComponent.Mail.MailServer">
             <summary>
                 Must configure this to your smtpclient
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.#ctor">
+        <member name="M:DevMvcComponent.Mail.MailServer.#ctor">
             <summary>
                 By default:
                 UseDefaultCredentials = false;
@@ -945,39 +1019,59 @@
                 Timeout = 10000;
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.#ctor(System.String,System.String)">
+        <member name="M:DevMvcComponent.Mail.MailServer.#ctor(System.String,System.String)">
             <summary>
             </summary>
             <param name="email"></param>
             <param name="password"></param>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.ChangeCredentials(System.String,System.String)">
+        <member name="M:DevMvcComponent.Mail.MailServer.ChangeCredentials(System.String,System.String)">
             <summary>
                 Change Credentials
             </summary>
             <param name="email"></param>
             <param name="password"></param>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.SetupCredentials">
+        <member name="M:DevMvcComponent.Mail.MailServer.SetupCredentials">
             <summary>
                 Setup credentials automatic.
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.MailSetup(System.String,System.String)">
+        <member name="M:DevMvcComponent.Mail.MailServer.GetNewMailMessage(System.String,System.String,System.String,System.String,System.Boolean,System.Text.Encoding)">
+            <summary>
+            Get a new mail message.
+            </summary>
             <param name="sender">Your mail address</param>
             <param name="receiver"></param>
+            <param name="subject">Email subject</param>
+            <param name="body">email body</param>
+            <param name="isHtmlBody">By default : true</param>
+            <param name="bodyEncoding">By default : Encoding.UTF8</param>
+            <returns></returns>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.QuickSend(System.String,System.String,System.String,DevMvcComponent.Enums.MailingType,System.Boolean)">
+        <member name="M:DevMvcComponent.Mail.MailServer.CloneSmtpClient">
             <summary>
-                Sends mail asynchronously.
+            Copy current smtp mailer to an new instance.
             </summary>
-            <param name="to">Comma to seperate multiple email addresses.</param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Mail.MailServer.CloneSmtpClient(System.Net.Mail.SmtpClient)">
+            <summary>
+            Copy any smtp mailer to an new instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Mail.MailServer.QuickSend(System.String,System.String,System.String,DevMvcComponent.Enums.MailingType,System.Boolean)">
+            <summary>
+                Send quick mail synchronously or  asynchronously.
+            </summary>
+            <param name="to">Comma to separate multiple email addresses.</param>
             <param name="subject"></param>
             <param name="body"></param>
             <param name="type">Regular, CC, BCC</param>
             <param name="searchForCommas"></param>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.QuickSend(System.String,System.String[],System.String,System.String,DevMvcComponent.Enums.MailingType)">
+        <member name="M:DevMvcComponent.Mail.MailServer.QuickSend(System.String,System.String[],System.String,System.String,DevMvcComponent.Enums.MailingType)">
             <summary>
                 Quickly send an email.
             </summary>
@@ -988,7 +1082,7 @@
             <param name="type"></param>
             <exception cref="T:System.Exception"></exception>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.QuickSend(System.String,System.String,System.String,System.String,System.String,DevMvcComponent.Enums.MailingType)">
+        <member name="M:DevMvcComponent.Mail.MailServer.QuickSend(System.String,System.String,System.String,System.String,System.String,DevMvcComponent.Enums.MailingType)">
             <summary>
                 Sends mail asynchronously.
             </summary>
@@ -999,7 +1093,7 @@
             <param name="password"></param>
             <param name="type">Regular, CC, BCC</param>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.SendMailWithAttachments(System.String,System.String,System.String,System.String,DevMvcComponent.Enums.MailingType,System.Boolean)">
+        <member name="M:DevMvcComponent.Mail.MailServer.SendMailWithAttachments(System.String,System.String,System.String,System.String,DevMvcComponent.Enums.MailingType,System.Boolean)">
             <summary>
             </summary>
             <param name="to"></param>
@@ -1010,33 +1104,33 @@
             <param name="searchForCommas"></param>
             <exception cref="T:System.Exception"></exception>
         </member>
-        <member name="M:DevMvcComponent.Mailer.MailConfig.HostSetup">
+        <member name="M:DevMvcComponent.Mail.MailServer.HostSetup">
             <summary>
                 Specific host setup. Must ensure the boolean isHostConfigured = true.
             </summary>
             <param name="host">for example gmail: smtp.gmail.com</param>
             <param name="port">for example gmail enablessl port: 587</param>
         </member>
-        <member name="P:DevMvcComponent.Mailer.MailConfig.SenderEmail">
+        <member name="P:DevMvcComponent.Mail.MailServer.SenderEmail">
             <summary>
                 Setup credentials automatic.
             </summary>
         </member>
-        <member name="P:DevMvcComponent.Mailer.MailConfig.SenderEmailPassword">
+        <member name="P:DevMvcComponent.Mail.MailServer.SenderEmailPassword">
             <summary>
                 Setup credentials automatic.
             </summary>
         </member>
-        <member name="P:DevMvcComponent.Mailer.MailConfig.SendAsynchronousEmails">
+        <member name="P:DevMvcComponent.Mail.MailServer.SendAsynchronousEmails">
             <summary>
                 Default = true
             </summary>
         </member>
-        <member name="P:DevMvcComponent.Mailer.MailConfig.IsConfigured">
+        <member name="P:DevMvcComponent.Mail.MailServer.IsConfigured">
             <summary>
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Mailer.CustomMailConfig.#ctor(System.String,System.String,System.String,System.Int32)">
+        <member name="M:DevMvcComponent.Mail.CustomMailServer.#ctor(System.String,System.String,System.String,System.Int32)">
             <summary>
                 SSL true
             </summary>
@@ -1045,7 +1139,7 @@
             <param name="host"></param>
             <param name="port"></param>
         </member>
-        <member name="M:DevMvcComponent.Mailer.CustomMailConfig.#ctor(System.String,System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:DevMvcComponent.Mail.CustomMailServer.#ctor(System.String,System.String,System.String,System.Int32,System.Boolean)">
             <summary>
             </summary>
             <param name="email"></param>
@@ -1054,21 +1148,21 @@
             <param name="port"></param>
             <param name="isSsl"></param>
         </member>
-        <member name="T:DevMvcComponent.Mailer.GmailConfig">
+        <member name="T:DevMvcComponent.Mail.GmailServer">
             <summary>
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Mailer.GmailConfig.#ctor">
+        <member name="M:DevMvcComponent.Mail.GmailServer.#ctor">
             <summary>
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Mailer.GmailConfig.#ctor(System.String,System.String)">
+        <member name="M:DevMvcComponent.Mail.GmailServer.#ctor(System.String,System.String)">
             <summary>
             </summary>
             <param name="email"></param>
             <param name="password"></param>
         </member>
-        <member name="M:DevMvcComponent.Mailer.GmailConfig.#ctor(System.String,System.String,System.String,System.Int32)">
+        <member name="M:DevMvcComponent.Mail.GmailServer.#ctor(System.String,System.String,System.String,System.Int32)">
             <summary>
             </summary>
             <param name="email"></param>
@@ -1109,30 +1203,32 @@
             <param name="objectType">Type of any object/class/</param>
             <returns>Returns the list of properties with values in the class.</returns>
         </member>
-        <member name="T:DevMvcComponent.Starter">
+        <member name="T:DevMvcComponent.Mvc">
             <summary>
+                It's direct singleton pattern class in C#.
                 Must setup this starter class and Config class.
+                Note: In java you need to follow traditional singleton pattern , however in C# you don't require that Instance variable because it already has static keyword.
             </summary>
         </member>
-        <member name="F:DevMvcComponent.Starter.Error">
+        <member name="F:DevMvcComponent.Mvc.Error">
             <summary>
                 Handles all kinds of errors and then finally sends an email to the client.
             </summary>
         </member>
-        <member name="F:DevMvcComponent.Starter.Cookies">
+        <member name="F:DevMvcComponent.Mvc.Cookies">
             <summary>
             </summary>
         </member>
-        <member name="F:DevMvcComponent.Starter.Caches">
+        <member name="F:DevMvcComponent.Mvc.Caches">
             <summary>
             </summary>
         </member>
-        <member name="F:DevMvcComponent.Starter.Mailer">
+        <member name="F:DevMvcComponent.Mvc.Mailer">
             <summary>
                 Must re-setup with appropriate developer credentials.
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,DevMvcComponent.Mailer.MailConfig)">
+        <member name="M:DevMvcComponent.Mvc.Setup(System.String,System.String,System.Reflection.Assembly,DevMvcComponent.Mail.MailServer)">
             <summary>
                 Setup the component plugin.
                 Please make sure that your executing directory is writable if not then please add a folder "DataCache"
@@ -1146,7 +1242,7 @@
                 By default email sender is async , to make it sync you can use property on MailConfig.SendAsynchronousEmails = false;
             </param>
         </member>
-        <member name="M:DevMvcComponent.Starter.Setup(System.Reflection.Assembly)">
+        <member name="M:DevMvcComponent.Mvc.Setup(System.Reflection.Assembly)">
             <summary>
                 Setup the component plugin.
                 Please make sure that your executing directory is writable if not then please add a folder "DataCache"
@@ -1154,7 +1250,7 @@
             </summary>
             <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
         </member>
-        <member name="M:DevMvcComponent.Starter.Setup(System.String,System.String,System.Reflection.Assembly,System.String,System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:DevMvcComponent.Mvc.Setup(System.String,System.String,System.Reflection.Assembly,System.String,System.String,System.String,System.Int32,System.Boolean)">
             <summary>
                 Setup the component plugin.
                 Please make sure that your executing directory is writable if not then please add a folder "DataCache"

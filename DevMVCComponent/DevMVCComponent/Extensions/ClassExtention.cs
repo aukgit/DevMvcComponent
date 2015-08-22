@@ -99,6 +99,31 @@ namespace DevMvcComponent.Extensions {
             return null;
         }
 
+        /// <summary>
+        ///     Returns null if no properties are found.
+        /// </summary>
+        /// <param name="objectType">Type of any object/class/</param>
+        /// <returns>Returns the list of properties with values in the class.</returns>
+        public static List<ObjectProperty> GetBinary(this object objectType) {
+            var listOfPropertise = new List<ObjectProperty>(100);
+            if (objectType != null) {
+                var properties = objectType.GetType().GetProperties(TypeOfPropertise).ToList();
+
+                if (properties != null && properties.Count > 0) {
+                    foreach (var prop in properties) {
+                        var property = new ObjectProperty {
+                            Name = prop.Name,
+                            Value = prop.GetValue(objectType, null)
+                        };
+                        listOfPropertise.Add(property);
+                    }
+                    return listOfPropertise;
+                }
+            }
+
+            return null;
+        }
+
         #endregion
     }
 }

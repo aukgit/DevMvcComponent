@@ -1,11 +1,11 @@
-﻿namespace DevMvcComponent.Mailer {
+﻿namespace DevMvcComponent.Mail {
     /// <summary>
     ///     Any mail server generic config methods.
     ///     There is no need to inherit MailConfig all the time.
-    ///     Create this class with contructor parameters and
+    ///     Create this class with constructor parameters and
     ///     then initialize it in the starter.
     /// </summary>
-    public class CustomMailConfig : MailConfig {
+    public class CustomMailServer : MailServer {
         /// <summary>
         ///     SSL true
         /// </summary>
@@ -13,7 +13,7 @@
         /// <param name="password"></param>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public CustomMailConfig(string email, string password, string host, int port)
+        public CustomMailServer(string email, string password, string host, int port)
             : base(email, password) {
             HostSetup();
             Port = port;
@@ -27,7 +27,7 @@
         /// <param name="host"></param>
         /// <param name="port"></param>
         /// <param name="isSsl"></param>
-        public CustomMailConfig(string email, string password, string host, int port, bool isSsl)
+        public CustomMailServer(string email, string password, string host, int port, bool isSsl)
             : base(email, password) {
             HostSetup();
             Port = port;

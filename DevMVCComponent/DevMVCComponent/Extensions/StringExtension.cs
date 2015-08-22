@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DevMvcComponent.DataTypeFormat;
 
 namespace DevMvcComponent.Extensions {
     /// <summary>
@@ -63,45 +63,112 @@ namespace DevMvcComponent.Extensions {
             return value;
         }
         /// <summary>
-        /// Returns 0 if can't convert to an int.
+        /// Returns given parameter(0) if can't convert to an int.
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
         /// <returns></returns>
-        public static int ToInt(this string value) {
+        public static int ToInt(this string value, int defaultParameter = 0) {
             var integerNumber = 0;
             bool  isPossible = int.TryParse(value, out integerNumber);
             if (isPossible) {
                 return integerNumber;
             }
-            return 0;
+            return defaultParameter;
+        }
+        /// <summary>
+        /// Returns given parameter(0) if can't convert to an long.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
+        /// <returns></returns>
+        public static long ToLong(this string value, long defaultParameter = 0) {
+            var integerNumber = 0;
+            bool isPossible = int.TryParse(value, out integerNumber);
+            if (isPossible) {
+                return integerNumber;
+            }
+            return defaultParameter;
         }
 
         /// <summary>
-        /// Returns 0 if can't convert to an decimal.
+        /// Returns given parameter(0) if can't convert to an decimal.
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
         /// <returns></returns>
-        public static decimal ToDecimal(this string value) {
+        public static decimal ToDecimal(this string value, decimal defaultParameter = 0) {
             decimal decimalNumber = 0;
             bool isPossible = decimal.TryParse(value, out decimalNumber);
             if (isPossible) {
                 return decimalNumber;
             }
-            return 0;
+            return defaultParameter;
         }
 
         /// <summary>
-        /// Returns 0 if can't convert to an decimal.
+        /// Returns given parameter(0) if can't convert to an decimal.
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
         /// <returns></returns>
-        public static double ToDouble(this string value) {
+        public static double ToDouble(this string value, double defaultParameter = 0) {
             double decimalNumber = 0;
             bool isPossible = double.TryParse(value, out decimalNumber);
             if (isPossible) {
                 return decimalNumber;
             }
-            return 0;
+            return defaultParameter;
         }
+
+        #region Number methods
+
+        /// <summary>
+        ///     If data type is number(int, decimal, float or single etc...) then return true.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Returns : true if data-type is number(int, decimal, float or single etc...)</returns>
+        public static bool IsNumber(this string value) {
+            return TypeChecker.IsNumber(value);
+        }
+
+        /// <summary>
+        ///     If data type is non-floating point(long,int,single, byte) number then return true.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        public static bool IsIntOrLongOrByte(this string value) {
+            return TypeChecker.IsIntOrLongOrByte(value);
+
+        }
+
+        /// <summary>
+        ///     If data type is non-floating point(long,int,single, byte) number then return true.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
+        public static bool IsNonFloatingPointNumber(this string value) {
+            return TypeChecker.IsNonFloatingPointNumber(value);
+        }
+
+        /// <summary>
+        ///     If data type is floating point(double, decimal, float, single byte) then return true.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
+        public static bool IsDoubleOrDecimalOrFloat(this string value) {
+            return TypeChecker.IsDoubleOrDecimalOrFloat(value);
+        }
+
+        /// <summary>
+        ///     If data type is floating point(double, decimal, float, single byte) then return true.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
+        public static bool IsFloatingPointNumber(this string value) {
+            return TypeChecker.IsFloatingPointNumber(value);
+        }
+
+        #endregion
     }
 }

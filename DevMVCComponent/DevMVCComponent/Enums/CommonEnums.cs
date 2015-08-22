@@ -22,6 +22,7 @@
     /// </summary>
     public enum DateTimeFormatType {
         /// <summary>
+        /// Date format
         /// </summary>
         Date,
 
@@ -50,14 +51,17 @@
     /// </summary>
     public enum MailingType {
         /// <summary>
+        /// Regular email category
         /// </summary>
         RegularMail,
 
         /// <summary>
+        /// Carbon copy email category
         /// </summary>
         CarbonCopy,
 
         /// <summary>
+        /// Blind carbon copy category.
         /// </summary>
         MailBlindCarbonCopy
     }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using DevMvcComponent.Database;
+using DevMvcComponent.DataTypeFormat;
 
 #endregion
 
@@ -33,7 +33,7 @@ namespace DevMvcComponent.EntityConversion {
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
-                    if (DataTypeSupport.IsSupport(val)) {
+                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
                         var str = String.Format("\n{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
                         sb.AppendLine(str);
@@ -63,7 +63,7 @@ namespace DevMvcComponent.EntityConversion {
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
-                    if (DataTypeSupport.IsSupport(val)) {
+                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
                         var str = String.Format("<br/>{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
                         sb.AppendLine(str);
@@ -106,7 +106,7 @@ namespace DevMvcComponent.EntityConversion {
                         sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, count));
                     }
 
-                    if (DataTypeSupport.IsSupport(val)) {
+                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
                         sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, val));
                     }
                 }
@@ -135,7 +135,7 @@ namespace DevMvcComponent.EntityConversion {
                         //generate serial number
                         sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, "SL."));
                     }
-                    if (DataTypeSupport.IsSupport(val)) {
+                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
                         sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, prop.Name));
                     }
                 }
@@ -179,9 +179,9 @@ namespace DevMvcComponent.EntityConversion {
             if (classes == null || !classes.Any())
                 return "";
             var output = GetHtmlOfEntities(classes, tableCaption);
-            if (Starter.Mailer != null) {
+            if (Mvc.Mailer != null) {
                 //async
-                Starter.Mailer.QuickSend(email, sub, output);
+                Mvc.Mailer.QuickSend(email, sub, output);
             }
 
             return output;

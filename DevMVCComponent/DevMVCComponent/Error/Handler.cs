@@ -216,8 +216,8 @@ namespace DevMvcComponent.Error {
 
                     GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                     body += Config.GetApplicationNameHtml();
-                    if (Starter.Mailer != null) {
-                        Starter.Mailer.QuickSend(Config.DeveloperEmail, subject, body);
+                    if (Mvc.Mailer != null) {
+                        Mvc.Mailer.QuickSend(Config.DeveloperEmail, subject, body);
                     }
                 }
             }).Start();

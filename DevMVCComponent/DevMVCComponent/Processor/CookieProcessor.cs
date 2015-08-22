@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Web;
-using DevMvcComponent.Database;
+using DevMvcComponent.DataTypeFormat;
 using DevMvcComponent.EntityConversion;
 
 #endregion
@@ -15,7 +15,6 @@ namespace DevMvcComponent.Processor {
     /// </summary>
     public class CookieProcessor {
         private readonly string _cookieName = "";
-        private readonly DateTime _defaultExpiration = DateTime.Now.AddHours(5);
 
         #region Remove Cookies
 
@@ -45,7 +44,6 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         ///     Pass Base.ControllerContext
         /// </summary>
-        /// <param name="baseContext">Pass this.HttpContext</param>
         /// <param name="cookieName">Pass the default cookie name.</param>
         public CookieProcessor(string cookieName) {
             _cookieName = cookieName;
@@ -63,7 +61,7 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="Object"></param>
         public void Save(object Object) {
-            Save(Object, _cookieName, false, _defaultExpiration);
+            Save(Object, _cookieName, false, null);
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace DevMvcComponent.Processor {
         /// <param name="Object">Pass the object.</param>
         /// <param name="cookie">Name of the cookie</param>
         public void Save(object Object, string cookie) {
-            Save(Object, cookie, false, _defaultExpiration);
+            Save(Object, cookie, false, null);
         }
 
         /// <summary>
@@ -84,7 +82,7 @@ namespace DevMvcComponent.Processor {
         /// <param name="Object">Pass the object</param>
         /// <param name="checkBeforeExist">Don't save if already exist.</param>
         public void Save(object Object, bool checkBeforeExist) {
-            Save(Object, null, checkBeforeExist, _defaultExpiration);
+            Save(Object, null, checkBeforeExist, null);
         }
 
         /// <summary>
@@ -94,7 +92,7 @@ namespace DevMvcComponent.Processor {
         /// <param name="Object">Pass the object</param>
         /// <param name="cookieName">Cookie name , pass null if constructor CookieName is valid.</param>
         /// <param name="expiration"></param>
-        public void Save(object Object, string cookieName, DateTime expiration) {
+        public void Save(object Object, string cookieName, DateTime? expiration) {
             Save(null, cookieName, false, expiration);
         }
 
@@ -106,23 +104,24 @@ namespace DevMvcComponent.Processor {
         /// <param name="cookieName">Cookie name , pass null if constructor CookieName is valid.</param>
         /// <param name="checkBeforeExist">True: Don't save if already exist. </param>
         /// <param name="expiration"></param>
-        public void Save(object Object, string cookieName, bool checkBeforeExist, DateTime expiration) {
+        public void Save(object Object, string cookieName, bool checkBeforeExist, DateTime? expiration) {
             if (cookieName == null) {
                 cookieName = _cookieName;
             }
+            expiration = expiration ?? DateTime.Now.AddHours(5);
             var httpCookie = new HttpCookie(cookieName) {
-                Expires = expiration
+                Expires = expiration.Value
             };
             //createdCookie = true;
             //}
-            var isSupport = DataTypeSupport.IsSupport(Object);
+            var isSupport = TypeChecker.IsPrimitiveOrGuid(Object);
 
             //is not null and don't support = complex
             if (Object != null && !isSupport) {
                 //if not a primitive type and thus complex class
                 var list = ObjectToArrary.Get(Object);
                 foreach (var item in list) {
-                    if (DataTypeSupport.IsSupport(item.Value) && item.Value != null) {
+                    if (TypeChecker.IsPrimitiveOrGuid(item.Value) && item.Value != null) {
                         httpCookie[item.Name] = item.Value.ToString();
                     } else {
                         httpCookie[item.Name] = null;
@@ -135,6 +134,17 @@ namespace DevMvcComponent.Processor {
             HttpContext.Current.Response.Cookies.Set(httpCookie); //only add unique cookies
         }
 
+        #endregion
+
+        #region Operator Overloads
+        /// <summary>
+        /// Sets and retrieves Cookie as string only.
+        /// </summary>
+        /// <param name="cookieName"></param>
+        public string this[string cookieName] {
+            get { return this.Get(cookieName); }
+            set { Set(cookieName, value); }
+        }
         #endregion
 
         #region Get Cookie -> Same as Reading
