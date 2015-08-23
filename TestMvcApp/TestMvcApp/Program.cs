@@ -21,7 +21,7 @@ namespace TestDevMvc {
             try {
                 throw new Exception("Hello World");
             } catch (Exception ex) {
-                Mvc.Error.ByEmail(ex, "devorg.bd@gmail.com,alim.enosis@gmail.com", "Method Name", "Custom Subject", Mvc.Mailer);
+                Mvc.Error.ByEmail(ex, "devorg.bd@gmail.com,alim.enosis@gmail.com", "", "Custom Subject", Mvc.Mailer);
             }
             Console.WriteLine("Done sending email");
             Console.ReadKey();

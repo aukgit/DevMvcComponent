@@ -2,9 +2,11 @@
 
 using System;
 using System.Data.Entity.Validation;
+using System.Text;
 using System.Threading.Tasks;
 using DevMvcComponent.EntityConversion;
 using DevMvcComponent.Mail;
+using DevMvcComponent.Miscellaneous;
 
 #endregion
 
@@ -177,43 +179,58 @@ namespace DevMvcComponent.Error {
         /// <param name="entitySingleObject"></param>
         public void GenerateErrorBody(Exception ex, ref string subject, ref string body, string method = "",
             object entitySingleObject = null) {
-            if (body == null)
+
+            StringBuilder sb = new StringBuilder(30);
+            if (body == null) {
                 body = "";
+            }
 
-            body += GetErrorMsgHtml(ex, method);
+            sb.Append(GetErrorMsgHtml(ex, method));
 
-            if (string.IsNullOrEmpty(subject))
+            if (string.IsNullOrEmpty(subject)) {
                 subject = string.Format("[{0}] [Error] on [{1}] method at {2}", Config.ApplicationName, method,
                     DateTime.UtcNow);
-
+            }
             if (entitySingleObject != null) {
-                body += "<hr/>";
-
-                body += "<h1> Entity Description :</h1>";
-                body += "<h1> " + entitySingleObject + "</h1>";
+                sb.Append("<hr/>");
+                sb.Append(HtmlHelper.GetTag("h3", "Entity Title : "+ entitySingleObject.ToString()));
                 try {
-                    body += "<div style='color:green'> " + EntityToString.GetHtmlOfSingleClass(entitySingleObject) +
-                            "</div>";
+                    var entityString = EntityToString.GetHtmlOfSingleClassAsTable(entitySingleObject);
+                    sb.Append(entityString);
                 } catch (Exception ex2) {
-                    body += "<div style='color:red'> Error Can't Read Entity: " + ex2.Message + "</div>";
+                    sb.Append("<div style='color:red'> Error Can't Read Entity: " + ex2.Message + "</div>");
                 }
             }
-            body += "<hr />";
-            body += "<div style='background-color:#FFFFD1" + Config.CommonStyles + "> Stack Trace: " + ex.StackTrace + "</div>";
+            sb.Append("<hr />");
+            sb.Append("<div style='background-color:#FFFFD1" + Config.CommonStyles + "> Stack Trace: " + ex.StackTrace + "</div>");
+            body = sb.ToString();
         }
 
         /// <summary>
         ///     Sends an quick email to the developer.
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="methodName"></param>
-        /// <param name="subject"></param>
-        /// <param name="entity"></param>
+        /// <param name="exception">Your thrown exception to log in your developers email address.</param>
+        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
+        /// <param name="entity">Your entity information.</param>
         public void ByEmail(Exception exception, string methodName = "", string subject = "", object entity = null) {
+            if (methodName == "") {
+                methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            }
             ByEmail(exception, Mvc.Mailer, methodName, subject, entity);
         }
-
+        /// <summary>
+        /// Send an asynchronous email to the given email addresses as carbon copy.
+        /// </summary>
+        /// <param name="exception">Your thrown exception to log in your developers email address.</param>
+        /// <param name="mailServer">You can pass your custom mailing server to send the mail from.</param>
+        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
+        /// <param name="entity">Your entity information.</param>
         public void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
+            if (methodName == "") {
+                methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            }
             new Task(() => {
                 if (Config.DeveloperEmails != null && Config.IsNotifyDeveloper) {
                     var body = "";
@@ -227,13 +244,13 @@ namespace DevMvcComponent.Error {
         }
 
         /// <summary>
-        /// 
+        /// Send an asynchronous email to the given email addresses as carbon copy.
         /// </summary>
-        /// <param name="exception"></param>
+        /// <param name="exception">Your thrown exception to log in your developers email address.</param>
         /// <param name="mailingAddresses">Comma separated email address.</param>
-        /// <param name="methodName"></param>
-        /// <param name="subject"></param>
-        /// <param name="entity"></param>
+        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
+        /// <param name="entity">Your entity information.</param>
         public void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
             if (mailingAddresses != null) {
                 ByEmail(exception, mailingAddresses.Split(','), methodName, subject, entity);
@@ -241,14 +258,17 @@ namespace DevMvcComponent.Error {
         }
 
         /// <summary>
-        /// 
+        /// Send an asynchronous email to the given email addresses as carbon copy.
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="mailingAddresses"></param>
-        /// <param name="methodName"></param>
-        /// <param name="subject"></param>
-        /// <param name="entity"></param>
+        /// <param name="exception">Your thrown exception to log in your developers email address.</param>
+        /// <param name="mailingAddresses">Mailing address to send exception log as a carbon copy.</param>
+        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
+        /// <param name="entity">Your entity information.</param>
         public void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
+            if (methodName == "") {
+                methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            }
             new Task(() => {
                 var body = "";
                 GenerateErrorBody(exception, ref subject, ref body, methodName, entity);

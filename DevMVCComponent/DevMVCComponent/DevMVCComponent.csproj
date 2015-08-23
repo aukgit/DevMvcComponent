@@ -67,6 +67,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">
@@ -92,6 +93,7 @@
     <Compile Include="DataTypeFormat\ObjectProperty.cs" />
     <Compile Include="Mail\MailSendingWrapper.cs" />
     <Compile Include="Extensions\BinaryFileExtenstion.cs" />
+    <Compile Include="Miscellaneous\HtmlHelper.cs" />
     <Compile Include="Pagination\Pagination.cs">
       <SubType>Code</SubType>
     </Compile>

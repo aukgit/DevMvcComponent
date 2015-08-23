@@ -22,6 +22,7 @@ namespace DevMvcComponent.Mail {
         protected bool IsHostConfigured;
 
         /// <summary>
+        ///     Make sure your mail has less protection, IMAP, and pop3 set to enabled.
         ///     By default:
         ///     UseDefaultCredentials = false;
         ///     EnableSsl = true;
@@ -33,6 +34,7 @@ namespace DevMvcComponent.Mail {
         }
 
         /// <summary>
+        /// Make sure your mail has less protection, IMAP, and pop3 set to enabled.
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <param name="password"></param>
@@ -406,10 +408,10 @@ namespace DevMvcComponent.Mail {
             }
         }
         #endregion
-
-
+        
         /// <summary>
         ///     Specific host setup. Must ensure the boolean isHostConfigured = true.
+        ///     Make sure your mail has less protection, IMAP, and pop3 set to enabled.
         /// </summary>
         /// <param name="host">for example gmail: smtp.gmail.com</param>
         /// <param name="port">for example gmail enablessl port: 587</param>

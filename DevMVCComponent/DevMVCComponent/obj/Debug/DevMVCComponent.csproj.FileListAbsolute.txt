@@ -148,3 +148,4 @@ D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFram
 D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.dll
 D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.pdb
 D:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMVCComponent.csprojResolveAssemblyReference.cache
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.csprojResolveAssemblyReference.cache

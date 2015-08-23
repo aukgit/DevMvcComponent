@@ -5,6 +5,21 @@ namespace DevMvcComponent.Extensions {
     /// String extensions
     /// </summary>
     public static class StringExtension {
+
+        /// <summary>
+        /// Concat otherstrings if first one is not null.
+        /// </summary>
+        /// <param name="currentString"></param>
+        /// <param name="otherStrings"></param>
+        /// <returns>Returns : Empty string ("") if current string is null.</returns>
+        public static string DependingStringConcat(string currentString, params string[] otherStrings) {
+            if (currentString != null) {
+                return string.Concat(otherStrings);
+            }
+            return "";
+        }
+
+
         /// <summary>
         ///     Split the string into pieces.
         /// </summary>
@@ -20,7 +35,7 @@ namespace DevMvcComponent.Extensions {
             if (str.Length <= length) {
                 return str;
             }
-            return str.Substring(0, (int) length);
+            return str.Substring(0, (int)length);
         }
 
         /// <summary>
@@ -70,7 +85,7 @@ namespace DevMvcComponent.Extensions {
         /// <returns></returns>
         public static int ToInt(this string value, int defaultParameter = 0) {
             var integerNumber = 0;
-            bool  isPossible = int.TryParse(value, out integerNumber);
+            bool isPossible = int.TryParse(value, out integerNumber);
             if (isPossible) {
                 return integerNumber;
             }
