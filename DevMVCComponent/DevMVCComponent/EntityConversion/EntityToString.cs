@@ -65,11 +65,15 @@ namespace DevMvcComponent.EntityConversion {
                 sb.Append("<table ");
                 sb.Append("style='" + styles + "'>");
                 sb.Append("<thead>");
+                //sb.Append(HtmlHelper.GetTag("caption", "Entity Title : " + Class.ToString()));
                 sb.Append("<tr ");
                 sb.Append("style='" + styles2 + "'>");
-                sb.Append(HtmlHelper.GetTag("td", "Properties"));
                 sb.Append(HtmlHelper.GetTag("td", ""));
-                sb.Append(HtmlHelper.GetTag("td", "Values"));
+                sb.Append(HtmlHelper.GetTag("td", ""));
+                sb.Append(HtmlHelper.GetTag("td", ""));
+                //sb.Append(HtmlHelper.GetTag("td", "Properties"));
+                //sb.Append(HtmlHelper.GetTag("td", ""));
+                //sb.Append(HtmlHelper.GetTag("td", "Values"));
                 sb.Append("</tr>");
                 sb.Append("</thead>");
                 sb.Append("<tbody>");

@@ -4,6 +4,7 @@ using System;
 using System.Data.Entity.Validation;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using DevMvcComponent.EntityConversion;
 using DevMvcComponent.Mail;
 using DevMvcComponent.Miscellaneous;
@@ -179,6 +180,7 @@ namespace DevMvcComponent.Error {
         /// <param name="entitySingleObject"></param>
         public void GenerateErrorBody(Exception ex, ref string subject, ref string body, string method = "",
             object entitySingleObject = null) {
+            var isUserExist = HttpContext.Current != null && HttpContext.Current.User.Identity.IsAuthenticated;
 
             StringBuilder sb = new StringBuilder(30);
             if (body == null) {
@@ -191,9 +193,14 @@ namespace DevMvcComponent.Error {
                 subject = string.Format("[{0}] [Error] on [{1}] method at {2}", Config.ApplicationName, method,
                     DateTime.UtcNow);
             }
+            if (isUserExist) {
+                sb.Append("<hr />");
+                var loggedUserStyle = HtmlHelper.GetCommonStyles("Green", "White", "0 0 5px 0", "8px", "3px", "bolder");
+                sb.Append(HtmlHelper.GetTag("div", "Logged in user : " + HttpContext.Current.User.Identity.Name, loggedUserStyle));
+            }
             if (entitySingleObject != null) {
                 sb.Append("<hr/>");
-                sb.Append(HtmlHelper.GetTag("h3", "Entity Title : "+ entitySingleObject.ToString()));
+                sb.Append(HtmlHelper.GetTag("h3", "Entity Title : " + entitySingleObject.ToString()));
                 try {
                     var entityString = EntityToString.GetHtmlOfSingleClassAsTable(entitySingleObject);
                     sb.Append(entityString);
