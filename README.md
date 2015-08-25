@@ -101,9 +101,9 @@ try
 } catch (Exception ex)
 {
     // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
-    DevMvcComponent.Starter.Error.HandleBy(ex,"method name", EnityObject);
+    DevMvcComponent.Mvc.Error.HandleBy(ex,"method name", EnityObject);
     // if any meaningful subject requires then 
-    // DevMvcComponent.Starter.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); 
+    // DevMvcComponent.Mvc.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); 
     // email will be sent with this entity information 
     // user should be notified by nice message by sending -1 or anything else.
 }
