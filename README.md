@@ -136,7 +136,7 @@ var bType = new ClassB(){
 
 
 // using DevMvcComponent.Extensions;
-var bType = ClassA.Cast<ClassA,ClassB>(); // returns a new ClassB object having A = 1, B= 2; 
+var bType = aType.Cast<ClassA,ClassB>(); // returns a new ClassB object having A = 1, B= 2; 
 
 ```
 
