@@ -31,15 +31,18 @@ namespace DevMvcComponent.Extensions {
             var target = typeof(TNewType);
             var x = Activator.CreateInstance(target, false); // creating a new instance of target object.
             var destination = target.GetMembers().Where(n => n.MemberType == MemberTypes.Property).ToList();
-     
+
             var members = destination.Where(memberInfo =>
                 destination.Select(c => c.Name).ToList().Contains(memberInfo.Name)).ToList();
             PropertyInfo propertyInfo;
             object value;
             foreach (var memberInfo in members) {
                 propertyInfo = typeof(TNewType).GetProperty(memberInfo.Name);
-                value = myobj.GetType().GetProperty(memberInfo.Name).GetValue(myobj, null);
-                propertyInfo.SetValue(x, value, null);
+                var baseTypeProperty = myobj.GetType().GetProperty(memberInfo.Name);
+                if (baseTypeProperty != null) {
+                    value = baseTypeProperty.GetValue(myobj, null);
+                    propertyInfo.SetValue(x, value, null);
+                }
             }
             propertyInfo = null;
             value = null;
@@ -53,7 +56,7 @@ namespace DevMvcComponent.Extensions {
         /// <param name="obj">Must be a Serializable object.</param>
         /// <returns>Returns : null if given object is null.</returns>
         public static byte[] ToBytesArray(this object obj) {
-            if (obj == null) { 
+            if (obj == null) {
                 return null;
             }
             var bf = new BinaryFormatter();

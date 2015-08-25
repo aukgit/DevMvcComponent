@@ -129,9 +129,12 @@ var aType = new ClassA(){
 	A =1 ,B =2 , C =3 
 };
 
+// old developers has done that boring approach.
 var bType = new ClassB(){
 	A = aType.A, B = aType.B // no loger need that.
 };
+
+
 // using DevMvcComponent.Extensions;
 var bType = ClassA.Cast<ClassA,ClassB>(); // returns a new ClassB object having A = 1, B= 2; 
 
