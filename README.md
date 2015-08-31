@@ -19,7 +19,7 @@ However, it can be also used inside console or windows forms or any other app , 
 protected void Application_Start()
 {
     //... all other codes
-    DevMvcComponent.Starter.Setup(...)
+    DevMvcComponent.Mvc.Setup(...)
 }
 ```
    
@@ -27,49 +27,49 @@ protected void Application_Start()
 ### One way to setup (note that by default sending emails will be async, however we can disable it in this approach):
 
 ```csharp
-var mailer = new DevMvcComponent.Mailer. CustomMailConfig(senderEmail, senderPassword, hostName, senderPort, isSSL);
+var mailServer = new DevMvcComponent.Mail.CustomMailServer(senderEmail, senderPassword, hostName, senderPort, isSSL);
 // to have an non-async mailer, use this
 // mailer.SendAsynchronousEmails = false;
-DevMvcComponent.Starter.Setup("Application Name", "Primary developer email", System.Reflection.Assembly.GetExecutingAssembly(), mailer);
+DevMvcComponent.Mvc.Setup("Application Name", "Primary developer email", System.Reflection.Assembly.GetExecutingAssembly(), mailServer);
 ```
 
 ### Another way to setup(note that by default sending emails will be async):
 
 ```csharp
-DevMvcComponent.Starter.Setup("Application Name", "Primary developer email", System.Reflection.Assembly.GetExecutingAssembly(), senderEmail, senderPassword, hostName, senderPort, isSSL);
+DevMvcComponent.Mvc.Setup("Application Name", "developer1@e..com,developer2@em...com", System.Reflection.Assembly.GetExecutingAssembly(), senderEmail, senderPassword, hostName, senderPort, isSSL);
 ```
 
 ### Mailer can also be created easily for gmail:
 
 ```csharp
-var gmailer = new GmailConfig("you@gmail.com", "password"); // by default port is 587 and SSL secure.
-var gmailer2 = new GmailConfig("you@gmail.com", "password", "smtp.gmail.com", 587); // change ports as well.
+var gmailServer = new GmailServer("you@gmail.com", "password"); // by default port is 587 and SSL secure, make sure IMAP , pop3 are installed and less secured enabled.
+var gmailServer2 = new GmailServer("you@gmail.com", "password", "smtp.gmail.com", 587); // change ports as well.
 ```
 
-Any mailer configs ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
+Any mailer configs ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mail ) :
 
 ```csharp
-gmailer.EnableSsl = true;
-gmailer.Port = 587;
-gmailer.Host = "smtp.gmail.com";
-gmailer.SendAsynchronousEmails = true;
+gmailServer.EnableSsl = true;
+gmailServer.Port = 587;
+gmailServer.Host = "smtp.gmail.com";
+gmailServer.SendAsynchronousEmails = true;
 ```
 
 To send email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
 
 ```csharp    
-// an email will be send to the "sendingto@gmail.com" async style, which can be modified via gmailer.SendAsynchronousEmails property.
-gmailer.QuickSend("sendingto@gmail.com", "Subject", "HTML body");
+// an email will be send to the "sendingto@gmail.com" 
+gmailer.QuickSend("sendingto@gmail.com", "Subject", "HTML body"); // check out the overloads.
 ```
 
-To send carbon copy email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
+To send carbon copy email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mail ) :
 
 ```csharp    
 // an email will be send to "sendingto@gmail.com" and "sendingto2@gmail.com" as a carbon-copy and async style.
 gmailer.QuickSend("sendingto1@gmail.com,sendingto2@gmail.com", "Subject", "HTML body", MailingType.CarbonCopy, searchForCommas: true);
 ```
 
-To send blind carbon copy email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mailer ) :
+To send blind carbon copy email through mailer ( please make sure that you import : DevMvcComponent.Enums, DevMvcComponent.Mail ) :
 
 ```csharp    
 // an email will be send to "sendingto@gmail.com" and "sendingto2@gmail.com" as a carbon-copy and async style.
@@ -85,8 +85,10 @@ try
 } catch (Exception ex)
 {
     // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
-    DevMvcComponent.Starter.Error.HandleBy(ex,"method name");
+    DevMvcComponent.Mvc.Error.HandleBy(ex,"method name");
     // user should be notified by nice message by sending -1 or anything else.
+	//example 2
+	DevMvcComponent.Mvc.Error.HandleBy(ex, "customEmailAddress1@e..com,customEmailAddress2@e..com"); // send error logs to those email addresses.
 }
 ```
 
@@ -99,12 +101,43 @@ try
 } catch (Exception ex)
 {
     // email will be sent to developer with all stack trace report via the mailer instanticated at the Setup();
-    DevMvcComponent.Starter.Error.HandleBy(ex,"method name", EnityObject);
+    DevMvcComponent.Mvc.Error.HandleBy(ex,"method name", EnityObject);
     // if any meaningful subject requires then 
-    // DevMvcComponent.Starter.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); 
+    // DevMvcComponent.Mvc.Error.HandleBy(ex,"method name", "Email subject " , EnityObject); 
     // email will be sent with this entity information 
     // user should be notified by nice message by sending -1 or anything else.
 }
+```
+
+###Casting: We all have done stupid casting like same similar property name conversion, from now on you don't need that.
+
+```csharp
+class ClassA {
+	public int A {get;set;}
+	public int B {get;set;}
+	public int C {get;set;}
+}
+
+class ClassB {
+	public int A {get;set;}
+	public int B {get;set;}
+	public int D {get;set;}
+}
+
+
+var aType = new ClassA(){
+	A =1 ,B =2 , C =3 
+};
+
+// old developers has done that boring approach.
+var bType = new ClassB(){
+	A = aType.A, B = aType.B // no loger need that.
+};
+
+
+// using DevMvcComponent.Extensions;
+var bType = aType.Cast<ClassA,ClassB>(); // returns a new ClassB object having A = 1, B= 2; 
+
 ```
 
 ### Database pagination (with caching for total counting):

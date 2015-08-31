@@ -66,6 +66,14 @@
             String extensions
             </summary>
         </member>
+        <member name="M:DevMvcComponent.Extensions.StringExtension.DependingStringConcat(System.String,System.String[])">
+            <summary>
+            Concat otherstrings if first one is not null.
+            </summary>
+            <param name="currentString"></param>
+            <param name="otherStrings"></param>
+            <returns>Returns : Empty string ("") if current string is null.</returns>
+        </member>
         <member name="M:DevMvcComponent.Extensions.StringExtension.GetStringCutOff(System.String,System.Nullable{System.Int32})">
             <summary>
                 Split the string into pieces.
@@ -380,6 +388,53 @@
             </summary>
             <param name="fileNamelocation">Direct file location with it's extension.</param>
             <param name="anyObject">Saving item. Could be array or list or anything.</param>
+        </member>
+        <member name="T:DevMvcComponent.Miscellaneous.HtmlHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DevMvcComponent.Miscellaneous.HtmlHelper.GetCommonStyles(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Get common styles string value pair.
+            </summary>
+            <param name="backgroundColor">Pass only background color-value if exist.  Eg. black</param>
+            <param name="color">Pass only color-value if exist. Eg. white</param>
+            <param name="margin">Pass only (margin-value: top right bottom left) if exist. Eg. 2px 2px 2px 2px</param>
+            <param name="padding">Pass only (padding-value: top right bottom left) if exist.</param>
+            <param name="borderRadius">Pass only (border-radius-value: value) if exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:DevMvcComponent.Miscellaneous.HtmlHelper.GetTag(System.String,System.String,System.String,System.Object)">
+            <summary>
+            Get tag (not self closing) with Html contents
+            </summary>
+            <param name="tag">Tag name</param>
+            <param name="content">Content of html</param>
+            <param name="styles">Give only style values</param>
+            <param name="htmlAttributes">Your html attributes</param>
+            <returns>return Html string.</returns>
+        </member>
+        <member name="M:DevMvcComponent.Miscellaneous.HtmlHelper.GetTagSelfClose(System.String,System.String,System.String,System.Object)">
+            <summary>
+            Get self closing tag with html contents.
+            </summary>
+            <param name="tag">Tag name</param>
+            <param name="content">Content of html</param>
+            <param name="styles">Give only style values</param>
+            <param name="htmlAttributes">Your html attributes</param>
+            <returns>return Html string.</returns>
+        </member>
+        <member name="M:DevMvcComponent.Miscellaneous.HtmlHelper.GetTag(System.Boolean,System.String,System.String,System.String,System.Object)">
+            <summary>
+            Get a tag with Html contents.
+            </summary>
+            <param name="selfClosing">Is it self closing or not.</param>
+            <param name="tag">Tag name</param>
+            <param name="content">Content of html</param>
+            <param name="styles">Give only style values</param>
+            <param name="htmlAttributes">Your html attributes</param>
+            <returns>return Html string.</returns>
         </member>
         <member name="T:DevMvcComponent.Pagination.Pagination">
             <summary>
@@ -960,6 +1015,13 @@
             <param name="Class">Any entity object , can be null.</param>
             <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
         </member>
+        <member name="M:DevMvcComponent.EntityConversion.EntityToString.GetHtmlOfSingleClassAsTable(System.Object)">
+            <summary>
+                Get simple Html string of a single class object with only new lines
+            </summary>
+            <param name="Class">Any entity object , can be null.</param>
+            <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
+        </member>
         <member name="M:DevMvcComponent.EntityConversion.EntityToString.GetHtmlOfSingleClass(System.Object)">
             <summary>
                 Get simple Html string of a single class object with only new lines
@@ -980,7 +1042,7 @@
             <param name="Class"></param>
             <param name="sb"></param>
         </member>
-        <member name="M:DevMvcComponent.EntityConversion.EntityToString.GetHtmlOfEntities(System.Collections.Generic.IEnumerable{System.Object},System.String)">
+        <member name="M:DevMvcComponent.EntityConversion.EntityToString.GetHtmlTableOfEntities(System.Collections.Generic.IEnumerable{System.Object},System.String)">
             <summary>
                 Get html table string of any database entity list.
             </summary>
@@ -1241,30 +1303,40 @@
             <summary>
                 Sends an quick email to the developer.
             </summary>
-            <param name="exception"></param>
-            <param name="methodName"></param>
-            <param name="subject"></param>
-            <param name="entity"></param>
+            <param name="exception">Your thrown exception to log in your developers email address.</param>
+            <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+            <param name="subject">Mailing subject, your app name will be included automatically.</param>
+            <param name="entity">Your entity information.</param>
+        </member>
+        <member name="M:DevMvcComponent.Error.Handler.ByEmail(System.Exception,DevMvcComponent.Mail.MailServer,System.String,System.String,System.Object)">
+            <summary>
+            Send an asynchronous email to the given email addresses as carbon copy.
+            </summary>
+            <param name="exception">Your thrown exception to log in your developers email address.</param>
+            <param name="mailServer">You can pass your custom mailing server to send the mail from.</param>
+            <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+            <param name="subject">Mailing subject, your app name will be included automatically.</param>
+            <param name="entity">Your entity information.</param>
         </member>
         <member name="M:DevMvcComponent.Error.Handler.ByEmail(System.Exception,System.String,System.String,System.String,System.Object)">
             <summary>
-            
+            Send an asynchronous email to the given email addresses as carbon copy.
             </summary>
-            <param name="exception"></param>
+            <param name="exception">Your thrown exception to log in your developers email address.</param>
             <param name="mailingAddresses">Comma separated email address.</param>
-            <param name="methodName"></param>
-            <param name="subject"></param>
-            <param name="entity"></param>
+            <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+            <param name="subject">Mailing subject, your app name will be included automatically.</param>
+            <param name="entity">Your entity information.</param>
         </member>
         <member name="M:DevMvcComponent.Error.Handler.ByEmail(System.Exception,System.String[],System.String,System.String,System.Object)">
             <summary>
-            
+            Send an asynchronous email to the given email addresses as carbon copy.
             </summary>
-            <param name="exception"></param>
-            <param name="mailingAddresses"></param>
-            <param name="methodName"></param>
-            <param name="subject"></param>
-            <param name="entity"></param>
+            <param name="exception">Your thrown exception to log in your developers email address.</param>
+            <param name="mailingAddresses">Mailing address to send exception log as a carbon copy.</param>
+            <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+            <param name="subject">Mailing subject, your app name will be included automatically.</param>
+            <param name="entity">Your entity information.</param>
         </member>
         <member name="T:DevMvcComponent.Mail.CustomMailServer">
             <summary>
@@ -1281,6 +1353,7 @@
         </member>
         <member name="M:DevMvcComponent.Mail.MailServer.#ctor">
             <summary>
+                Make sure your mail has less protection, IMAP, and pop3 set to enabled.
                 By default:
                 UseDefaultCredentials = false;
                 EnableSsl = true;
@@ -1290,6 +1363,7 @@
         </member>
         <member name="M:DevMvcComponent.Mail.MailServer.#ctor(System.String,System.String)">
             <summary>
+            Make sure your mail has less protection, IMAP, and pop3 set to enabled.
             </summary>
             <param name="emailAddress"></param>
             <param name="password"></param>
@@ -1419,6 +1493,7 @@
         <member name="M:DevMvcComponent.Mail.MailServer.HostSetup">
             <summary>
                 Specific host setup. Must ensure the boolean isHostConfigured = true.
+                Make sure your mail has less protection, IMAP, and pop3 set to enabled.
             </summary>
             <param name="host">for example gmail: smtp.gmail.com</param>
             <param name="port">for example gmail enablessl port: 587</param>
