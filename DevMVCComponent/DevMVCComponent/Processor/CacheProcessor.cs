@@ -52,7 +52,12 @@ namespace DevMvcComponent.Processor {
         /// <param name="cacheName"></param>
         public object this[string cacheName] {
             get { return this.Get(cacheName); }
-            set { Set(cacheName, value); }
+            set {
+                if (value == null) {
+                    Remove(cacheName);
+                }
+                Set(cacheName, value);
+            }
         }
         #endregion
 

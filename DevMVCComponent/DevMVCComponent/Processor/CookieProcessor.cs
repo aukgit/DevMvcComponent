@@ -143,7 +143,12 @@ namespace DevMvcComponent.Processor {
         /// <param name="cookieName"></param>
         public string this[string cookieName] {
             get { return this.Get(cookieName); }
-            set { Set(cookieName, value); }
+            set {
+                if (value == null) {
+                    Remove(cookieName);
+                }
+                Set(cookieName, value);
+            }
         }
         #endregion
 
