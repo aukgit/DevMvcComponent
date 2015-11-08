@@ -42,7 +42,7 @@ namespace DevMvcComponent.Pagination {
         /// <returns>IEnumerable data based on the page number.</returns>
         public static IEnumerable<T> GetPageData<T>(this IList<T> entities, string cacheName, ref int? pages,
             long? page = 1, long? items = -1, bool retrivePagesExist = true) {
-            if (page == null && page <= 0) {
+            if (page == null || page <= 0) {
                 page = 1;
             }
 
@@ -87,7 +87,7 @@ namespace DevMvcComponent.Pagination {
         /// <returns>IEnumerable data based on the page number.</returns>
         public static IEnumerable<T> GetPageData<T>(this IList<T> entities, PaginationInfo pageInfo,
             string cacheName = null, bool retrivePagesExist = true) {
-            if (pageInfo.PageNumber == null && pageInfo.PageNumber <= 0) {
+            if (pageInfo.PageNumber == null || pageInfo.PageNumber <= 0) {
                 pageInfo.PageNumber = 1;
             }
 
@@ -140,7 +140,7 @@ namespace DevMvcComponent.Pagination {
         /// <returns>IQueryable data based on the page number.</returns>
         public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, string cacheName, ref int? pages,
             long? page = 1, long? items = -1, bool retrivePagesExist = true) {
-            if (page == null && page <= 0) {
+            if (page == null || page <= 0) {
                 page = 1;
             }
 
@@ -185,7 +185,7 @@ namespace DevMvcComponent.Pagination {
         /// <returns>IQueryable data based on the page number.</returns>
         public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, PaginationInfo pageInfo,
             string cacheName = null, bool retrivePagesExist = true) {
-            if (pageInfo.PageNumber == null && pageInfo.PageNumber <= 0) {
+            if (pageInfo.PageNumber == null || pageInfo.PageNumber <= 0) {
                 pageInfo.PageNumber = 1;
             }
 

@@ -129,3 +129,14 @@ C:\Users\Alim\Documents\GitHub\DevMvcComponent\DevMVCComponent\DevMVCComponent\b
 C:\Users\Alim\Documents\GitHub\DevMvcComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.xml
 C:\Users\Alim\Documents\GitHub\DevMvcComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.dll
 C:\Users\Alim\Documents\GitHub\DevMvcComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.pdb
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\Microsoft.Web.Infrastructure.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Helpers.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Razor.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Deployment.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.dll
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Helpers.xml
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.Razor.xml
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.xml
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Deployment.xml
+D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.xml
