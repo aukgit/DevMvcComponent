@@ -106,6 +106,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\CollectionExtension.cs" />
     <Compile Include="Miscellaneous\DirectoryExtension.cs" />
     <Compile Include="Extensions\OneTypeToAnother.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
