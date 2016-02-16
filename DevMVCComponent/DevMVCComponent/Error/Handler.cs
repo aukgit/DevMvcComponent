@@ -3,6 +3,7 @@
 using System;
 using System.Data.Entity.Validation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using DevMvcComponent.EntityConversion;
@@ -234,17 +235,17 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public async void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
+        public  void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
             if (methodName == "") {
                 methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             }
-            new Task(() => {
+            new Thread(() => {
                 if (Config.DeveloperEmails != null && Config.IsNotifyDeveloper) {
                     var body = "";
                     GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                     body += Config.GetApplicationNameHtml();
                     if (mailServer != null) {
-                        mailServer.QuickSend(Config.DeveloperEmails, subject, body);
+                        mailServer.QuickSend(Config.DeveloperEmails, subject, body, Enums.MailingType.RegularMail,null, false);
                     }
                 }
             }).Start();
@@ -258,7 +259,7 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public async void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
+        public  void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
             if (mailingAddresses != null) {
                 ByEmail(exception, mailingAddresses.Split(','), methodName, subject, entity);
             }
@@ -272,15 +273,15 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public async void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
+        public  void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
             if (methodName == "") {
                 methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             }
-            new Task(() => {
+            new Thread(() => {
                 var body = "";
                 GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                 body += Config.GetApplicationNameHtml();
-                Mvc.Mailer.QuickSend(mailingAddresses, subject, body, Enums.MailingType.CarbonCopy);
+                Mvc.Mailer.QuickSend(mailingAddresses, subject, body, Enums.MailingType.CarbonCopy, null, false);
             }).Start();
         }
     }

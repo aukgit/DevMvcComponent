@@ -141,3 +141,5 @@ D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web
 D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.xml
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.xml
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
+F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.dll
+F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.dll
