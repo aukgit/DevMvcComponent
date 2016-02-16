@@ -234,7 +234,7 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
+        public async void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
             if (methodName == "") {
                 methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             }
@@ -258,7 +258,7 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
+        public async void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
             if (mailingAddresses != null) {
                 ByEmail(exception, mailingAddresses.Split(','), methodName, subject, entity);
             }
@@ -272,7 +272,7 @@ namespace DevMvcComponent.Error {
         /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
+        public async void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
             if (methodName == "") {
                 methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             }

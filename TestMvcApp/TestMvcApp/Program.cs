@@ -27,17 +27,17 @@ namespace TestDevMvc {
     class Program {
         static void Main(string[] args) {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var password = "newPasswordPleaseDon'tChangeItForEveryone";
-            var mailServer = new GmailServer("just.food.mailer@gmail.com", password);
-            Mvc.Setup("TestMvc", "devorg.bd@gmail.com", assembly, mailServer);
+            //var password = "newPasswordPleaseDon'tChangeItForEveryone";
+            //var mailServer = new GmailServer("just.food.mailer@gmail.com", password);
+            //Mvc.Setup("TestMvc", "devorg.bd@gmail.com", assembly, mailServer);
 
-            Mvc.Mailer.QuickSend("devorg.bd@gmail.com", "subject", "<b>body</b>", isHtml: false);
-            try {
-                throw new Exception("Hello World");
-            } catch (Exception ex) {
-                Mvc.Error.ByEmail(ex, "devorg.bd@gmail.com,alim.enosis@gmail.com", "", "Custom Subject", Mvc.Mailer);
-            }
-            Console.WriteLine("Done sending email");
+            //Mvc.Mailer.QuickSend("devorg.bd@gmail.com", "subject", "<b>body</b>", isHtml: false);
+            //try {
+            //    throw new Exception("Hello World");
+            //} catch (Exception ex) {
+            //    Mvc.Error.ByEmail(ex, "devorg.bd@gmail.com,alim.enosis@gmail.com", "", "Custom Subject", Mvc.Mailer);
+            //}
+            //Console.WriteLine("Done sending email");
 
           
 
@@ -45,7 +45,7 @@ namespace TestDevMvc {
                 587, false);
             Mvc.Setup("Test mail", "devorg.bd@gmail.com", assembly, mailServer2);
 
-            mailServer.QuickSend("devorg.bd@gmail.com", "Testing email", "<b>Body</b>");
+            mailServer2.QuickSend("devorg.bd@gmail.com", "Testing email", "<b>Body</b>");
             try {
                 throw new Exception("Error example");
             } catch (Exception ex) {
