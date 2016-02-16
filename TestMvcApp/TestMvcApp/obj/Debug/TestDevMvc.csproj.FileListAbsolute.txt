@@ -30,3 +30,4 @@ F:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\EntityFramework.dll
 F:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.pdb
 F:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\DevMvcComponent.xml
 F:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\obj\Debug\TestDevMvc.csprojResolveAssemblyReference.cache
+F:\Work\Git\DevMVCComponent\TestMvcApp\TestMvcApp\bin\Debug\EntityFramework.xml
