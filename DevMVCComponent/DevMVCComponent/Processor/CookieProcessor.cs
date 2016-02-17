@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Specialized;
 using System.Web;
-using DevMvcComponent.DataTypeFormat;
 using DevMvcComponent.EntityConversion;
+using DevMvcComponent.FormatType;
 
 #endregion
 
@@ -114,14 +114,14 @@ namespace DevMvcComponent.Processor {
             };
             //createdCookie = true;
             //}
-            var isSupport = TypeChecker.IsPrimitiveOrGuid(Object);
+            var isSupport = Checker.IsPrimitiveOrGuid(Object);
 
             //is not null and don't support = complex
             if (Object != null && !isSupport) {
                 //if not a primitive type and thus complex class
                 var list = ObjectToArrary.Get(Object);
                 foreach (var item in list) {
-                    if (TypeChecker.IsPrimitiveOrGuid(item.Value) && item.Value != null) {
+                    if (Checker.IsPrimitiveOrGuid(item.Value) && item.Value != null) {
                         httpCookie[item.Name] = item.Value.ToString();
                     } else {
                         httpCookie[item.Name] = null;

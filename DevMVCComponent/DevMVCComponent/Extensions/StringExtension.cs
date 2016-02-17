@@ -1,4 +1,4 @@
-﻿using DevMvcComponent.DataTypeFormat;
+﻿using DevMvcComponent.FormatType;
 
 namespace DevMvcComponent.Extensions {
     /// <summary>
@@ -144,7 +144,7 @@ namespace DevMvcComponent.Extensions {
         /// <param name="value"></param>
         /// <returns>Returns : true if data-type is number(int, decimal, float or single etc...)</returns>
         public static bool IsNumber(this string value) {
-            return TypeChecker.IsStringNumber(value);
+            return Checker.IsStringNumber(value);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace DevMvcComponent.Extensions {
         /// <param name="value"></param>
         /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
         public static bool IsNonFloatingPointNumber(this string value) {
-            return TypeChecker.IsStringNonFloatingPointNumber(value);
+            return Checker.IsStringNonFloatingPointNumber(value);
         }
 
         #endregion

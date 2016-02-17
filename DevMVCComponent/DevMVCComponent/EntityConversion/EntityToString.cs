@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using DevMvcComponent.DataTypeFormat;
+using DevMvcComponent.FormatType;
 using DevMvcComponent.Miscellaneous;
 
 #endregion
@@ -34,7 +34,7 @@ namespace DevMvcComponent.EntityConversion {
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
-                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
+                    if (Checker.IsPrimitiveOrGuid(val)) {
                         var str = String.Format("\n{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
                         sb.AppendLine(str);
@@ -81,7 +81,7 @@ namespace DevMvcComponent.EntityConversion {
                 foreach (var prop in properties) {
                     var val = prop.GetValue(Class, null);
                     sb.AppendLine("<tr>");
-                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
+                    if (Checker.IsPrimitiveOrGuid(val)) {
                         sb.Append(HtmlHelper.GetTag("td", prop.Name));
                         sb.Append(":");
                         sb.Append(HtmlHelper.GetTag("td", val.ToString()));
@@ -113,7 +113,7 @@ namespace DevMvcComponent.EntityConversion {
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
-                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
+                    if (Checker.IsPrimitiveOrGuid(val)) {
                         var str = String.Format("<br/>{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
                         sb.AppendLine(str);
@@ -156,7 +156,7 @@ namespace DevMvcComponent.EntityConversion {
                         sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, count));
                     }
 
-                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
+                    if (Checker.IsPrimitiveOrGuid(val)) {
                         sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, val));
                     }
                 }
@@ -185,7 +185,7 @@ namespace DevMvcComponent.EntityConversion {
                         //generate serial number
                         sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, "SL."));
                     }
-                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
+                    if (Checker.IsPrimitiveOrGuid(val)) {
                         sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, prop.Name));
                     }
                 }

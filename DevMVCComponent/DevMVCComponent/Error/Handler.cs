@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using DevMvcComponent.Config;
 using DevMvcComponent.EntityConversion;
 using DevMvcComponent.Mail;
 using DevMvcComponent.Miscellaneous;
@@ -191,7 +192,7 @@ namespace DevMvcComponent.Error {
             sb.Append(GetErrorMsgHtml(ex, method));
 
             if (string.IsNullOrEmpty(subject)) {
-                subject = string.Format("[{0}] [Error] on [{1}] method at {2}", Config.ApplicationName, method,
+                subject = string.Format("[{0}] [Error] on [{1}] method at {2}", DevMvcConfig.ApplicationName, method,
                     DateTime.UtcNow);
             }
             if (isUserExist) {
@@ -210,7 +211,7 @@ namespace DevMvcComponent.Error {
                 }
             }
             sb.Append("<hr />");
-            sb.Append("<div style='background-color:#FFFFD1" + Config.CommonStyles + "> Stack Trace: " + ex.StackTrace + "</div>");
+            sb.Append("<div style='background-color:#FFFFD1" + DevMvcConfig.CommonStyles + "> Stack Trace: " + ex.StackTrace + "</div>");
             body = sb.ToString();
         }
 
@@ -240,12 +241,12 @@ namespace DevMvcComponent.Error {
                 methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             }
             new Thread(() => {
-                if (Config.DeveloperEmails != null && Config.IsNotifyDeveloper) {
+                if (DevMvcConfig.DeveloperEmails != null && DevMvcConfig.IsNotifyDeveloper) {
                     var body = "";
                     GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
-                    body += Config.GetApplicationNameHtml();
+                    body += DevMvcConfig.GetApplicationNameHtml();
                     if (mailServer != null) {
-                        mailServer.QuickSend(Config.DeveloperEmails, subject, body, Enums.MailingType.RegularMail,null, false);
+                        mailServer.QuickSend(DevMvcConfig.DeveloperEmails, subject, body, Enums.MailingType.RegularMail,null, false);
                     }
                 }
             }).Start();
@@ -280,7 +281,7 @@ namespace DevMvcComponent.Error {
             new Thread(() => {
                 var body = "";
                 GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
-                body += Config.GetApplicationNameHtml();
+                body += DevMvcConfig.GetApplicationNameHtml();
                 Mvc.Mailer.QuickSend(mailingAddresses, subject, body, Enums.MailingType.CarbonCopy, null, false);
             }).Start();
         }

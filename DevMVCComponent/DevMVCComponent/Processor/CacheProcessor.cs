@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Web;
 using System.Web.Caching;
+using DevMvcComponent.Config;
 using DevMvcComponent.Global;
 
 #endregion
@@ -33,7 +34,7 @@ namespace DevMvcComponent.Processor {
         private readonly int _defaultSliding;
 
         private void SetDefaults() {
-            var rootFolder = Directory.GetParent((new System.Uri(Config.Assembly.CodeBase)).AbsolutePath).ToString();
+            var rootFolder = Directory.GetParent((new System.Uri(DevMvcConfig.Assembly.CodeBase)).AbsolutePath).ToString();
             var dataFolder = rootFolder + "\\DataCache\\";
             if (!Directory.Exists(dataFolder)) {
                 try {

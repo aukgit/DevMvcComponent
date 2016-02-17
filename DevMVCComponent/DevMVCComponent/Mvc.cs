@@ -1,6 +1,7 @@
 ﻿#region using block
 
 using System.Reflection;
+using DevMvcComponent.Config;
 using DevMvcComponent.Error;
 using DevMvcComponent.Mail;
 using DevMvcComponent.Processor;
@@ -47,8 +48,8 @@ namespace DevMvcComponent {
         ///     new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
         /// </param>
         public static void Setup(string applicationName, string developerEmail, Assembly assembly, MailServer mailer) {
-            Config.ApplicationName = applicationName;
-            Config.DeveloperEmails = developerEmail.Split(',');
+            DevMvcConfig.ApplicationName = applicationName;
+            DevMvcConfig.DeveloperEmails = developerEmail.Split(',');
             //Configure this with add a sender email.
             Mailer = mailer; //
             InitalizeDefaults(assembly);
@@ -56,11 +57,11 @@ namespace DevMvcComponent {
 
         private static void InitalizeDefaults(Assembly assembly)
         {
-            Config.Assembly = assembly;
+            DevMvcConfig.Assembly = assembly;
             Error = new Handler();
             Cookies = new CookieProcessor();
             Caches = new CacheProcessor();
-            Config.GetApplicationNameHtml(true);
+            DevMvcConfig.GetApplicationNameHtml(true);
         }
 
 
@@ -72,8 +73,8 @@ namespace DevMvcComponent {
         /// <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
         public static void Setup(Assembly assembly)
         {
-            Config.ApplicationName = "";
-            Config.DeveloperEmails = null;
+            DevMvcConfig.ApplicationName = "";
+            DevMvcConfig.DeveloperEmails = null;
             //Configure this with add a sender email.
             InitalizeDefaults(assembly);
         }

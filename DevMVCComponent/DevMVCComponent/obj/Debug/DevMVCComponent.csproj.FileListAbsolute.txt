@@ -200,3 +200,4 @@ F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPa
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\System.Web.WebPages.Razor.xml
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.dll
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.pdb
+F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Debug\DevMvcComponent.csprojResolveAssemblyReference.cache
