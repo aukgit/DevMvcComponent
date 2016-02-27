@@ -87,7 +87,6 @@ D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFram
 D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
 D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.dll
 D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.pdb
-D:\Working\GitHub\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.csprojResolveAssemblyReference.cache
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.dll.config
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.xml
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\DevMvcComponent.dll

@@ -1,14 +1,14 @@
-﻿namespace DevMvcComponent.Encryption {
+﻿namespace DevMvcComponent.Hashing {
     /// <summary>
     ///     Not yet implemented
     /// </summary>
-    public class Cryptography {
+    public class SimpleHasher {
         private readonly int _defaultLen = 16;
         private readonly char _seperateChar = '-';
 
         /// <summary>
         /// </summary>
-        public Cryptography() {
+        public SimpleHasher() {
             Length = _defaultLen;
             DigitLenDivision = 4;
             DivisionChar = _seperateChar;
@@ -17,19 +17,19 @@
         /// <summary>
         /// </summary>
         /// <param name="len"></param>
-        public Cryptography(int len) {
+        public SimpleHasher(int len) {
             Length = len;
             DigitLenDivision = 4;
             DivisionChar = _seperateChar;
         }
 
-        public Cryptography(int len, int digitLengthForDivision) {
+        public SimpleHasher(int len, int digitLengthForDivision) {
             Length = len;
             DigitLenDivision = digitLengthForDivision;
             DivisionChar = _seperateChar;
         }
 
-        public Cryptography(int len, int digitLengthForDivision, char divisionChar) {
+        public SimpleHasher(int len, int digitLengthForDivision, char divisionChar) {
             Length = len;
             DigitLenDivision = digitLengthForDivision;
             DivisionChar = divisionChar;

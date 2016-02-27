@@ -106,6 +106,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encryption\Pbkdf2Encryption.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
     <Compile Include="Miscellaneous\DirectoryExtension.cs" />
     <Compile Include="Extensions\OneTypeToAnother.cs" />
@@ -131,7 +132,7 @@
     <Compile Include="Processor\CookieProcessor.cs" />
     <Compile Include="DataTypeFormat\TypeChecker.cs" />
     <Compile Include="EntityConversion\EntityToString.cs" />
-    <Compile Include="Encryption\Cryptography.cs" />
+    <Compile Include="Hashing\SimpleHasher.cs" />
     <Compile Include="Enums\CommonEnums.cs" />
     <Compile Include="DataTypeFormat\BasicError.cs" />
     <Compile Include="Error\Handler.cs" />

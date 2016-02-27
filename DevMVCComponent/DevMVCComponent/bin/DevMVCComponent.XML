@@ -4,6 +4,11 @@
         <name>DevMvcComponent</name>
     </assembly>
     <members>
+        <member name="T:DevMvcComponent.Encryption.Pbkdf2Encryption">
+            <summary>
+            Code Collected from : http://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp
+            </summary>
+        </member>
         <member name="M:DevMvcComponent.Extensions.CollectionExtension.GetAsCommaSeperatedValues``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1},System.String)">
             <summary>
                 Returns a string of comma separated values(CSV)
@@ -1071,21 +1076,21 @@
             <param name="sub">Subject of the email.</param>
             <param name="tableCaption">Caption of the table for this entity.</param>
         </member>
-        <member name="T:DevMvcComponent.Encryption.Cryptography">
+        <member name="T:DevMvcComponent.Hashing.SimpleHasher">
             <summary>
                 Not yet implemented
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Encryption.Cryptography.#ctor">
+        <member name="M:DevMvcComponent.Hashing.SimpleHasher.#ctor">
             <summary>
             </summary>
         </member>
-        <member name="M:DevMvcComponent.Encryption.Cryptography.#ctor(System.Int32)">
+        <member name="M:DevMvcComponent.Hashing.SimpleHasher.#ctor(System.Int32)">
             <summary>
             </summary>
             <param name="len"></param>
         </member>
-        <member name="M:DevMvcComponent.Encryption.Cryptography.FormatCode(System.String)">
+        <member name="M:DevMvcComponent.Hashing.SimpleHasher.FormatCode(System.String)">
             <summary>
             </summary>
             <param name="code"></param>
