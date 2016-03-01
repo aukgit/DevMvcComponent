@@ -26,7 +26,7 @@ namespace DevMvcComponent.Config
                 return cachedConfigValue;
             }
 
-            var appIdConfig = Properties.Resources.ResourceManager.GetString(configName);
+            var appIdConfig = DevMvcComponentProperties.Resources.ResourceManager.GetString(configName);
             if (appIdConfig != null && appIdConfig.Length >= 1)
             {
                 var value = appIdConfig;
