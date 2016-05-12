@@ -460,6 +460,7 @@
         <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Collections.Generic.IList{``0},System.String,System.Nullable{System.Int32}@,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Boolean)">
             <summary>
                 Get pagination data based on the page number with cached pages count.
+                Default items limit is 50.
             </summary>
             <param name="entities">Send Entities as List</param>
             <param name="pages">
@@ -481,6 +482,7 @@
         <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Collections.Generic.IList{``0},DevMvcComponent.Pagination.PaginationInfo,System.String,System.Boolean)">
             <summary>
                 Get pagination data based on the page number with cached pages count.
+                Default items limit is 50.
             </summary>
             <param name="entities">Send Entities as IList</param>
             <param name="pageInfo">
@@ -497,6 +499,7 @@
         <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Linq.IQueryable{``0},System.String,System.Nullable{System.Int32}@,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Boolean)">
             <summary>
                 Get pagination data based on the page number with cached pages count.
+                Default items limit is 50.
             </summary>
             <param name="entities">Sent Entities as IQueryable</param>
             <param name="pages">
@@ -518,6 +521,7 @@
         <member name="M:DevMvcComponent.Pagination.Pagination.GetPageData``1(System.Linq.IQueryable{``0},DevMvcComponent.Pagination.PaginationInfo,System.String,System.Boolean)">
             <summary>
                 Get pagination data based on the page number with cached pages count.
+                Default items limit is 50.
             </summary>
             <param name="entities">Sent Entities as IQueryable</param>
             <param name="pageInfo">
@@ -552,6 +556,7 @@
         <member name="P:DevMvcComponent.Pagination.Pagination.PageItems">
             <summary>
                 Total number of items in a page.
+                Default items limit is 50.
             </summary>
         </member>
         <member name="P:DevMvcComponent.Pagination.PaginationInfo.ItemsInPage">

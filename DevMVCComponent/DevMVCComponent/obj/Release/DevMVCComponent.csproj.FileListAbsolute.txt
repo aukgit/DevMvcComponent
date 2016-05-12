@@ -142,3 +142,4 @@ F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.xml
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.dll
 F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\bin\EntityFramework.SqlServer.dll
+F:\Work\Git\DevMVCComponent\DevMVCComponent\DevMVCComponent\obj\Release\DevMvcComponent.csprojResolveAssemblyReference.cache
