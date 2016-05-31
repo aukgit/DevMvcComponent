@@ -44,6 +44,9 @@ namespace DevMvcComponent.Extensions {
         /// <param name="fileNamelocation">Should contain extension(ex. text.txt) .Relative file location  from root + additonroot</param>
         /// <param name="anyObject">Could be array or list or anything.</param>
         public static void SaveAsBinary(this object anyObject, string fileNamelocation) {
+            SaveAsBinary2(anyObject, fileNamelocation);
+        }
+        public static void SaveAsBinary2(object anyObject, string fileNamelocation) {
             if (anyObject == null) {
                 return;
             }
@@ -96,9 +99,6 @@ namespace DevMvcComponent.Extensions {
         /// <param name="fileNamelocation">Direct file location with it's extension.</param>
         /// <param name="anyObject">Saving item. Could be array or list or anything.</param>
         public static object ReadfromBinary(this object anyObject, string fileNamelocation) {
-            if (anyObject == null) {
-                return null;
-            }
             // write files into binary
             if (File.Exists(fileNamelocation)) {
                 try {
@@ -109,6 +109,23 @@ namespace DevMvcComponent.Extensions {
                 }
             }
             return null;
+        }
+        /// <summary>
+        ///     Save any object into file over the previous one.
+        ///     If object is null then don't save anything.
+        /// </summary>
+        /// <param name="fileNamelocation">Direct file location with it's extension.</param>
+        public static T ReadfromBinary2<T>(string fileNamelocation) {
+            // write files into binary
+            if (File.Exists(fileNamelocation)) {
+                try {
+                    var fileBytes = File.ReadAllBytes(fileNamelocation);
+                    return fileBytes.BinaryToGenericObject<T>();
+                } catch (Exception ex) {
+                    Mvc.Error.HandleBy(ex);
+                }
+            }
+            return default(T);
         }
     }
 }

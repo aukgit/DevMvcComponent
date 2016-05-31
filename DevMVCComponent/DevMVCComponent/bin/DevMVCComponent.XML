@@ -77,6 +77,13 @@
             <param name="arrBytes"></param>
             <returns></returns>
         </member>
+        <member name="M:DevMvcComponent.Extensions.OneTypeToAnother.BinaryToGenericObject``1(System.Byte[])">
+            <summary>
+                Read Binary to Object
+            </summary>
+            <param name="arrBytes"></param>
+            <returns></returns>
+        </member>
         <member name="T:DevMvcComponent.Extensions.StringExtension">
             <summary>
             String extensions
@@ -404,6 +411,13 @@
             </summary>
             <param name="fileNamelocation">Direct file location with it's extension.</param>
             <param name="anyObject">Saving item. Could be array or list or anything.</param>
+        </member>
+        <member name="M:DevMvcComponent.Extensions.BinaryFileExtenstion.ReadfromBinary2``1(System.String)">
+            <summary>
+                Save any object into file over the previous one.
+                If object is null then don't save anything.
+            </summary>
+            <param name="fileNamelocation">Direct file location with it's extension.</param>
         </member>
         <member name="T:DevMvcComponent.Miscellaneous.HtmlHelper">
             <summary>

@@ -47,7 +47,7 @@ namespace DevMvcComponent.Extensions {
             propertyInfo = null;
             value = null;
             GC.Collect();
-            return (TNewType)x;
+            return (TNewType) x;
         }
 
         /// <summary>
@@ -79,6 +79,23 @@ namespace DevMvcComponent.Extensions {
             memStream.Write(arrBytes, 0, arrBytes.Length);
             memStream.Seek(0, SeekOrigin.Begin);
             var obj = binForm.Deserialize(memStream);
+            return obj;
+        }
+
+        /// <summary>
+        ///     Read Binary to Object
+        /// </summary>
+        /// <param name="arrBytes"></param>
+        /// <returns></returns>
+        public static T BinaryToGenericObject<T>(this byte[] arrBytes) {
+            if (arrBytes == null || arrBytes.Length == 0) {
+                return default(T);
+            }
+            var memStream = new MemoryStream();
+            var binForm = new BinaryFormatter();
+            memStream.Write(arrBytes, 0, arrBytes.Length);
+            memStream.Seek(0, SeekOrigin.Begin);
+            var obj = (T) binForm.Deserialize(memStream);
             return obj;
         }
     }
