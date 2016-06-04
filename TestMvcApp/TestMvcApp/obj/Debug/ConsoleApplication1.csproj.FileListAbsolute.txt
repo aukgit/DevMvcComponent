@@ -1,9 +1,0 @@
-D:\Working\GitHub\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-D:\Working\GitHub\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
-D:\Working\GitHub\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-D:\Working\GitHub\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-D:\Working\GitHub\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-D:\Working\GitHub\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
-D:\Work\Git\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-D:\Work\Git\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-D:\Work\Git\DevMVCComponent\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
