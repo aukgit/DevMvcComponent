@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using DevMvcComponent.Enums;
 using DevMvcComponent.Extensions;
 
@@ -131,7 +132,7 @@ namespace DevMvcComponent.Mail {
             mail.From = mailAddress;
             //mail.ReplyToList.Add(mailAddress);
             return mail;
-        } 
+        }
         #endregion
 
         #region Cloning Smtp
@@ -183,7 +184,7 @@ namespace DevMvcComponent.Mail {
             bool isHtml = true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
-            SendWithAttachments(to, subject, body, null, attachments, type, isAsync,isHtml,userToken,sendCompletedEventHandler);
+            SendWithAttachments(to, subject, body, null, attachments, type, isAsync, isHtml, userToken, sendCompletedEventHandler);
         }
         /// <summary>
         ///     Quickly send an emailAddress.
@@ -337,7 +338,7 @@ namespace DevMvcComponent.Mail {
         #region Send emails
 
         /// <summary>
-        /// 
+        /// Final method for sending emails to the user.
         /// </summary>
         /// <param name="mailWrapper"></param>
         /// <param name="async"></param>
@@ -354,8 +355,10 @@ namespace DevMvcComponent.Mail {
                     server.SendCompleted += completeEvent;
                 }
                 if (async) {
-                    userToken = userToken ?? "None";
-                    server.SendAsync(message, userToken);
+                    //userToken = userToken ?? "None";
+                    new Thread(() => {
+                        server.Send(message);
+                    }).Start();
                 } else {
                     server.Send(message);
                 }
@@ -408,7 +411,7 @@ namespace DevMvcComponent.Mail {
             }
         }
         #endregion
-        
+
         /// <summary>
         ///     Specific host setup. Must ensure the boolean isHostConfigured = true.
         ///     Make sure your mail has less protection, IMAP, and pop3 set to enabled.

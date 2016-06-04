@@ -2,12 +2,11 @@
 
 namespace DevMvcComponent.Extensions {
     /// <summary>
-    /// String extensions
+    ///     String extensions
     /// </summary>
     public static class StringExtension {
-
         /// <summary>
-        /// Concat otherstrings if first one is not null.
+        ///     Concat otherstrings if first one is not null.
         /// </summary>
         /// <param name="currentString"></param>
         /// <param name="otherStrings"></param>
@@ -19,7 +18,6 @@ namespace DevMvcComponent.Extensions {
             return "";
         }
 
-
         /// <summary>
         ///     Split the string into pieces.
         /// </summary>
@@ -27,8 +25,9 @@ namespace DevMvcComponent.Extensions {
         /// <param name="length">If string len is less then return whole string. Null means whole len.</param>
         /// <returns></returns>
         public static string GetStringCutOff(this string str, int? length) {
-            if (string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str)) {
                 return "";
+            }
             if (length == null) {
                 length = str.Length;
             }
@@ -45,8 +44,9 @@ namespace DevMvcComponent.Extensions {
         /// <param name="length">-1 means whole return last len.</param>
         /// <returns></returns>
         public static string GetStringCutOff(this string str, int starting, int length) {
-            if (string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str)) {
                 return "";
+            }
             if (length == -1) {
                 length = str.Length;
             }
@@ -62,7 +62,53 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        /// First char upper case and others are in lowercase
+        ///     Returns true/false if compareString is matched with the string last part.
+        ///     For example : "Hello World.js".IsStringMatchfromLast(".js") ; returns true.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="comparingString">value that should matched with last indexes</param>
+        /// <param name="escapseIndexUpto">
+        ///     if any value given upto that length the string will not be compared, however if any given then the algorithm will
+        ///     compare upto this value.
+        ///     For example :
+        ///     "1234".IsStringMatchfromLast("4", 4); // returns false.
+        ///     "1234".IsStringMatchfromLast("4", 3); // returns true . loop only run for last single char and escapes first 3
+        ///     chars.
+        ///     "1234".IsStringMatchfromLast("4", 2); // returns true . loop only run for last 2 chars.
+        ///     "1234".IsStringMatchfromLast("34", 2); // returns true . loop only run for last 2 chars.
+        ///     "1234".IsStringMatchfromLast("234", 2); // returns false . loop only run for last 2 chars.
+        /// </param>
+        /// <returns>
+        ///     Returns true/false if compareString is matched with the string last part.
+        ///     For example : "Hello World.js".IsStringMatchfromLast(".js") ; returns true.
+        /// </returns>
+        public static bool IsStringMatchfromLast(this string value, string comparingString, int escapseIndexUpto = -1) {
+            var compareLen = comparingString.Length - 1;
+            if (escapseIndexUpto == -1) {
+                escapseIndexUpto = 0;
+            }
+            bool result = true;
+            for (int i = value.Length - 1, k = 0; i >= escapseIndexUpto; i--, k++) {
+                var index = compareLen - k;
+                if (index < 0) {
+                    return result;
+                }
+                var isCharNotSame = value[i] != comparingString[index];
+                if (isCharNotSame) {
+                    var passedLength = k;
+                    var isComparedLengthMatched = passedLength == compareLen + 1;
+                    if (isComparedLengthMatched) {
+                        return true;
+                    }
+                    result = false;
+                    
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        ///     First char upper case and others are in lowercase
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -71,35 +117,22 @@ namespace DevMvcComponent.Extensions {
             // Uppercase the first letter in the string.
             //
             if (value.Length > 0) {
-                char[] array = value.ToCharArray();
+                var array = value.ToCharArray();
                 array[0] = char.ToUpper(array[0]);
                 return new string(array);
             }
             return value;
         }
+
         /// <summary>
-        /// Returns given parameter(0) if can't convert to an int.
+        ///     Returns given parameter(0) if can't convert to an int.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
         /// <returns></returns>
         public static int ToInt(this string value, int defaultParameter = 0) {
             var integerNumber = 0;
-            bool isPossible = int.TryParse(value, out integerNumber);
-            if (isPossible) {
-                return integerNumber;
-            }
-            return defaultParameter;
-        }
-        /// <summary>
-        /// Returns given parameter(0) if can't convert to an long.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
-        /// <returns></returns>
-        public static long ToLong(this string value, long defaultParameter = 0) {
-            var integerNumber = 0;
-            bool isPossible = int.TryParse(value, out integerNumber);
+            var isPossible = int.TryParse(value, out integerNumber);
             if (isPossible) {
                 return integerNumber;
             }
@@ -107,14 +140,29 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        /// Returns given parameter(0) if can't convert to an decimal.
+        ///     Returns given parameter(0) if can't convert to an long.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
+        /// <returns></returns>
+        public static long ToLong(this string value, long defaultParameter = 0) {
+            var integerNumber = 0;
+            var isPossible = int.TryParse(value, out integerNumber);
+            if (isPossible) {
+                return integerNumber;
+            }
+            return defaultParameter;
+        }
+
+        /// <summary>
+        ///     Returns given parameter(0) if can't convert to an decimal.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
         /// <returns></returns>
         public static decimal ToDecimal(this string value, decimal defaultParameter = 0) {
             decimal decimalNumber = 0;
-            bool isPossible = decimal.TryParse(value, out decimalNumber);
+            var isPossible = decimal.TryParse(value, out decimalNumber);
             if (isPossible) {
                 return decimalNumber;
             }
@@ -122,14 +170,14 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        /// Returns given parameter(0) if can't convert to an decimal.
+        ///     Returns given parameter(0) if can't convert to an decimal.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="defaultParameter">Your default parameter to receive when can't convert to number.</param>
         /// <returns></returns>
         public static double ToDouble(this string value, double defaultParameter = 0) {
             double decimalNumber = 0;
-            bool isPossible = double.TryParse(value, out decimalNumber);
+            var isPossible = double.TryParse(value, out decimalNumber);
             if (isPossible) {
                 return decimalNumber;
             }
