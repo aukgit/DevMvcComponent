@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using DevMvcComponent.Extensions;
-namespace DevMvcComponent.Miscellaneous {
+
+namespace DevMvcComponent.HtmlEnhancements {
     /// <summary>
-    /// 
     /// </summary>
     public static class HtmlHelper {
-
         private static string GetStyles(string property, string value) {
-           return  StringExtension.DependingStringConcat(value, property, value);
+            return StringExtension.DependingStringConcat(value, property, ":", value);
         }
 
-     
         /// <summary>
-        /// Get common styles string value pair.
+        ///     Get common styles string value pair.
         /// </summary>
         /// <param name="backgroundColor">Pass only background color-value if exist.  Eg. black</param>
         /// <param name="color">Pass only color-value if exist. Eg. white</param>
@@ -26,17 +22,18 @@ namespace DevMvcComponent.Miscellaneous {
         /// <returns></returns>
         public static string GetCommonStyles(string backgroundColor, string color, string margin, string padding,
             string borderRadius, string fontWeight = null) {
-            List<string> stlesList = new List<string>(8);
-            stlesList.Add(GetStyles("background-color:", backgroundColor));
-            stlesList.Add(GetStyles("color:", color));
-            stlesList.Add(GetStyles("margin:", margin));
-            stlesList.Add(GetStyles("padding:", padding));
-            stlesList.Add(GetStyles("border-radius:", borderRadius));
-            stlesList.Add(GetStyles("font-weight:", fontWeight));
+            var stlesList = new List<string>(8);
+            stlesList.Add(GetStyles("background-color", backgroundColor));
+            stlesList.Add(GetStyles("color", color));
+            stlesList.Add(GetStyles("margin", margin));
+            stlesList.Add(GetStyles("padding", padding));
+            stlesList.Add(GetStyles("border-radius", borderRadius));
+            stlesList.Add(GetStyles("font-weight", fontWeight));
             return string.Join(";", stlesList);
         }
+
         /// <summary>
-        /// Get tag (not self closing) with Html contents
+        ///     Get tag (not self closing) with Html contents
         /// </summary>
         /// <param name="tag">Tag name</param>
         /// <param name="content">Content of html</param>
@@ -46,8 +43,9 @@ namespace DevMvcComponent.Miscellaneous {
         public static string GetTag(string tag, string content, string styles = null, object htmlAttributes = null) {
             return GetTag(false, tag, content, styles, htmlAttributes);
         }
+
         /// <summary>
-        /// Get self closing tag with html contents.
+        ///     Get self closing tag with html contents.
         /// </summary>
         /// <param name="tag">Tag name</param>
         /// <param name="content">Content of html</param>
@@ -59,7 +57,7 @@ namespace DevMvcComponent.Miscellaneous {
         }
 
         /// <summary>
-        /// Get a tag with Html contents.
+        ///     Get a tag with Html contents.
         /// </summary>
         /// <param name="selfClosing">Is it self closing or not.</param>
         /// <param name="tag">Tag name</param>

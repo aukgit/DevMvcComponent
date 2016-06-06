@@ -2,6 +2,7 @@
 
 using System;
 using System.Reflection;
+using DevMvcComponent.Miscellaneous;
 
 #endregion
 
@@ -17,6 +18,7 @@ namespace DevMvcComponent {
 
         private static string _applicationMailFooter = "";
         private static string _commonStyles = ";margin-top: 12px; padding: 11px; border-radius: 4px;'";
+
         /// <summary>
         ///     Developer email
         /// </summary>
@@ -38,51 +40,54 @@ namespace DevMvcComponent {
         public static bool IsNotifyDeveloper = true;
 
         /// <summary>
-        /// Common margin and padding style for email.
-        ///  ";margin-top: 12px; padding: 11px; border-radius: 4px;'"
+        ///     Common margin and padding style for email.
+        ///     ";margin-top: 12px; padding: 11px; border-radius: 4px;'"
         /// </summary>
         public static string CommonStyles {
             get { return _commonStyles; }
             set { _commonStyles = value; }
         }
+
         /// <summary>
-        /// Eg. GetAssemblyAttribute<AssemblyTitleAttribute>(a => a.Title)
+        ///     Eg. GetAssemblyAttribute<AssemblyTitleAttribute>(a => a.Title)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
         public static string GetAssemblyAttribute<T>(Func<T, string> value)
-                                    where T : Attribute {
-            T attribute = (T)Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(T));
+            where T : Attribute {
+            var attribute = (T) Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(T));
             return value.Invoke(attribute);
         }
+
         /// <summary>
-        /// Get assembly information of any assembly
-        /// Eg. GetAssemblyAttribute<AssemblyTitleAttribute>(Assembly, a => a.Title)
+        ///     Get assembly information of any assembly
+        ///     Eg. GetAssemblyAttribute<AssemblyTitleAttribute>(Assembly, a => a.Title)
         /// </summary>
         /// <param name="assembly"></param>
         /// <param name="value"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static string GetAssemblyAttribute<T>(Assembly assembly,Func<T, string> value)
-                                  where T : Attribute {
-                                      T attribute = (T)Attribute.GetCustomAttribute(assembly, typeof(T));
+        public static string GetAssemblyAttribute<T>(Assembly assembly, Func<T, string> value)
+            where T : Attribute {
+            var attribute = (T) Attribute.GetCustomAttribute(assembly, typeof(T));
             return value.Invoke(attribute);
         }
+
         /// <summary>
-        /// Wraps with strong tag.
+        ///     Wraps with strong tag.
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
         public static string GetBold(string str) {
             return "<strong title='" + str + "'>" + str + "</strong>";
         }
+
         /// <summary>
         ///     Attach application information from the AssemblyInfo given the Assembly = Assembly.GetExecutingAssembly().
         /// </summary>
         /// <returns></returns>
         public static string GetApplicationNameHtml(bool isForce = false) {
-
             //styleStart = "style='",
             //colorRed = "color:red",
             //styleJoiner = ";",
@@ -139,10 +144,34 @@ namespace DevMvcComponent {
                 str += "<a href='mailto:me@alimkarim.com'>me@alimkarim.com</a>";
                 str += divClose;
 
-
                 str += divStart + slashClose;
                 str += "Documentation: ";
                 str += "<a href='https://github.com/aukgit/DevMVCComponent'>https://github.com/aukgit/DevMVCComponent</a>";
+                str += divClose;
+
+                str += divStart + slashClose;
+                str += "GetBaseOrAppDirectory : ";
+                str += DirectoryExtension.GetBaseOrAppDirectory();
+                str += divClose;
+
+                str += divStart + slashClose;
+                str += "GetApplicationPhysicalPath : ";
+                str += DirectoryExtension.GetApplicationPhysicalPath();
+                str += divClose;
+
+                str += divStart + slashClose;
+                str += "GetWebAppDirectory(\"~/\") : ";
+                str += DirectoryExtension.GetWebAppDirectory("~/");
+                str += divClose;
+
+                str += divStart + slashClose;
+                str += "GetWebAppDireGetWebAppRootDirectoryctory : ";
+                str += DirectoryExtension.GetWebAppRootDirectory();
+                str += divClose;
+
+                str += divStart + slashClose;
+                str += "GetAppDomainAppPath : ";
+                str += DirectoryExtension.GetAppDomainAppPath();
                 str += divClose;
 
                 str += divStart + slashClose;

@@ -2,25 +2,25 @@
 
 using System;
 using System.Data.Entity.Validation;
+using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using DevMvcComponent.EntityConversion;
+using DevMvcComponent.Enums;
+using DevMvcComponent.HtmlEnhancements;
 using DevMvcComponent.Mail;
-using DevMvcComponent.Miscellaneous;
 
 #endregion
 
 namespace DevMvcComponent.Error {
     /// <summary>
-    /// Error handler
+    ///     Error handler
     /// </summary>
     public class Handler {
         /// <summary>
         /// </summary>
-        public Handler() {
-        }
+        public Handler() {}
 
         /// <summary>
         ///     Sends an email to the developer if run into any errors.
@@ -125,7 +125,7 @@ namespace DevMvcComponent.Error {
         /// <returns></returns>
         public string GetEntityValidationHtml(DbEntityValidationException e, string methodName,
             string optional = "") {
-            var showError = String.Format("(Failed)Method: {0}\n" +
+            var showError = string.Format("(Failed)Method: {0}\n" +
                                           "<br/>Exception :{1}\n" +
                                           "<br/><b>Stack Trace :{2}</b>\n" +
                                           "<br/>Optional:{3}\n", methodName, e, e.StackTrace, optional);
@@ -133,12 +133,12 @@ namespace DevMvcComponent.Error {
             //Console.WriteLine(showError);
             showError += "<br/>DBEntity Errors:-><br/> <div style='color:red;font-weight:bolder;'>";
             foreach (var eve in e.EntityValidationErrors) {
-                showError += String.Format("EntityType: {0}<br/>" +
+                showError += string.Format("EntityType: {0}<br/>" +
                                            "State :{1}<br/>", eve.Entry.Entity.GetType().Name, eve.Entry.State);
 
                 foreach (var ve in eve.ValidationErrors) {
                     //Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
-                    showError += String.Format("->Property: {0}<br/>" +
+                    showError += string.Format("->Property: {0}<br/>" +
                                                "->Error:{1}<br/>", ve.PropertyName, ve.ErrorMessage);
                 }
             }
@@ -155,12 +155,12 @@ namespace DevMvcComponent.Error {
         public string GetErrorMsgHtml(Exception e, string methodName, string optional = "") {
             var inner = "";
             if (e is DbEntityValidationException) {
-                return GetEntityValidationHtml((DbEntityValidationException)e, methodName, optional);
+                return GetEntityValidationHtml((DbEntityValidationException) e, methodName, optional);
             }
             if (e.InnerException != null) {
                 inner = e.InnerException.ToString();
             }
-            var showError = String.Format("(Failed)Method: {0}<br>" +
+            var showError = string.Format("(Failed)Method: {0}<br>" +
                                           "Exception :{2}<br>" +
                                           "<h3 style='color:red;font-weight:bolder;'>Message:{1}</h3><br/>" +
                                           "Source:{3}<br>" +
@@ -183,7 +183,7 @@ namespace DevMvcComponent.Error {
             object entitySingleObject = null) {
             var isUserExist = HttpContext.Current != null && HttpContext.Current.User.Identity.IsAuthenticated;
 
-            StringBuilder sb = new StringBuilder(30);
+            var sb = new StringBuilder(30);
             if (body == null) {
                 body = "";
             }
@@ -201,7 +201,7 @@ namespace DevMvcComponent.Error {
             }
             if (entitySingleObject != null) {
                 sb.Append("<hr/>");
-                sb.Append(HtmlHelper.GetTag("h3", "Entity Title : " + entitySingleObject.ToString()));
+                sb.Append(HtmlHelper.GetTag("h3", "Entity Title : " + entitySingleObject));
                 try {
                     var entityString = EntityToString.GetHtmlOfSingleClassAsTable(entitySingleObject);
                     sb.Append(entityString);
@@ -218,26 +218,33 @@ namespace DevMvcComponent.Error {
         ///     Sends an quick email to the developer.
         /// </summary>
         /// <param name="exception">Your thrown exception to log in your developers email address.</param>
-        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="methodName">
+        ///     Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or
+        ///     nameOf(methodName) C# 6.0
+        /// </param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
         public void ByEmail(Exception exception, string methodName = "", string subject = "", object entity = null) {
             if (methodName == "") {
-                methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                methodName = MethodBase.GetCurrentMethod().Name;
             }
             ByEmail(exception, Mvc.Mailer, methodName, subject, entity);
         }
+
         /// <summary>
-        /// Send an asynchronous email to the given email addresses as carbon copy.
+        ///     Send an asynchronous email to the given email addresses as carbon copy.
         /// </summary>
         /// <param name="exception">Your thrown exception to log in your developers email address.</param>
         /// <param name="mailServer">You can pass your custom mailing server to send the mail from.</param>
-        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="methodName">
+        ///     Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or
+        ///     nameOf(methodName) C# 6.0
+        /// </param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public  void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
+        public void ByEmail(Exception exception, MailServer mailServer, string methodName, string subject = "", object entity = null) {
             if (methodName == "") {
-                methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                methodName = MethodBase.GetCurrentMethod().Name;
             }
             new Thread(() => {
                 if (Config.DeveloperEmails != null && Config.IsNotifyDeveloper) {
@@ -245,43 +252,49 @@ namespace DevMvcComponent.Error {
                     GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                     body += Config.GetApplicationNameHtml();
                     if (mailServer != null) {
-                        mailServer.QuickSend(Config.DeveloperEmails, subject, body, Enums.MailingType.RegularMail,null, false);
+                        mailServer.QuickSend(Config.DeveloperEmails, subject, body, MailingType.RegularMail, null, false);
                     }
                 }
             }).Start();
         }
 
         /// <summary>
-        /// Send an asynchronous email to the given email addresses as carbon copy.
+        ///     Send an asynchronous email to the given email addresses as carbon copy.
         /// </summary>
         /// <param name="exception">Your thrown exception to log in your developers email address.</param>
         /// <param name="mailingAddresses">Comma separated email address.</param>
-        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="methodName">
+        ///     Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or
+        ///     nameOf(methodName) C# 6.0
+        /// </param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public  void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
+        public void ByEmail(Exception exception, string mailingAddresses, string methodName, string subject = "", object entity = null) {
             if (mailingAddresses != null) {
                 ByEmail(exception, mailingAddresses.Split(','), methodName, subject, entity);
             }
         }
 
         /// <summary>
-        /// Send an asynchronous email to the given email addresses as carbon copy.
+        ///     Send an asynchronous email to the given email addresses as carbon copy.
         /// </summary>
         /// <param name="exception">Your thrown exception to log in your developers email address.</param>
         /// <param name="mailingAddresses">Mailing address to send exception log as a carbon copy.</param>
-        /// <param name="methodName">Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or nameOf(methodName) C# 6.0</param>
+        /// <param name="methodName">
+        ///     Name or the method : System.Reflection.MethodBase.GetCurrentMethod().Name or custom name or
+        ///     nameOf(methodName) C# 6.0
+        /// </param>
         /// <param name="subject">Mailing subject, your app name will be included automatically.</param>
         /// <param name="entity">Your entity information.</param>
-        public  void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
+        public void ByEmail(Exception exception, string[] mailingAddresses, string methodName, string subject = "", object entity = null) {
             if (methodName == "") {
-                methodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                methodName = MethodBase.GetCurrentMethod().Name;
             }
             new Thread(() => {
                 var body = "";
                 GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                 body += Config.GetApplicationNameHtml();
-                Mvc.Mailer.QuickSend(mailingAddresses, subject, body, Enums.MailingType.CarbonCopy, null, false);
+                Mvc.Mailer.QuickSend(mailingAddresses, subject, body, MailingType.CarbonCopy, null, false);
             }).Start();
         }
     }

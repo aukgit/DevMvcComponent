@@ -22,6 +22,7 @@ namespace DevMvcComponent.Pagination {
             get { return _pageItems; }
             set { _pageItems = value; }
         }
+
         /// <summary>
         ///     Get pagination data based on the page number with cached pages count.
         ///     Default items limit is 50.
@@ -48,8 +49,9 @@ namespace DevMvcComponent.Pagination {
                 page = 1;
             }
 
-            if (items == null || items == -1)
+            if (items == null || items == -1) {
                 items = PageItems;
+            }
 
             var take = (int) items;
             var skip = (int) page * take - take; //5 * 10 - 10
@@ -98,8 +100,9 @@ namespace DevMvcComponent.Pagination {
                 pageInfo.PageNumber = 1;
             }
 
-            if (pageInfo.ItemsInPage == null || pageInfo.ItemsInPage <= 0)
+            if (pageInfo.ItemsInPage == null || pageInfo.ItemsInPage <= 0) {
                 pageInfo.ItemsInPage = PageItems;
+            }
 
             var take = (int) pageInfo.ItemsInPage;
             var skip = (int) pageInfo.PageNumber * take - take; //5 * 10 - 10
@@ -130,6 +133,7 @@ namespace DevMvcComponent.Pagination {
             }
             return entities.Skip(skip).Take(take);
         }
+
         /// <summary>
         ///     Get pagination data based on the page number with cached pages count.
         ///     Default items limit is 50.
@@ -156,8 +160,9 @@ namespace DevMvcComponent.Pagination {
                 page = 1;
             }
 
-            if (items == null || items == -1)
+            if (items == null || items == -1) {
                 items = PageItems;
+            }
 
             var take = (int) items;
             var skip = (int) page * take - take; //5 * 10 - 10
@@ -165,7 +170,7 @@ namespace DevMvcComponent.Pagination {
             var cachePages = pages == null ? -1 : (int) pages;
 
             if (!string.IsNullOrEmpty(cacheName)) {
-                string cachePagesString = Mvc.Caches.GetString(cacheName);
+                var cachePagesString = Mvc.Caches.GetString(cacheName);
                 if (cachePagesString != null) {
                     cachePages = int.Parse(cachePagesString);
                     pages = cachePages;
@@ -206,8 +211,9 @@ namespace DevMvcComponent.Pagination {
                 pageInfo.PageNumber = 1;
             }
 
-            if (pageInfo.ItemsInPage == null || pageInfo.ItemsInPage == -1)
+            if (pageInfo.ItemsInPage == null || pageInfo.ItemsInPage == -1) {
                 pageInfo.ItemsInPage = PageItems;
+            }
 
             var take = (int) pageInfo.ItemsInPage;
             var skip = (int) pageInfo.PageNumber * take - take; //5 * 10 - 10
@@ -265,8 +271,8 @@ namespace DevMvcComponent.Pagination {
             string activeClass = "active") {
             // code started
             string firstPageLink = "",
-                lastPageLink = "",
-                appendingListItem = "";
+                   lastPageLink = "",
+                   appendingListItem = "";
 
             var sb = new StringBuilder(maxNumbersOfPagesShow + 10);
 

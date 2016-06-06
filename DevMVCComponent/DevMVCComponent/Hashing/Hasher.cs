@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DevMvcComponent.Hashing {
     /// <summary>
-    /// Hash any thing or set of arguments
+    ///     Hash any thing or set of arguments
     /// </summary>
     public static class Hasher {
         /// <summary>
@@ -23,9 +23,8 @@ namespace DevMvcComponent.Hashing {
             return sb.ToString().GetHashCode().ToString();
         }
 
-
         /// <summary>
-        /// Get any file hash with given parameters.
+        ///     Get any file hash with given parameters.
         /// </summary>
         /// <param name="s"></param>
         /// <param name="hasher"></param>
@@ -90,6 +89,5 @@ namespace DevMvcComponent.Hashing {
             Mvc.Cookies[cacheName] = currentHash;
             return false;
         }
-
     }
 }

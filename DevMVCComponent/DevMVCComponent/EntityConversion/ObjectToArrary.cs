@@ -23,9 +23,9 @@ namespace DevMvcComponent.EntityConversion {
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(TypeOfPropertise)
-                        .Where(p => /* p.Name != "EntityKey" &&*/ p.Name != "EntityState")
-                        .ToList();
+                         .GetProperties(TypeOfPropertise)
+                         .Where(p => /* p.Name != "EntityKey" &&*/ p.Name != "EntityState")
+                         .ToList();
 
                 var list = new List<ObjectProperty>(propertise.Count);
                 foreach (var prop in propertise) {

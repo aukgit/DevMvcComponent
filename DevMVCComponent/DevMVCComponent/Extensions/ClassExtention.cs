@@ -1,6 +1,5 @@
 ﻿#region using block
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,7 +25,7 @@ namespace DevMvcComponent.Extensions {
             if (o == null) {
                 return true;
             }
-            if (String.IsNullOrWhiteSpace(o.ToString())) {
+            if (string.IsNullOrWhiteSpace(o.ToString())) {
                 return true;
             }
             return false;
@@ -77,7 +76,7 @@ namespace DevMvcComponent.Extensions {
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
         /// <returns>Returns the list of properties with values in the class.</returns>
-        public static List<ObjectProperty> GetPropertiesValues(this object objectType) {
+        public static List<ObjectProperty> AsObjectPropertyList(this object objectType) {
             var listOfPropertise = new List<ObjectProperty>(100);
             if (objectType != null) {
                 var properties = objectType.GetType().GetProperties(TypeOfPropertise).ToList();

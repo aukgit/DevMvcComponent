@@ -20,13 +20,13 @@ namespace DevMvcComponent.DataTypeFormat {
         /// <returns>Returns : true if data-type is primitive type or Guid (check MSDN for more info)</returns>
         public static bool IsPrimitiveOrGuid(object o) {
             bool checkLong = o is long,
-                checkInt = o is int || o is Int16 || o is Int64,
-                checkDecimal = o is float || o is decimal || o is double,
-                checkString = o is string,
-                checkGuid = o is Guid,
-                checkBool = o is bool,
-                checkDateTime = o is DateTime,
-                checkByte = o is byte;
+                 checkInt = o is int || o is short || o is long,
+                 checkDecimal = o is float || o is decimal || o is double,
+                 checkString = o is string,
+                 checkGuid = o is Guid,
+                 checkBool = o is bool,
+                 checkDateTime = o is DateTime,
+                 checkByte = o is byte;
 
             if (checkString || checkByte || checkLong || checkInt || checkDecimal || checkGuid || checkBool ||
                 checkDateTime) {
@@ -42,10 +42,10 @@ namespace DevMvcComponent.DataTypeFormat {
         /// <returns>Returns : true if data-type is number(int, decimal, float or single etc...)</returns>
         public static bool IsNumber(object o) {
             bool checkLong = o is long,
-                checkInt = o is int || o is Int16 || o is Int64,
-                checkSingle = o is Single,
-                checkDecimal = o is float || o is decimal || o is double,
-                checkByte = o is byte;
+                 checkInt = o is int || o is short || o is long,
+                 checkSingle = o is float,
+                 checkDecimal = o is float || o is decimal || o is double,
+                 checkByte = o is byte;
 
             if (checkByte || checkLong || checkInt || checkDecimal || checkSingle) {
                 return true;
@@ -69,9 +69,9 @@ namespace DevMvcComponent.DataTypeFormat {
         /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
         public static bool IsIntOrLongOrByte(object o) {
             bool checkLong = o is long,
-                checkInt = o is int || o is Int16 || o is Int64,
-                checkSingle = o is Single,
-                checkByte = o is byte;
+                 checkInt = o is int || o is short || o is long,
+                 checkSingle = o is float,
+                 checkByte = o is byte;
 
             if (checkByte || checkLong || checkInt || checkSingle) {
                 return true;
@@ -94,7 +94,7 @@ namespace DevMvcComponent.DataTypeFormat {
         /// <param name="o"></param>
         /// <returns>Returns : true if data-type is non-floating point(long,int,single, byte)</returns>
         public static bool IsStringNonFloatingPointNumber(string o) {
-            return Regex.IsMatch(o,@"^\d+$");
+            return Regex.IsMatch(o, @"^\d+$");
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace DevMvcComponent.DataTypeFormat {
         /// <param name="o"></param>
         /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
         public static bool IsDoubleOrDecimalOrFloat(object o) {
-            return o is float || o is decimal || o is double || o is Single;
+            return o is float || o is decimal || o is double || o is float;
         }
 
         /// <summary>
@@ -114,6 +114,5 @@ namespace DevMvcComponent.DataTypeFormat {
         public static bool IsFloatingPointNumber(object o) {
             return IsDoubleOrDecimalOrFloat(o);
         }
-
     }
 }

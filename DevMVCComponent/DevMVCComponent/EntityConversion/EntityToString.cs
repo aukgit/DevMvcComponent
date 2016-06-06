@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using DevMvcComponent.DataTypeFormat;
-using DevMvcComponent.Miscellaneous;
+using DevMvcComponent.HtmlEnhancements;
 
 #endregion
 
@@ -22,20 +22,35 @@ namespace DevMvcComponent.EntityConversion {
         ///     Get simple string of a single class object
         /// </summary>
         /// <param name="Class">Any entity object , can be null.</param>
-        /// <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
+        /// <returns>
+        ///     Returns property and value string combination, returns empty string if class is null or doesn't have any valid
+        ///     properties to display.
+        /// </returns>
+        public static string AsString(this object Class) {
+            return Get(Class);
+        }
+
+        /// <summary>
+        ///     Get simple string of a single class object
+        /// </summary>
+        /// <param name="Class">Any entity object , can be null.</param>
+        /// <returns>
+        ///     Returns property and value string combination, returns empty string if class is null or doesn't have any valid
+        ///     properties to display.
+        /// </returns>
         public static string Get(object Class) {
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(TypeOfPropertise)
-                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
-                        .ToList();
+                         .GetProperties(TypeOfPropertise)
+                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
+                         .ToList();
                 var sb = new StringBuilder(propertise.Count + 2);
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
                     if (TypeChecker.IsPrimitiveOrGuid(val)) {
-                        var str = String.Format("\n{0} : {1}", prop.Name, val);
+                        var str = string.Format("\n{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
                         sb.AppendLine(str);
                     }
@@ -47,23 +62,33 @@ namespace DevMvcComponent.EntityConversion {
             }
             return "";
         }
+
         /// <summary>
         ///     Get simple Html string of a single class object with only new lines
         /// </summary>
         /// <param name="Class">Any entity object , can be null.</param>
-        /// <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
-        public static string GetHtmlOfSingleClassAsTable(object Class) {
+        /// <param name="additionalStylesWithTable"></param>
+        /// <param name="additionalStylesWithRow"></param>
+        /// <param name="additionalStylesWithCell"></param>
+        /// <returns>
+        ///     Returns property and value string combination, returns empty string if class is null or doesn't have any valid
+        ///     properties to display.
+        /// </returns>
+        public static string AsHtmlTable(object Class,
+            string additionalStylesWithTable = "",
+            string additionalStylesWithRow = "",
+            string additionalStylesWithCell = "") {
             if (Class != null) {
                 var properties =
                     Class.GetType()
-                        .GetProperties(TypeOfPropertise)
-                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
-                        .ToList();
+                         .GetProperties(TypeOfPropertise)
+                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
+                         .ToList();
                 var sb = new StringBuilder(properties.Count * 3 + 20);
                 var styles = HtmlHelper.GetCommonStyles("#74DA74", "black", null, "8px 20px 16px", "4px");
                 var styles2 = HtmlHelper.GetCommonStyles(null, null, null, null, null, "bolder");
                 sb.Append("<table ");
-                sb.Append("style='" + styles + "'>");
+                sb.Append("style='" + styles + additionalStylesWithTable + "'>");
                 sb.Append("<thead>");
                 //sb.Append(HtmlHelper.GetTag("caption", "Entity Title : " + Class.ToString()));
                 sb.Append("<tr ");
@@ -97,24 +122,89 @@ namespace DevMvcComponent.EntityConversion {
             }
             return "";
         }
+
         /// <summary>
         ///     Get simple Html string of a single class object with only new lines
         /// </summary>
         /// <param name="Class">Any entity object , can be null.</param>
-        /// <returns>Returns property and value string combination, returns empty string if class is null or doesn't have any valid properties to display.</returns>
+        /// <param name="additionalStylesWithTable">add inline styles with table.</param>
+        /// <param name="additionalStylesWithRow">add inline styles with tr element or row.</param>
+        /// <param name="additionalStylesWithCell">add inline styles with td element or cell.</param>
+        /// <returns>
+        ///     Returns property and value string combination, returns empty string if class is null or doesn't have any valid
+        ///     properties to display.
+        /// </returns>
+        public static string GetHtmlOfSingleClassAsTable(
+            object Class,
+            string additionalStylesWithTable = "",
+            string additionalStylesWithRow = "",
+            string additionalStylesWithCell = null) {
+            if (Class != null) {
+                var properties =
+                    Class.GetType()
+                         .GetProperties(TypeOfPropertise)
+                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
+                         .ToList();
+                var sb = new StringBuilder(properties.Count * 3 + 20);
+                var styles = HtmlHelper.GetCommonStyles("#74DA74", "black", null, "8px 20px 16px", "4px");
+                var styles2 = HtmlHelper.GetCommonStyles(null, null, null, null, null, "bolder");
+                sb.Append("<table ");
+                sb.Append("style='" + styles + additionalStylesWithTable + "'>");
+                sb.Append("<thead>");
+                //sb.Append(HtmlHelper.GetTag("caption", "Entity Title : " + Class.ToString()));
+                sb.Append("<tr ");
+                sb.Append("style='" + styles2 + additionalStylesWithRow + "'>");
+                sb.Append(HtmlHelper.GetTag("td", ""));
+                sb.Append(HtmlHelper.GetTag("td", ""));
+                sb.Append(HtmlHelper.GetTag("td", ""));
+                //sb.Append(HtmlHelper.GetTag("td", "Properties"));
+                //sb.Append(HtmlHelper.GetTag("td", ""));
+                //sb.Append(HtmlHelper.GetTag("td", "Values"));
+                sb.Append("</tr>");
+                sb.Append("</thead>");
+                sb.Append("<tbody>");
+
+                foreach (var prop in properties) {
+                    var val = prop.GetValue(Class, null);
+                    sb.AppendLine("<tr>");
+                    if (TypeChecker.IsPrimitiveOrGuid(val)) {
+                        sb.Append(HtmlHelper.GetTag("td", prop.Name, additionalStylesWithCell));
+                        sb.Append(HtmlHelper.GetTag("td", ":", additionalStylesWithCell));
+                        sb.Append(HtmlHelper.GetTag("td", val.ToString(), additionalStylesWithCell));
+                    }
+                    sb.Append("</tr>");
+                }
+                sb.Append("</tbody>");
+                sb.Append("</table>");
+                var output = sb.ToString();
+                sb = null;
+                GC.Collect();
+                return output;
+            }
+            return "";
+        }
+
+        /// <summary>
+        ///     Get simple Html string of a single class object with only new lines
+        /// </summary>
+        /// <param name="Class">Any entity object , can be null.</param>
+        /// <returns>
+        ///     Returns property and value string combination, returns empty string if class is null or doesn't have any valid
+        ///     properties to display.
+        /// </returns>
         public static string GetHtmlOfSingleClass(object Class) {
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(TypeOfPropertise)
-                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
-                        .ToList();
+                         .GetProperties(TypeOfPropertise)
+                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
+                         .ToList();
                 var sb = new StringBuilder(propertise.Count + 2);
 
                 foreach (var prop in propertise) {
                     var val = prop.GetValue(Class, null);
                     if (TypeChecker.IsPrimitiveOrGuid(val)) {
-                        var str = String.Format("<br/>{0} : {1}", prop.Name, val);
+                        var str = string.Format("<br/>{0} : {1}", prop.Name, val);
                         //Console.WriteLine(str);
                         sb.AppendLine(str);
                     }
@@ -144,8 +234,8 @@ namespace DevMvcComponent.EntityConversion {
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(TypeOfPropertise)
-                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
+                         .GetProperties(TypeOfPropertise)
+                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
                 sb.AppendLine("<tr>");
                 byte count2 = 0;
                 foreach (var prop in propertise) {
@@ -153,11 +243,11 @@ namespace DevMvcComponent.EntityConversion {
                     var val = prop.GetValue(Class, null);
                     if (count != null && count2 == 1) {
                         //generate serial col.
-                        sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, count));
+                        sb.AppendLine(string.Format("<td style=\"{0}\">{1}</td>", TdCss, count));
                     }
 
                     if (TypeChecker.IsPrimitiveOrGuid(val)) {
-                        sb.AppendLine(String.Format("<td style=\"{0}\">{1}</td>", TdCss, val));
+                        sb.AppendLine(string.Format("<td style=\"{0}\">{1}</td>", TdCss, val));
                     }
                 }
                 sb.AppendLine("</tr>");
@@ -174,8 +264,8 @@ namespace DevMvcComponent.EntityConversion {
             if (Class != null) {
                 var propertise =
                     Class.GetType()
-                        .GetProperties(TypeOfPropertise)
-                        .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
+                         .GetProperties(TypeOfPropertise)
+                         .Where(p => p.Name != "EntityKey" && p.Name != "EntityState");
                 sb.AppendLine("<tr>");
                 var count = 0;
                 foreach (var prop in propertise) {
@@ -183,10 +273,10 @@ namespace DevMvcComponent.EntityConversion {
                     var val = prop.GetValue(Class, null);
                     if (count == 1) {
                         //generate serial number
-                        sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, "SL."));
+                        sb.AppendLine(string.Format("<th style=\"{0}\">{1}</th>", ThCss, "SL."));
                     }
                     if (TypeChecker.IsPrimitiveOrGuid(val)) {
-                        sb.AppendLine(String.Format("<th style=\"{0}\">{1}</th>", ThCss, prop.Name));
+                        sb.AppendLine(string.Format("<th style=\"{0}\">{1}</th>", ThCss, prop.Name));
                     }
                 }
                 sb.AppendLine("</tr>");
@@ -200,8 +290,9 @@ namespace DevMvcComponent.EntityConversion {
         /// <param name="tableCaption">Table caption for this entity.</param>
         /// <returns>Returns html table string of any database entity list.</returns>
         public static string GetHtmlTableOfEntities(IEnumerable<object> classes, string tableCaption = "") {
-            if (classes == null)
+            if (classes == null) {
                 return "";
+            }
             var sb = new StringBuilder(classes.Count() + 200);
             sb.Append(string.Format("<h1 style=\"{0}\">Total Items : {1}</h1><table style=\"{2}\">", TableCaptionCss,
                 classes.Count(), TableCss));
@@ -226,8 +317,9 @@ namespace DevMvcComponent.EntityConversion {
 
         private static string GetHtmlOfEntitiesEmailGenerate(IEnumerable<object> classes, string email, string sub,
             string tableCaption = "") {
-            if (classes == null || !classes.Any())
+            if (classes == null || !classes.Any()) {
                 return "";
+            }
             var output = GetHtmlTableOfEntities(classes, tableCaption);
             if (Mvc.Mailer != null) {
                 //async
@@ -250,8 +342,9 @@ namespace DevMvcComponent.EntityConversion {
             string email,
             string sub,
             string tableCaption = "") {
-            if (classes == null || !classes.Any())
+            if (classes == null || !classes.Any()) {
                 return;
+            }
             var thread = new Thread(() => GetHtmlOfEntitiesEmailGenerate(classes, email, sub, tableCaption));
             thread.Start();
         }

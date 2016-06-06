@@ -14,30 +14,33 @@ namespace DevMvcComponent.Error {
     /// </summary>
     public class ErrorCollector : IDisposable {
         /// <summary>
-        /// High risk error css class.
+        ///     High risk error css class.
         /// </summary>
         public static string HighRiskCssClass = "label label-danger high-priority";
-        /// <summary>
-        /// Medium risk error css class.
-        /// </summary>
-        public static string MidRiskCssClass = "label label-danger medium-priority";
-        /// <summary>
-        /// Low risk error css class.
-        /// </summary>
-        public static string LowRiskCssClass = "label label-warning low-priority";
-        private int _defaultCapacity = 20;
-        private List<BasicError> _errors;
-        private short _orderIncrementer;
 
         /// <summary>
-        /// Solution message css class.
+        ///     Medium risk error css class.
+        /// </summary>
+        public static string MidRiskCssClass = "label label-danger medium-priority";
+
+        /// <summary>
+        ///     Low risk error css class.
+        /// </summary>
+        public static string LowRiskCssClass = "label label-warning low-priority";
+
+        /// <summary>
+        ///     Solution message css class.
         /// </summary>
         public static string SolutionStateCssClass = "label label-success";
 
         /// <summary>
-        /// Solution link css class.
+        ///     Solution link css class.
         /// </summary>
         public static string SolutionStateLinkCssClass = "label label-info error-solution-solutionLink-color";
+
+        private int _defaultCapacity = 20;
+        private List<BasicError> _errors;
+        private short _orderIncrementer;
 
         /// <summary>
         /// </summary>
@@ -192,7 +195,7 @@ namespace DevMvcComponent.Error {
         /// <returns>Returns all error message as string list.</returns>
         public List<string> GetMessages() {
             return _errors.Select(n => n.ErrorMessage)
-                .ToList();
+                          .ToList();
         }
 
         /// <summary>
@@ -202,7 +205,7 @@ namespace DevMvcComponent.Error {
         public string GetListItems(string eachItemClasses = "") {
             // codes start from here.
             var errorsList = GetErrorsSorted();
-            var sb = new StringBuilder(errorsList.Count*15);
+            var sb = new StringBuilder(errorsList.Count * 15);
             foreach (var error in errorsList) {
                 var cssClass = GetCssClassForError(error);
                 sb.Append("<li class='generic-error-item " + eachItemClasses + "'>");

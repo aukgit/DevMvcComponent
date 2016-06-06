@@ -50,8 +50,8 @@
                 var i = 0;
                 var pointDiv = DigitLenDivision;
 
-                while ((i + pointDiv) <= len) {
-                    var assumeLen = (i + pointDiv);
+                while (i + pointDiv <= len) {
+                    var assumeLen = i + pointDiv;
                     if (assumeLen >= len) {
                         ncode += code.Substring(i, pointDiv);
                         goto ReturnNow;
@@ -60,14 +60,14 @@
 
                     i += pointDiv;
 
-                    assumeLen = (i + pointDiv);
+                    assumeLen = i + pointDiv;
                     if (assumeLen > len) {
                         //give the last digits calculations
                         //such as if I have 32 digits and want to divide by 5 then at last we will have to pass
                         pointDiv = len % pointDiv;
                     }
                 }
-            ReturnNow:
+                ReturnNow:
                 return ncode;
             }
             return "";

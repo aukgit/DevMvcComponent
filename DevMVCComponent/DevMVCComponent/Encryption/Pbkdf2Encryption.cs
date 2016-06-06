@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DevMvcComponent.Encryption {
     /// <summary>
-    /// Code Collected from : http://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp
+    ///     Code Collected from : http://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp
     /// </summary>
     public static class Pbkdf2Encryption {
         // This constant is used to determine the keysize of the encryption algorithm in bits.
@@ -56,7 +56,7 @@ namespace DevMvcComponent.Encryption {
             // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
             var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
             // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8 * 2).Take(cipherTextBytesWithSaltAndIv.Length - Keysize / 8 * 2).ToArray();
 
             using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations)) {
                 var keyBytes = password.GetBytes(Keysize / 8);

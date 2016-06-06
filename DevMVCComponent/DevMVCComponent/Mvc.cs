@@ -11,8 +11,8 @@ namespace DevMvcComponent {
     /// <summary>
     ///     It's direct singleton pattern class in C#.
     ///     Must setup this starter class and Config class.
-    ///     Note: In java you need to follow traditional singleton pattern , 
-    ///           however in C# you don't require that Instance variable because it already has static keyword.
+    ///     Note: In java you need to follow traditional singleton pattern ,
+    ///     however in C# you don't require that Instance variable because it already has static keyword.
     /// </summary>
     public static class Mvc {
         /// <summary>
@@ -21,12 +21,12 @@ namespace DevMvcComponent {
         public static Handler Error;
 
         /// <summary>
-        /// Cookies are client specific.
+        ///     Cookies are client specific.
         /// </summary>
         public static CookieProcessor Cookies;
 
         /// <summary>
-        /// Caches are application specific.
+        ///     Caches are application specific.
         /// </summary>
         public static CacheProcessor Caches;
 
@@ -54,8 +54,7 @@ namespace DevMvcComponent {
             InitalizeDefaults(assembly);
         }
 
-        private static void InitalizeDefaults(Assembly assembly)
-        {
+        private static void InitalizeDefaults(Assembly assembly) {
             Config.Assembly = assembly;
             Error = new Handler();
             Cookies = new CookieProcessor();
@@ -63,15 +62,14 @@ namespace DevMvcComponent {
             Config.GetApplicationNameHtml(true);
         }
 
-
         /// <summary>
         ///     Setup the component plugin.
         ///     Please make sure that your executing directory is writable if not then please add a folder "DataCache"
-        ///     ** Warning : By this instantiation you can't handle exception by email or send quick emails through Starter.Mailer.SendQuick(..) **
+        ///     ** Warning : By this instantiation you can't handle exception by email or send quick emails through
+        ///     Starter.Mailer.SendQuick(..) **
         /// </summary>
         /// <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
-        public static void Setup(Assembly assembly)
-        {
+        public static void Setup(Assembly assembly) {
             Config.ApplicationName = "";
             Config.DeveloperEmails = null;
             //Configure this with add a sender email.
@@ -92,7 +90,6 @@ namespace DevMvcComponent {
         /// <param name="isSsl"></param>
         public static void Setup(string applicationName, string developerEmail, Assembly assembly, string senderEmail,
             string senderPassword, string hostName, int senderPort, bool isSsl) {
-           
             //Configure this with add a sender email.
             Mailer = new CustomMailServer(senderEmail, senderPassword, hostName, senderPort, isSsl); //
             Setup(applicationName, developerEmail, assembly, Mailer);

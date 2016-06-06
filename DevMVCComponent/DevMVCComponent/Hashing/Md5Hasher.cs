@@ -1,6 +1,5 @@
 ﻿#region using block
 
-using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,10 +11,8 @@ namespace DevMvcComponent.Hashing {
     ///     Generates clean MD5 code.
     /// </summary>
     public class Md5Hasher : BaseHasher {
-
-
         /// <summary>
-        /// Get a MD5 checksum byte array from file.
+        ///     Get a MD5 checksum byte array from file.
         /// </summary>
         /// <param name="fileLocation"></param>
         /// <returns></returns>
@@ -26,8 +23,9 @@ namespace DevMvcComponent.Hashing {
                 }
             }
         }
+
         /// <summary>
-        /// Get a MD5 checksum byte array from file.
+        ///     Get a MD5 checksum byte array from file.
         /// </summary>
         /// <param name="fileLocation"></param>
         /// <returns></returns>
@@ -38,7 +36,6 @@ namespace DevMvcComponent.Hashing {
                 }
             }
         }
-
 
         /// <summary>
         /// </summary>
@@ -63,12 +60,10 @@ namespace DevMvcComponent.Hashing {
             return sBuilder.ToString();
         }
 
-     
-
         #region Overrides of BaseHasher
 
         /// <summary>
-        /// Get hash string based on the hasher type
+        ///     Get hash string based on the hasher type
         /// </summary>
         /// <returns></returns>
         public override string GetHash(string input) {

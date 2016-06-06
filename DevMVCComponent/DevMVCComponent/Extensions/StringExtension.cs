@@ -6,7 +6,7 @@ namespace DevMvcComponent.Extensions {
     /// </summary>
     public static class StringExtension {
         /// <summary>
-        ///     Concat otherstrings if first one is not null.
+        ///     Concat other strings if first one is not null.
         /// </summary>
         /// <param name="currentString"></param>
         /// <param name="otherStrings"></param>
@@ -34,14 +34,15 @@ namespace DevMvcComponent.Extensions {
             if (str.Length <= length) {
                 return str;
             }
-            return str.Substring(0, (int)length);
+            return str.Substring(0, (int) length);
         }
 
         /// <summary>
+        ///     Only cut of the string if necessary.
         /// </summary>
         /// <param name="str"></param>
         /// <param name="starting">If previous mid was on 100 , start from 100</param>
-        /// <param name="length">-1 means whole return last len.</param>
+        /// <param name="length">-1 means whole return last length.</param>
         /// <returns></returns>
         public static string GetStringCutOff(this string str, int starting, int length) {
             if (string.IsNullOrEmpty(str)) {
@@ -62,6 +63,8 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
+        ///     Efficient method: starts comparing string from backward. if found then stop and skip escapseIndexUpto will be the
+        ///     ending loop num.
         ///     Returns true/false if compareString is matched with the string last part.
         ///     For example : "Hello World.js".IsStringMatchfromLast(".js") ; returns true.
         /// </summary>
@@ -82,12 +85,12 @@ namespace DevMvcComponent.Extensions {
         ///     Returns true/false if compareString is matched with the string last part.
         ///     For example : "Hello World.js".IsStringMatchfromLast(".js") ; returns true.
         /// </returns>
-        public static bool IsStringMatchfromLast(this string value, string comparingString, int escapseIndexUpto = -1) {
+        public static bool IsStringMatchFromLast(this string value, string comparingString, int escapseIndexUpto = -1) {
             var compareLen = comparingString.Length - 1;
             if (escapseIndexUpto == -1) {
                 escapseIndexUpto = 0;
             }
-            bool result = true;
+            var result = true;
             for (int i = value.Length - 1, k = 0; i >= escapseIndexUpto; i--, k++) {
                 var index = compareLen - k;
                 if (index < 0) {
@@ -101,7 +104,6 @@ namespace DevMvcComponent.Extensions {
                         return true;
                     }
                     result = false;
-                    
                 }
             }
             return result;

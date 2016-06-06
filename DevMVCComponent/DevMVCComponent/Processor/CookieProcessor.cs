@@ -16,14 +16,34 @@ namespace DevMvcComponent.Processor {
     public class CookieProcessor {
         private readonly string _cookieName = "";
 
+        #region Operator Overloads
+
+        /// <summary>
+        ///     Sets and retrieves Cookie as string only.
+        ///     Setting null will remove the cookie.
+        /// </summary>
+        /// <param name="cookieName"></param>
+        public string this[string cookieName] {
+            get { return Get(cookieName); }
+            set {
+                if (value == null) {
+                    Remove(cookieName);
+                }
+                Set(cookieName, value);
+            }
+        }
+
+        #endregion
+
         #region Remove Cookies
 
         /// <summary>
         /// </summary>
         /// <param name="name"></param>
         public void Remove(string name) {
-            if (HttpContext.Current.Request.Cookies[name] != null) {
-                HttpContext.Current.Response.Cookies[name].Expires = DateTime.Now.AddDays(-1);
+            var cookie = HttpContext.Current.Request.Cookies[name];
+            if (cookie != null) {
+                cookie.Expires = DateTime.Now.AddDays(-1);
             }
         }
 
@@ -38,8 +58,7 @@ namespace DevMvcComponent.Processor {
 
         /// <summary>
         /// </summary>
-        public CookieProcessor() {
-        }
+        public CookieProcessor() {}
 
         /// <summary>
         ///     Pass Base.ControllerContext
@@ -134,22 +153,6 @@ namespace DevMvcComponent.Processor {
             HttpContext.Current.Response.Cookies.Set(httpCookie); //only add unique cookies
         }
 
-        #endregion
-
-        #region Operator Overloads
-        /// <summary>
-        /// Sets and retrieves Cookie as string only.
-        /// </summary>
-        /// <param name="cookieName"></param>
-        public string this[string cookieName] {
-            get { return this.Get(cookieName); }
-            set {
-                if (value == null) {
-                    Remove(cookieName);
-                }
-                Set(cookieName, value);
-            }
-        }
         #endregion
 
         #region Get Cookie -> Same as Reading
@@ -261,7 +264,6 @@ namespace DevMvcComponent.Processor {
             return null;
         }
 
-
         /// <summary>
         ///     Read cookie from request.
         /// </summary>
@@ -269,7 +271,7 @@ namespace DevMvcComponent.Processor {
         /// <returns>Returns Boolean.</returns>
         public bool ReadBool(string cookieName) {
             var n = ReadString(cookieName);
-            if (!String.IsNullOrWhiteSpace(n)) {
+            if (!string.IsNullOrWhiteSpace(n)) {
                 var res = false;
                 if (bool.TryParse(n, out res)) {
                     return res;
@@ -286,8 +288,8 @@ namespace DevMvcComponent.Processor {
         public decimal ReadDecimal(string cookieName) {
             var n = ReadString(cookieName);
             decimal res = 0;
-            if (!String.IsNullOrWhiteSpace(n)) {
-                if (Decimal.TryParse(n, out res)) {
+            if (!string.IsNullOrWhiteSpace(n)) {
+                if (decimal.TryParse(n, out res)) {
                     return res;
                 }
             }
@@ -302,7 +304,7 @@ namespace DevMvcComponent.Processor {
         public long ReadLong(string cookieName) {
             var n = ReadString(cookieName);
             long res = 0;
-            if (!String.IsNullOrWhiteSpace(n)) {
+            if (!string.IsNullOrWhiteSpace(n)) {
                 if (long.TryParse(n, out res)) {
                     return res;
                 }
@@ -318,7 +320,7 @@ namespace DevMvcComponent.Processor {
         public int ReadInt(string cookieName) {
             var n = ReadString(cookieName);
             var res = 0;
-            if (!String.IsNullOrWhiteSpace(n)) {
+            if (!string.IsNullOrWhiteSpace(n)) {
                 if (int.TryParse(n, out res)) {
                     return res;
                 }
@@ -334,7 +336,7 @@ namespace DevMvcComponent.Processor {
         public DateTime? ReadDateTime(string cookieName) {
             var n = ReadString(cookieName);
             DateTime res;
-            if (!String.IsNullOrWhiteSpace(n)) {
+            if (!string.IsNullOrWhiteSpace(n)) {
                 if (DateTime.TryParse(n, out res)) {
                     return res;
                 }

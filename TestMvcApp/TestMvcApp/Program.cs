@@ -1,8 +1,7 @@
 ﻿using System;
-using DevMvcComponent.Extensions;
+
 namespace TestDevMvc {
     internal class Program {
-
         private static void Main(string[] args) {
             while (true) {
                 var input1 = Console.ReadLine();
@@ -11,7 +10,6 @@ namespace TestDevMvc {
                 Console.WriteLine("\"" + input1 + "\".IsStringMatchfromLast(\"" + input2 + "\", 2): " + res);
                 Console.ReadKey();
             }
-
         }
     }
 }

@@ -4,11 +4,10 @@ using System.Threading;
 
 namespace DevMvcComponent.Extensions {
     /// <summary>
-    /// 
     /// </summary>
     public static class BinaryFileExtenstion {
         /// <summary>
-        /// Returns : true if file is being used or being processed by another thread.
+        ///     Returns : true if file is being used or being processed by another thread.
         /// </summary>
         /// <param name="file"></param>
         /// <returns>Returns : true if file is being used or being processed by another thread.</returns>
@@ -19,8 +18,9 @@ namespace DevMvcComponent.Extensions {
             } catch (IOException) {
                 return true;
             } finally {
-                if (stream != null)
+                if (stream != null) {
                     stream.Close();
+                }
             }
 
             //file is not locked
@@ -28,7 +28,7 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        /// Returns : true if file is being used or being processed by another thread.
+        ///     Returns : true if file is being used or being processed by another thread.
         /// </summary>
         /// <param name="fileName">Absolute file location.</param>
         /// <returns>Returns : true if file is being used or being processed by another thread.</returns>
@@ -46,6 +46,7 @@ namespace DevMvcComponent.Extensions {
         public static void SaveAsBinary(this object anyObject, string fileNamelocation) {
             SaveAsBinary2(anyObject, fileNamelocation);
         }
+
         public static void SaveAsBinary2(object anyObject, string fileNamelocation) {
             if (anyObject == null) {
                 return;
@@ -71,13 +72,13 @@ namespace DevMvcComponent.Extensions {
         /// <summary>
         ///     Save any object into file over the previous one.
         ///     If object is null then don't save anything.
-        ///     Warning: It also checks if the file is locked or not, 
-        ///         so if found locked then it will try again with 1 sec interval and continuously for 300 times.
+        ///     Warning: It also checks if the file is locked or not,
+        ///     so if found locked then it will try again with 1 sec interval and continuously for 300 times.
         /// </summary>
         /// <param name="fileNamelocation">Direct file location with it's extension.</param>
         /// <param name="anyObject">Could be array or list or anything.</param>
         public static void SaveAsBinaryAsync(this object anyObject, string fileNamelocation) {
-            int tried = 0;
+            var tried = 0;
             const int ableToTry = 300;
             new Thread(() => {
                 var isLock = IsFileLocked(fileNamelocation);
@@ -110,6 +111,7 @@ namespace DevMvcComponent.Extensions {
             }
             return null;
         }
+
         /// <summary>
         ///     Save any object into file over the previous one.
         ///     If object is null then don't save anything.

@@ -15,7 +15,7 @@ namespace DevMvcComponent.Extensions {
     public static class OneTypeToAnother {
         /// <summary>
         ///     Extension method for casting one type to another if there is any matching in the property name.
-        ///     It returns a new object. So referencing will not work with previous object. 
+        ///     It returns a new object. So referencing will not work with previous object.
         ///     Keep in mind that it is very expensive operation as 'Select' conversion.
         ///     Warning: Make matched names has exact same data type.
         /// </summary>
@@ -33,7 +33,7 @@ namespace DevMvcComponent.Extensions {
             var destination = target.GetMembers().Where(n => n.MemberType == MemberTypes.Property).ToList();
 
             var members = destination.Where(memberInfo =>
-                destination.Select(c => c.Name).ToList().Contains(memberInfo.Name)).ToList();
+                                            destination.Select(c => c.Name).ToList().Contains(memberInfo.Name)).ToList();
             PropertyInfo propertyInfo;
             object value;
             foreach (var memberInfo in members) {
@@ -51,7 +51,7 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        ///     Object to binary 
+        ///     Object to binary
         /// </summary>
         /// <param name="obj">Must be a Serializable object.</param>
         /// <returns>Returns : null if given object is null.</returns>

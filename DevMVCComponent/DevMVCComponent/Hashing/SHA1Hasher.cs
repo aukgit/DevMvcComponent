@@ -14,16 +14,16 @@ namespace DevMvcComponent.Hashing {
         #region Overrides of BaseHasher
 
         /// <summary>
-        /// Get hash string based on the hasher type
+        ///     Get hash string based on the hasher type
         /// </summary>
         /// <returns></returns>
         public override string GetHash(string input) {
-            var hash = (new SHA1Managed()).ComputeHash(Encoding.UTF8.GetBytes(input));
+            var hash = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(input));
             return string.Join("", hash.Select(b => b.ToString("x2")).ToArray());
         }
 
         /// <summary>
-        /// Get file hash string based on the hasher type.
+        ///     Get file hash string based on the hasher type.
         /// </summary>
         /// <returns></returns>
         public override string GetFileCheckSum(string fileLocation) {
