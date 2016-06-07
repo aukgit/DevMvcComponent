@@ -106,12 +106,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HtmlEnhancements\CommonCssStyle.cs" />
     <Compile Include="Encryption\Pbkdf2Encryption.cs" />
-    <Compile Include="HtmlEnhancements\CasecadingStyleSheets.cs" />
+    <Compile Include="Enums\DateTimeFormatType.cs" />
     <Compile Include="Enums\ErrorType.cs" />
     <Compile Include="Enums\MailingType.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
+    <Compile Include="HtmlEnhancements\CasecadingStyleSheets.cs" />
+    <Compile Include="HtmlEnhancements\CommonCssStyle.cs" />
+    <Compile Include="HtmlEnhancements\HtmlHelper.cs" />
     <Compile Include="Miscellaneous\DirectoryExtension.cs" />
     <Compile Include="Extensions\OneTypeToAnother.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
@@ -124,7 +126,6 @@
     <Compile Include="DataTypeFormat\ObjectProperty.cs" />
     <Compile Include="Mail\MailSendingWrapper.cs" />
     <Compile Include="Extensions\BinaryFileExtenstion.cs" />
-    <Compile Include="HtmlEnhancements\HtmlHelper.cs" />
     <Compile Include="Pagination\Pagination.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -137,7 +138,6 @@
     <Compile Include="DataTypeFormat\TypeChecker.cs" />
     <Compile Include="EntityConversion\EntityToString.cs" />
     <Compile Include="Hashing\SimpleHasher.cs" />
-    <Compile Include="Enums\DateTimeFormatType.cs" />
     <Compile Include="DataTypeFormat\BasicError.cs" />
     <Compile Include="Error\Handler.cs" />
     <Compile Include="Mail\CustomMailServer.cs" />
