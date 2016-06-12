@@ -85,31 +85,32 @@ namespace DevMvcComponent.EntityConversion {
                          .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
                          .ToList();
                 var sb = new StringBuilder(properties.Count * 3 + 20);
-                var styles = HtmlHelper.GetCommonStyles("#74DA74", "black", null, "8px 20px 16px", "4px");
-                var styles2 = HtmlHelper.GetCommonStyles(null, null, null, null, null, "bolder");
+                var styles = CssStyle.GetCommonStyles("#74DA74", "black", null, "8px 20px 16px", "4px");
+                var styles2 = CssStyle.GetCommonStyles(null, null, null, null, null, "bolder");
                 sb.Append("<table ");
                 sb.Append("style='" + styles + additionalStylesWithTable + "'>");
                 sb.Append("<thead>");
-                //sb.Append(HtmlHelper.GetTag("caption", "Entity Title : " + Class.ToString()));
+                //sb.Append(HtmlHelperExtension.GetTag("caption", "Entity Title : " + Class.ToString()));
                 sb.Append("<tr ");
-                sb.Append("style='" + styles2 + "'>");
-                sb.Append(HtmlHelper.GetTag("td", ""));
-                sb.Append(HtmlHelper.GetTag("td", ""));
-                sb.Append(HtmlHelper.GetTag("td", ""));
-                //sb.Append(HtmlHelper.GetTag("td", "Properties"));
-                //sb.Append(HtmlHelper.GetTag("td", ""));
-                //sb.Append(HtmlHelper.GetTag("td", "Values"));
+                sb.Append("style='" + styles2 + additionalStylesWithRow + "'>");
+                sb.Append(HtmlHelperExtension.GetTag("td", "", additionalStylesWithCell));
+                sb.Append(HtmlHelperExtension.GetTag("td", "", additionalStylesWithCell));
+                sb.Append(HtmlHelperExtension.GetTag("td", "", additionalStylesWithCell));
+                //sb.Append(HtmlHelperExtension.GetTag("td", "Properties"));
+                //sb.Append(HtmlHelperExtension.GetTag("td", ""));
+                //sb.Append(HtmlHelperExtension.GetTag("td", "Values"));
                 sb.Append("</tr>");
                 sb.Append("</thead>");
                 sb.Append("<tbody>");
 
                 foreach (var prop in properties) {
                     var val = prop.GetValue(Class, null);
-                    sb.AppendLine("<tr>");
+                    sb.Append("<tr ");
+                    sb.Append("style='" + additionalStylesWithRow + "'>");
                     if (TypeChecker.IsPrimitiveOrGuid(val)) {
-                        sb.Append(HtmlHelper.GetTag("td", prop.Name));
+                        sb.Append(HtmlHelperExtension.GetTag("td", prop.Name, additionalStylesWithCell));
                         sb.Append(":");
-                        sb.Append(HtmlHelper.GetTag("td", val.ToString()));
+                        sb.Append(HtmlHelperExtension.GetTag("td", val.ToString(), additionalStylesWithCell));
                     }
                     sb.Append("</tr>");
                 }
@@ -146,20 +147,20 @@ namespace DevMvcComponent.EntityConversion {
                          .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
                          .ToList();
                 var sb = new StringBuilder(properties.Count * 3 + 20);
-                var styles = HtmlHelper.GetCommonStyles("#74DA74", "black", null, "8px 20px 16px", "4px");
-                var styles2 = HtmlHelper.GetCommonStyles(null, null, null, null, null, "bolder");
+                var styles = CssStyle.GetCommonStyles("#74DA74", "black", null, "8px 20px 16px", "4px");
+                var styles2 = CssStyle.GetCommonStyles(null, null, null, null, null, "bolder");
                 sb.Append("<table ");
                 sb.Append("style='" + styles + additionalStylesWithTable + "'>");
                 sb.Append("<thead>");
-                //sb.Append(HtmlHelper.GetTag("caption", "Entity Title : " + Class.ToString()));
+                //sb.Append(HtmlHelperExtension.GetTag("caption", "Entity Title : " + Class.ToString()));
                 sb.Append("<tr ");
                 sb.Append("style='" + styles2 + additionalStylesWithRow + "'>");
-                sb.Append(HtmlHelper.GetTag("td", ""));
-                sb.Append(HtmlHelper.GetTag("td", ""));
-                sb.Append(HtmlHelper.GetTag("td", ""));
-                //sb.Append(HtmlHelper.GetTag("td", "Properties"));
-                //sb.Append(HtmlHelper.GetTag("td", ""));
-                //sb.Append(HtmlHelper.GetTag("td", "Values"));
+                sb.Append(HtmlHelperExtension.GetTag("td", ""));
+                sb.Append(HtmlHelperExtension.GetTag("td", ""));
+                sb.Append(HtmlHelperExtension.GetTag("td", ""));
+                //sb.Append(HtmlHelperExtension.GetTag("td", "Properties"));
+                //sb.Append(HtmlHelperExtension.GetTag("td", ""));
+                //sb.Append(HtmlHelperExtension.GetTag("td", "Values"));
                 sb.Append("</tr>");
                 sb.Append("</thead>");
                 sb.Append("<tbody>");
@@ -168,9 +169,9 @@ namespace DevMvcComponent.EntityConversion {
                     var val = prop.GetValue(Class, null);
                     sb.AppendLine("<tr>");
                     if (TypeChecker.IsPrimitiveOrGuid(val)) {
-                        sb.Append(HtmlHelper.GetTag("td", prop.Name, additionalStylesWithCell));
-                        sb.Append(HtmlHelper.GetTag("td", ":", additionalStylesWithCell));
-                        sb.Append(HtmlHelper.GetTag("td", val.ToString(), additionalStylesWithCell));
+                        sb.Append(HtmlHelperExtension.GetTag("td", prop.Name, additionalStylesWithCell));
+                        sb.Append(HtmlHelperExtension.GetTag("td", ":", additionalStylesWithCell));
+                        sb.Append(HtmlHelperExtension.GetTag("td", val.ToString(), additionalStylesWithCell));
                     }
                     sb.Append("</tr>");
                 }
@@ -286,27 +287,27 @@ namespace DevMvcComponent.EntityConversion {
         /// <summary>
         ///     Get html table string of any database entity list.
         /// </summary>
-        /// <param name="classes">List of items</param>
+        /// <param name="list">List of items</param>
         /// <param name="tableCaption">Table caption for this entity.</param>
         /// <returns>Returns html table string of any database entity list.</returns>
-        public static string GetHtmlTableOfEntities(IEnumerable<object> classes, string tableCaption = "") {
-            if (classes == null) {
+        public static string GetHtmlTableOfEntities(IList<object> list, string tableCaption = "") {
+            if (list == null) {
                 return "";
             }
-            var sb = new StringBuilder(classes.Count() + 200);
+            var sb = new StringBuilder(list.Count + 200);
             sb.Append(string.Format("<h1 style=\"{0}\">Total Items : {1}</h1><table style=\"{2}\">", TableCaptionCss,
-                classes.Count(), TableCss));
+                list.Count, TableCss));
             if (tableCaption != "") {
                 sb.Append(string.Format("<caption style=\"{0}\">{1}</caption>", TableCaptionCss, tableCaption));
             }
             var count = 0;
-            foreach (var classObject in classes.ToList()) {
+            foreach (var item in list) {
                 count++; // 1 for first time it is one.
                 if (count == 1) {
                     //only add generate Table Header for first time.
-                    GetHtmlTableHeader(classObject, ref sb);
+                    GetHtmlTableHeader(item, ref sb);
                 }
-                GetHtmlTableRow(classObject, ref sb, count);
+                GetHtmlTableRow(item, ref sb, count);
             }
             sb.Append("</table>");
             var output = sb.ToString();
@@ -315,12 +316,12 @@ namespace DevMvcComponent.EntityConversion {
             return output;
         }
 
-        private static string GetHtmlOfEntitiesEmailGenerate(IEnumerable<object> classes, string email, string sub,
+        private static string GetHtmlOfEntitiesEmailGenerate(IList<object> listObjects, string email, string sub,
             string tableCaption = "") {
-            if (classes == null || !classes.Any()) {
+            if (listObjects == null || !listObjects.Any()) {
                 return "";
             }
-            var output = GetHtmlTableOfEntities(classes, tableCaption);
+            var output = GetHtmlTableOfEntities(listObjects, tableCaption);
             if (Mvc.Mailer != null) {
                 //async
                 Mvc.Mailer.QuickSend(email, sub, output);
@@ -333,19 +334,19 @@ namespace DevMvcComponent.EntityConversion {
         ///     Async: Convert database entities list to html string and then
         ///     send to to an email.
         /// </summary>
-        /// <param name="classes">List of items</param>
+        /// <param name="list">List of items</param>
         /// <param name="email">Email address to send the email.</param>
         /// <param name="sub">Subject of the email.</param>
         /// <param name="tableCaption">Caption of the table for this entity.</param>
         public static void GetHtmlOfEntitiesEmail(
-            IEnumerable<object> classes,
+            IList<object> list,
             string email,
             string sub,
             string tableCaption = "") {
-            if (classes == null || !classes.Any()) {
+            if (list == null || !list.Any()) {
                 return;
             }
-            var thread = new Thread(() => GetHtmlOfEntitiesEmailGenerate(classes, email, sub, tableCaption));
+            var thread = new Thread(() => GetHtmlOfEntitiesEmailGenerate(list, email, sub, tableCaption));
             thread.Start();
         }
 

@@ -14,8 +14,6 @@ namespace DevMvcComponent.Processor {
     ///     Retrieve cookies from request.
     /// </summary>
     public class CookieProcessor {
-        private readonly string _cookieName = "";
-
         #region Operator Overloads
 
         /// <summary>
@@ -44,7 +42,25 @@ namespace DevMvcComponent.Processor {
             var cookie = HttpContext.Current.Request.Cookies[name];
             if (cookie != null) {
                 cookie.Expires = DateTime.Now.AddDays(-1);
+                HttpContext.Current.Request.Cookies.Remove(name);
             }
+            cookie = HttpContext.Current.Response.Cookies[name];
+            if (cookie != null) {
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                HttpContext.Current.Response.Cookies.Remove(name);
+            }
+        }
+
+        #endregion
+
+        #region Get Cookie -> Same as Reading
+
+        /// <summary>
+        ///     Get Default cookie string value.
+        /// </summary>
+        /// <returns>GetDefault cookie string value.</returns>
+        public string Get(string cookieName) {
+            return ReadString(cookieName);
         }
 
         #endregion
@@ -56,18 +72,6 @@ namespace DevMvcComponent.Processor {
         //    this.httpContext = this.controllerContext.HttpContext;
         //}
 
-        /// <summary>
-        /// </summary>
-        public CookieProcessor() {}
-
-        /// <summary>
-        ///     Pass Base.ControllerContext
-        /// </summary>
-        /// <param name="cookieName">Pass the default cookie name.</param>
-        public CookieProcessor(string cookieName) {
-            _cookieName = cookieName;
-        }
-
         #endregion
 
         // Cookies add will add duplicate cookies.
@@ -75,102 +79,33 @@ namespace DevMvcComponent.Processor {
 
         #region Save Cookies
 
-        /// <summary>
-        ///     Add object to cookies whether exist or not.
-        /// </summary>
-        /// <param name="Object"></param>
-        public void Save(object Object) {
-            Save(Object, _cookieName, false, null);
-        }
-
-        /// <summary>
-        ///     Add object to cookies whether exist or not.
-        ///     Default expiration is +5 Hours.
-        /// </summary>
-        /// <param name="Object">Pass the object.</param>
-        /// <param name="cookie">Name of the cookie</param>
-        public void Save(object Object, string cookie) {
-            Save(Object, cookie, false, null);
-        }
-
-        /// <summary>
-        ///     Save a single object as cookie.
-        ///     Save in Response.
-        ///     Default expiration is +5 Hours.
-        /// </summary>
-        /// <param name="Object">Pass the object</param>
-        /// <param name="checkBeforeExist">Don't save if already exist.</param>
-        public void Save(object Object, bool checkBeforeExist) {
-            Save(Object, null, checkBeforeExist, null);
-        }
 
         /// <summary>
         ///     Save a single object as cookie.
         ///     Save in Response.
         /// </summary>
-        /// <param name="Object">Pass the object</param>
-        /// <param name="cookieName">Cookie name , pass null if constructor CookieName is valid.</param>
-        /// <param name="expiration"></param>
-        public void Save(object Object, string cookieName, DateTime? expiration) {
-            Save(null, cookieName, false, expiration);
-        }
-
-        /// <summary>
-        ///     Save a single object as cookie.
-        ///     Save in Response.
-        /// </summary>
-        /// <param name="Object">Pass the object</param>
+        /// <param name="value">Pass the object</param>
         /// <param name="cookieName">Cookie name , pass null if constructor CookieName is valid.</param>
         /// <param name="checkBeforeExist">True: Don't save if already exist. </param>
         /// <param name="expiration"></param>
-        public void Save(object Object, string cookieName, bool checkBeforeExist, DateTime? expiration) {
-            if (cookieName == null) {
-                cookieName = _cookieName;
-            }
+        public void Save(string value, string cookieName, bool checkBeforeExist = true, DateTime? expiration = null) {
             expiration = expiration ?? DateTime.Now.AddHours(5);
-            var httpCookie = new HttpCookie(cookieName) {
+            HttpCookie httpCookie = null;
+
+            httpCookie = new HttpCookie(cookieName) {
                 Expires = expiration.Value
             };
-            //createdCookie = true;
-            //}
-            var isSupport = TypeChecker.IsPrimitiveOrGuid(Object);
-
-            //is not null and don't support = complex
-            if (Object != null && !isSupport) {
-                //if not a primitive type and thus complex class
-                var list = ObjectToArrary.Get(Object);
-                foreach (var item in list) {
-                    if (TypeChecker.IsPrimitiveOrGuid(item.Value) && item.Value != null) {
-                        httpCookie[item.Name] = item.Value.ToString();
-                    } else {
-                        httpCookie[item.Name] = null;
-                    }
-                }
-            } else if (Object != null && isSupport) {
-                // object exist but not a complex type of object.
-                httpCookie.Value = (string) Object;
+            httpCookie.Value = value;
+            //HttpContext.Current.Response.Cookies.Remove(cookieName);
+            //HttpContext.Current.Request.Cookies.Remove(cookieName);
+            var cookies = HttpContext.Current.Response.Cookies;
+            var cookie = cookies[cookieName];
+            if (cookie == null) {
+                cookies.Add(httpCookie);
+            } else {
+                cookies.Set(httpCookie);
             }
-            HttpContext.Current.Response.Cookies.Set(httpCookie); //only add unique cookies
-        }
-
-        #endregion
-
-        #region Get Cookie -> Same as Reading
-
-        /// <summary>
-        ///     Get Default cookie string value.
-        /// </summary>
-        /// <returns>GetDefault cookie string value.</returns>
-        public string Get() {
-            return ReadString();
-        }
-
-        /// <summary>
-        ///     Get Default cookie string value.
-        /// </summary>
-        /// <returns>GetDefault cookie string value.</returns>
-        public string Get(string cookieName) {
-            return ReadString(cookieName);
+            //HttpContext.Current.Request.Cookies.Set(httpCookie);
         }
 
         #endregion
@@ -190,7 +125,7 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <returns>GetDefault cookie string value.</returns>
         public void Set(string str, string cookieName, DateTime expires) {
-            Save(str, cookieName, expires);
+            Save(str, cookieName, true, expires);
         }
 
         #endregion
@@ -200,28 +135,9 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         ///     Read cookie from request.
         /// </summary>
-        /// <returns>Returns string or null.</returns>
-        public NameValueCollection Read() {
-            var httpCookie = HttpContext.Current.Request.Cookies[_cookieName];
-            if (httpCookie != null) {
-                if (httpCookie.Values.Count > 1) {
-                    // complex type not a value.
-                    return httpCookie.Values;
-                }
-                return null;
-            }
-            return null;
-        }
-
-        /// <summary>
-        ///     Read cookie from request.
-        /// </summary>
         /// <param name="cookieName"></param>
         /// <returns>Return object or null.</returns>
         public NameValueCollection Read(string cookieName) {
-            if (cookieName == null) {
-                cookieName = _cookieName;
-            }
             var httpCookie = HttpContext.Current.Request.Cookies[cookieName];
             if (httpCookie != null) {
                 if (httpCookie.Values.Count > 1) {
@@ -237,31 +153,22 @@ namespace DevMvcComponent.Processor {
         ///     Read cookie from request.
         /// </summary>
         /// <param name="cookieName"></param>
+        /// <param name="defaultValue">Default value if not found</param>
         /// <returns>Returns string or null.</returns>
-        public string ReadString(string cookieName) {
+        public string ReadString(string cookieName, string defaultValue = null) {
             var httpCookie = HttpContext.Current.Request.Cookies[cookieName];
             if (httpCookie != null) {
                 if (httpCookie.Values.Count == 1) {
                     // complex type not a value.
                     return httpCookie.Value;
+                } else if (httpCookie.Values.Count == 0) {
+                    httpCookie = HttpContext.Current.Response.Cookies[cookieName];
+                    if (httpCookie != null && httpCookie.Values.Count == 1) {
+                        return httpCookie.Value;
+                    }
                 }
             }
-            return null;
-        }
-
-        /// <summary>
-        ///     Read cookie from request.
-        /// </summary>
-        /// <returns>Returns string or null.</returns>
-        public string ReadString() {
-            var httpCookie = HttpContext.Current.Request.Cookies[_cookieName];
-            if (httpCookie != null) {
-                if (httpCookie.Values.Count == 1) {
-                    // complex type not a value.
-                    return httpCookie.Value;
-                }
-            }
-            return null;
+            return defaultValue;
         }
 
         /// <summary>
@@ -284,8 +191,9 @@ namespace DevMvcComponent.Processor {
         ///     Read cookie from request.
         /// </summary>
         /// <param name="cookieName"></param>
+        /// <param name="defaultValue">Default value if can't parse</param>
         /// <returns>Returns decimal.</returns>
-        public decimal ReadDecimal(string cookieName) {
+        public decimal? ReadDecimal(string cookieName, decimal? defaultValue = 0) {
             var n = ReadString(cookieName);
             decimal res = 0;
             if (!string.IsNullOrWhiteSpace(n)) {
@@ -293,15 +201,16 @@ namespace DevMvcComponent.Processor {
                     return res;
                 }
             }
-            return 0;
+            return defaultValue;
         }
 
         /// <summary>
         ///     Read cookie from request.
         /// </summary>
         /// <param name="cookieName"></param>
+        /// <param name="defaultValue">Default value if can't parse</param>
         /// <returns>Returns long</returns>
-        public long ReadLong(string cookieName) {
+        public long? ReadLong(string cookieName, long? defaultValue = 0) {
             var n = ReadString(cookieName);
             long res = 0;
             if (!string.IsNullOrWhiteSpace(n)) {
@@ -309,15 +218,16 @@ namespace DevMvcComponent.Processor {
                     return res;
                 }
             }
-            return 0;
+            return defaultValue;
         }
 
         /// <summary>
         ///     Read cookie from request.
         /// </summary>
         /// <param name="cookieName"></param>
+        /// <param name="defaultValue">Default value if can't parse</param>
         /// <returns>Returns int.</returns>
-        public int ReadInt(string cookieName) {
+        public int? ReadInt(string cookieName, int? defaultValue = 0) {
             var n = ReadString(cookieName);
             var res = 0;
             if (!string.IsNullOrWhiteSpace(n)) {
@@ -325,15 +235,16 @@ namespace DevMvcComponent.Processor {
                     return res;
                 }
             }
-            return 0;
+            return defaultValue;
         }
 
         /// <summary>
         ///     Read cookie from request.
         /// </summary>
         /// <param name="cookieName"></param>
+        /// <param name="defaultValue">Default value if can't parse</param>
         /// <returns>Return Date time or null.</returns>
-        public DateTime? ReadDateTime(string cookieName) {
+        public DateTime? ReadDateTime(string cookieName, DateTime? defaultValue = null) {
             var n = ReadString(cookieName);
             DateTime res;
             if (!string.IsNullOrWhiteSpace(n)) {
@@ -341,7 +252,7 @@ namespace DevMvcComponent.Processor {
                     return res;
                 }
             }
-            return null;
+            return defaultValue;
         }
 
         #endregion

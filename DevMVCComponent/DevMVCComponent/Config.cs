@@ -15,7 +15,6 @@ namespace DevMvcComponent {
         /////     System admin email
         ///// </summary>
         //public static string AdminEmail = null;
-
         private static string _applicationMailFooter = "";
         private static string _commonStyles = ";margin-top: 12px; padding: 11px; border-radius: 4px;'";
 

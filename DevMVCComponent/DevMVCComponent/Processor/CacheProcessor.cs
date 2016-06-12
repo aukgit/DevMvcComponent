@@ -7,6 +7,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Caching;
 using DevMvcComponent.Global;
+using DevMvcComponent.Miscellaneous;
 
 #endregion
 
@@ -16,7 +17,6 @@ namespace DevMvcComponent.Processor {
     ///     Default Expiration 5 Hours
     /// </summary>
     public class CacheProcessor {
-        private readonly string _cacheName = "";
         private readonly int _defaultExpiration;
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace DevMvcComponent.Processor {
         #endregion
 
         private void SetDefaults() {
-            var rootFolder = Directory.GetParent(new Uri(Config.Assembly.CodeBase).AbsolutePath).ToString();
+            var rootFolder = DirectoryExtension.GetBaseOrAppDirectory();
             var dataFolder = rootFolder + "\\DataCache\\";
             if (!Directory.Exists(dataFolder)) {
                 try {
@@ -108,7 +108,6 @@ namespace DevMvcComponent.Processor {
         }
 
         public CacheProcessor(string cacheName) {
-            _cacheName = cacheName;
             SetDefaults();
         }
 
@@ -124,7 +123,6 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         ///     Instantiate CacheProssor
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="expiration">in mins</param>
         /// <param name="sliding">[in mins] If data is not accessed for certain time , then it will be removed from cache.</param>
         public CacheProcessor(int expiration, int sliding) {
@@ -145,7 +143,6 @@ namespace DevMvcComponent.Processor {
         ///     cache. [in mins]
         /// </param>
         public CacheProcessor(string cacheName, int expiration, int sliding) {
-            _cacheName = cacheName;
             SetDefaults();
             //override after defaults.
             _defaultExpiration = expiration;
@@ -159,7 +156,6 @@ namespace DevMvcComponent.Processor {
         /// <param name="cacheName"></param>
         /// <param name="expiration">in mins</param>
         public CacheProcessor(string cacheName, int expiration) {
-            _cacheName = cacheName;
             SetDefaults();
             //override after defaults.
             _defaultExpiration = expiration;

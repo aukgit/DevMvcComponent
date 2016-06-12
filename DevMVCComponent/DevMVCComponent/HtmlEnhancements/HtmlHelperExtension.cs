@@ -1,37 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using DevMvcComponent.Extensions;
 
 namespace DevMvcComponent.HtmlEnhancements {
     /// <summary>
+    ///     Html helper class
     /// </summary>
-    public static class HtmlHelper {
-        private static string GetStyles(string property, string value) {
-            return StringExtension.DependingStringConcat(value, property, ":", value);
-        }
-
-        /// <summary>
-        ///     Get common styles string value pair.
-        /// </summary>
-        /// <param name="backgroundColor">Pass only background color-value if exist.  Eg. black</param>
-        /// <param name="color">Pass only color-value if exist. Eg. white</param>
-        /// <param name="margin">Pass only (margin-value: top right bottom left) if exist. Eg. 2px 2px 2px 2px</param>
-        /// <param name="padding">Pass only (padding-value: top right bottom left) if exist.</param>
-        /// <param name="borderRadius">Pass only (border-radius-value: value) if exist.</param>
-        /// <returns></returns>
-        public static string GetCommonStyles(string backgroundColor, string color, string margin, string padding,
-            string borderRadius, string fontWeight = null) {
-            var stlesList = new List<string>(8);
-            stlesList.Add(GetStyles("background-color", backgroundColor));
-            stlesList.Add(GetStyles("color", color));
-            stlesList.Add(GetStyles("margin", margin));
-            stlesList.Add(GetStyles("padding", padding));
-            stlesList.Add(GetStyles("border-radius", borderRadius));
-            stlesList.Add(GetStyles("font-weight", fontWeight));
-            return string.Join(";", stlesList);
-        }
-
+    public static class HtmlHelperExtension {
         /// <summary>
         ///     Get tag (not self closing) with Html contents
         /// </summary>

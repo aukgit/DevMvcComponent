@@ -1,4 +1,6 @@
-﻿using DevMvcComponent.DataTypeFormat;
+﻿using System;
+using System.Text;
+using DevMvcComponent.DataTypeFormat;
 
 namespace DevMvcComponent.Extensions {
     /// <summary>
@@ -8,58 +10,81 @@ namespace DevMvcComponent.Extensions {
         /// <summary>
         ///     Concat other strings if first one is not null.
         /// </summary>
-        /// <param name="currentString"></param>
-        /// <param name="otherStrings"></param>
+        /// <param name="currentString">If this one is null then no other will concat.</param>
+        /// <param name="otherStrings">Other string to concat if currentString is not null.</param>
         /// <returns>Returns : Empty string ("") if current string is null.</returns>
-        public static string DependingStringConcat(string currentString, params string[] otherStrings) {
+        public static string DependingStringConcat(this string currentString, params string[] otherStrings) {
             if (currentString != null) {
                 return string.Concat(otherStrings);
             }
-            return "";
+            return string.Empty;
         }
 
         /// <summary>
-        ///     Split the string into pieces.
+        ///     Save as Cookie
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="length">If string len is less then return whole string. Null means whole len.</param>
-        /// <returns></returns>
-        public static string GetStringCutOff(this string str, int? length) {
-            if (string.IsNullOrEmpty(str)) {
-                return "";
+        public static void SaveAsCookie(this string str, string name, DateTime? expires = null) {
+            if (!expires.HasValue) {
+                Mvc.Cookies.Set(str, name);
+            } else {
+                Mvc.Cookies.Set(str, name, expires.Value);
             }
-            if (length == null) {
-                length = str.Length;
-            }
-            if (str.Length <= length) {
-                return str;
-            }
-            return str.Substring(0, (int) length);
         }
 
         /// <summary>
-        ///     Only cut of the string if necessary.
+        ///     Get from cache
+        /// </summary>
+        public static string GetCookieValue(this string str, string name, string defaultValue = "") {
+            return Mvc.Cookies.ReadString(name, defaultValue);
+        }
+
+        /// <summary>
+        ///     Only create string builder if the current string is not null.
+        ///     (By default capacity will be set by the string length + 50)
+        ///     returns null if the string is null.
+        /// </summary>
+        /// <param name="currentString">If this one is null then no other will concat.</param>
+        /// <param name="additionalCapacityToLength">Given value will be addition with string length</param>
+        /// <returns>Returns : string builder or null.</returns>
+        public static StringBuilder GetStringBuilder(this string currentString, int additionalCapacityToLength = -1) {
+            if (currentString != null) {
+                var capacity = additionalCapacityToLength == -1 ? currentString.Length + 50 : currentString.Length + additionalCapacityToLength;
+                var sb = new StringBuilder(capacity);
+                return sb;
+            }
+            return null;
+        }
+
+        /// <summary>
+        ///     Get ToCharArray with added length.
         /// </summary>
         /// <param name="str"></param>
-        /// <param name="starting">If previous mid was on 100 , start from 100</param>
-        /// <param name="length">-1 means whole return last length.</param>
+        /// <param name="addedLength">0 means calling the same function of ToCharArray</param>
         /// <returns></returns>
-        public static string GetStringCutOff(this string str, int starting, int length) {
-            if (string.IsNullOrEmpty(str)) {
-                return "";
+        public static char[] ToCharArrayPadded(this string str, int addedLength = 0) {
+            if (str != null) {
+                var arr = new char[str.Length + addedLength];
+                for (var i = 0; i < str.Length; i++) {
+                    arr[i] = str[i];
+                }
+                return arr;
             }
-            if (length == -1) {
-                length = str.Length;
-            }
-            if (str.Length < starting) {
-                return "";
-            }
-            if (str.Length <= length) {
-                length = str.Length;
-            }
-            length = length - starting;
+            return null;
+        }
 
-            return str.Substring(starting, length);
+        /// <summary>
+        ///     Split the string based on csv and returns an array or null if the string is null.
+        /// </summary>
+        /// <param name="currentString">If this one is null then no other will concat.</param>
+        /// <param name="spliter"></param>
+        /// <param name="options"></param>
+        /// <returns>Returns : array or null.</returns>
+        public static string[] GetCsvAsArray(this string currentString, string spliter = ",", StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries) {
+            if (currentString != null) {
+                var spliterArr = new[] {spliter};
+                return currentString.Split(spliterArr, options);
+            }
+            return null;
         }
 
         /// <summary>
@@ -85,7 +110,7 @@ namespace DevMvcComponent.Extensions {
         ///     Returns true/false if compareString is matched with the string last part.
         ///     For example : "Hello World.js".IsStringMatchfromLast(".js") ; returns true.
         /// </returns>
-        public static bool IsStringMatchFromLast(this string value, string comparingString, int escapseIndexUpto = -1) {
+        public static bool IsMatchAtLast(this string value, string comparingString, int escapseIndexUpto = -1) {
             var compareLen = comparingString.Length - 1;
             if (escapseIndexUpto == -1) {
                 escapseIndexUpto = 0;
@@ -109,6 +134,8 @@ namespace DevMvcComponent.Extensions {
             return result;
         }
 
+        #region String Manipulation
+
         /// <summary>
         ///     First char upper case and others are in lowercase
         /// </summary>
@@ -125,6 +152,89 @@ namespace DevMvcComponent.Extensions {
             }
             return value;
         }
+
+        #endregion
+
+        #region Striung null or empty check
+
+        /// <summary>
+        ///     Is the string null
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>Returns : true if string is null.</returns>
+        public static bool IsNull(this string str) {
+            return str == null;
+        }
+
+        /// <summary>
+        ///     Is the string null or empty
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>Returns : true if string is null or empty.</returns>
+        public static bool IsNullOrEmpty(this string str) {
+            return string.IsNullOrEmpty(str);
+        }
+
+        /// <summary>
+        ///     Is the string null or empty or whitespace
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>Returns : true if string is null or empty or whitespace.</returns>
+        public static bool IsNullOrWhiteSpace(this string str) {
+            return string.IsNullOrWhiteSpace(str);
+        }
+
+        #endregion
+
+        #region String truncating
+
+        /// <summary>
+        ///     Split the string into pieces.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="length">If string len is less then return whole string. Null means whole len.</param>
+        /// <returns></returns>
+        public static string GetStringCutOff(this string str, int? length) {
+            if (string.IsNullOrEmpty(str)) {
+                return string.Empty;
+            }
+            if (length == null) {
+                length = str.Length;
+            }
+            if (str.Length <= length) {
+                return str;
+            }
+            return str.Substring(0, (int) length);
+        }
+
+        /// <summary>
+        ///     Only cut of the string if necessary.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="starting">If previous mid was on 100 , start from 100</param>
+        /// <param name="length">-1 means whole return last length.</param>
+        /// <returns></returns>
+        public static string GetStringCutOff(this string str, int starting, int length) {
+            if (string.IsNullOrEmpty(str)) {
+                return string.Empty;
+            }
+            if (length == -1) {
+                length = str.Length;
+            }
+            if (str.Length < starting) {
+                return "";
+            }
+            if (str.Length <= length) {
+                length = str.Length;
+            }
+            length = length - starting;
+
+            return str.Substring(starting, length);
+        }
+
+        #endregion
+
+        #region Number conversion
 
         /// <summary>
         ///     Returns given parameter(0) if can't convert to an int.
@@ -186,6 +296,8 @@ namespace DevMvcComponent.Extensions {
             return defaultParameter;
         }
 
+        #endregion
+
         #region Number methods
 
         /// <summary>
@@ -203,6 +315,16 @@ namespace DevMvcComponent.Extensions {
         /// <param name="value"></param>
         /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
         public static bool IsNonFloatingPointNumber(this string value) {
+            return TypeChecker.IsStringNonFloatingPointNumber(value);
+        }
+
+        /// <summary>
+        ///     If data type is floating point(double, decimal, float, single byte) then return true.
+        ///     Same as IsNonFloatingPointNumber()
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Returns : true if floating point(double, decimal, float, single byte)</returns>
+        public static bool IsIntegerNumber(this string value) {
             return TypeChecker.IsStringNonFloatingPointNumber(value);
         }
 

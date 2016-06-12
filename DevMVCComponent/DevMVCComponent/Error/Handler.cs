@@ -196,12 +196,12 @@ namespace DevMvcComponent.Error {
             }
             if (isUserExist) {
                 sb.Append("<hr />");
-                var loggedUserStyle = HtmlHelper.GetCommonStyles("Green", "White", "0 0 5px 0", "8px", "3px", "bolder");
-                sb.Append(HtmlHelper.GetTag("div", "Logged in user : " + HttpContext.Current.User.Identity.Name, loggedUserStyle));
+                var loggedUserStyle = CssStyle.GetCommonStyles("Green", "White", "0 0 5px 0", "8px", "3px", "bolder");
+                sb.Append(HtmlHelperExtension.GetTag("div", "Logged in user : " + HttpContext.Current.User.Identity.Name, loggedUserStyle));
             }
             if (entitySingleObject != null) {
                 sb.Append("<hr/>");
-                sb.Append(HtmlHelper.GetTag("h3", "Entity Title : " + entitySingleObject));
+                sb.Append(HtmlHelperExtension.GetTag("h3", "Entity Title : " + entitySingleObject));
                 try {
                     var entityString = EntityToString.GetHtmlOfSingleClassAsTable(entitySingleObject);
                     sb.Append(entityString);

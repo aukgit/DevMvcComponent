@@ -12,7 +12,7 @@ namespace DevMvcComponent.Extensions {
     /// <summary>
     ///     Convert one entity to another if there is matching properties.
     /// </summary>
-    public static class OneTypeToAnother {
+    public static class CastingExtension {
         /// <summary>
         ///     Extension method for casting one type to another if there is any matching in the property name.
         ///     It returns a new object. So referencing will not work with previous object.
@@ -83,7 +83,7 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        ///     Read Binary to Object
+        ///     Convert bytes to specific object
         /// </summary>
         /// <param name="arrBytes"></param>
         /// <returns></returns>

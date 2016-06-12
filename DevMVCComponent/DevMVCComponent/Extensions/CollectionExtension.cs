@@ -25,6 +25,15 @@ namespace DevMvcComponent.Extensions {
             string defaultValue = null) {
             return AsCsv(list, selectStatement, seperator, defaultValue);
         }
+        /// <summary>
+        /// Convert the whole list elements to html table string.
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="tableCaption"></param>
+        /// <returns></returns>
+        public static string AsHtmlTableString(this IList<object> list, string tableCaption = "") {
+            return EntityConversion.EntityToString.GetHtmlTableOfEntities(list, tableCaption);
+        }
 
         /// <summary>
         ///     Returns a string of comma separated values(CSV)
