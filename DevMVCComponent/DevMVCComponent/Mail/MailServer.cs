@@ -140,6 +140,7 @@ namespace DevMvcComponent.Mail {
         /// <param name="type"></param>
         /// <param name="isAsync"></param>
         /// <param name="isHtml">Is the body is Html or only text.</param>
+        /// <param name="searchForComma"></param>
         /// <param name="userToken"></param>
         /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
@@ -152,23 +153,12 @@ namespace DevMvcComponent.Mail {
             MailingType type = MailingType.RegularMail,
             bool isAsync = true,
             bool isHtml = true,
+            bool searchForComma = true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
-            if (IsConfigured && !mailingTos.IsEmpty()) {
-                var mail = GetNewMailMessage(subject, body, isHtml);
-                MailingAddressAttach(ref mail, mailingTos, ccMails, type);
-                if (attachments != null) {
-                    foreach (var attachment in attachments) {
-                        mail.Attachments.Add(attachment);
-                    }
-                }
-                var server = CloneSmtpClient();
-                var mailSendingWrapper = new MailSendingWrapper(server, mail);
-                SendMail(mailSendingWrapper, isAsync, userToken, sendCompletedEventHandler);
-            } else {
-                throw new Exception(
-                    "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
-            }
+            var mailSendingWrapper = GetMailSendingWrapper(mailingTos, subject, body, ccMails, attachments, type, searchForComma, isHtml);
+            SendMail(mailSendingWrapper, isAsync);
+
         }
 
         #endregion
@@ -187,13 +177,127 @@ namespace DevMvcComponent.Mail {
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
             if (IsConfigured) {
-                var server = CloneSmtpClient();
-                var mailSendingWrapper = new MailSendingWrapper(server, mailMessage);
+                var mailSendingWrapper = GetMailSendingWrapper(mailMessage);
                 SendMail(mailSendingWrapper, isAsync, userToken, sendCompletedEventHandler);
             } else {
                 throw new Exception(
                     "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
             }
+        }
+
+        /// <summary>
+        ///     Get a mail message instead of sending the direct email.
+        /// </summary>
+        /// <param name="mailingTos">Csv email address</param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="ccMails">cc email addresses as csv</param>
+        /// <param name="attachments"></param>
+        /// <param name="type"></param>
+        /// <param name="searchCommas"></param>
+        /// <param name="isHtml"></param>
+        /// <exception cref="Exception">If mailer is not configured properly then : "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared."</exception>
+        public MailSendingWrapper GetMailSendingWrapper(
+            string mailingTos,
+            string subject,
+            string body,
+            string ccMails,
+            List<Attachment> attachments = null,
+            MailingType type = MailingType.RegularMail,
+            bool searchCommas = true,
+            bool isHtml = true) {
+            var sendingToEmails = GetEmailAddressList(mailingTos, searchCommas);
+            var ccToEmails = GetEmailAddressList(ccMails, searchCommas);
+            return GetMailSendingWrapper(sendingToEmails, subject, body, ccToEmails, attachments, type, searchCommas, isHtml);
+        }
+
+
+        /// <summary>
+        ///     Get a mail message instead of sending the direct email.
+        /// </summary>
+        /// <param name="mailingTos">Csv email address</param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="ccMails">cc email addresses as csv</param>
+        /// <param name="attachments"></param>
+        /// <param name="type"></param>
+        /// <param name="searchCommas"></param>
+        /// <param name="isHtml"></param>
+        /// <exception cref="Exception">If mailer is not configured properly then : "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared."</exception>
+        public MailSendingWrapper GetMailSendingWrapper(
+            string[] mailingTos,
+            string subject,
+            string body,
+            string[] ccMails,
+            List<Attachment> attachments = null,
+            MailingType type = MailingType.RegularMail,
+            bool searchCommas = true,
+            bool isHtml = true) {
+            var mail = GetMailMessage(mailingTos, subject, body, ccMails, attachments, type, searchCommas, isHtml);
+            var server = CloneSmtpClient();
+            return new MailSendingWrapper(server, mail);
+        }
+
+        /// <summary>
+        ///     Get a mail message instead of sending the direct email.
+        /// </summary>
+        /// <param name="mailingTos">Csv email address</param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="ccMails">cc email addresses as csv</param>
+        /// <param name="attachments"></param>
+        /// <param name="type"></param>
+        /// <param name="searchCommas"></param>
+        /// <param name="isHtml"></param>
+        /// <exception cref="Exception">If mailer is not configured properly then : "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared."</exception>
+        public MailMessage GetMailMessage(
+            string[] mailingTos,
+            string subject,
+            string body,
+            string[] ccMails,
+            List<Attachment> attachments = null,
+            MailingType type = MailingType.RegularMail,
+            bool searchCommas = false,
+            bool isHtml = true) {
+            if (IsConfigured && !mailingTos.IsEmpty()) {
+                var mail = GetNewMailMessage(subject, body, isHtml);
+                MailingAddressAttach(ref mail, mailingTos, ccMails, type);
+                if (attachments != null) {
+                    foreach (var attachment in attachments) {
+                        mail.Attachments.Add(attachment);
+                    }
+                }
+                return mail;
+            } else {
+                throw new Exception(
+                    "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
+            }
+        }
+
+        /// <summary>
+        ///     Get a mail message instead of sending the direct email.
+        /// </summary>
+        /// <param name="mailingTos">Csv email address</param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="ccMails">cc email addresses as csv</param>
+        /// <param name="attachments"></param>
+        /// <param name="type"></param>
+        /// <param name="searchCommas"></param>
+        /// <param name="isHtml"></param>
+        /// <exception cref="Exception">If mailer is not configured properly then : "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared."</exception>
+        public MailMessage GetMailMessage(
+            string mailingTos,
+            string subject,
+            string body,
+            string ccMails,
+            List<Attachment> attachments = null,
+            MailingType type = MailingType.RegularMail,
+            bool searchCommas = true,
+            bool isHtml = true) {
+            var sendingToEmails = GetEmailAddressList(mailingTos, searchCommas);
+            var ccToEmails = GetEmailAddressList(mailingTos, searchCommas);
+            return GetMailMessage(sendingToEmails, subject, body, ccToEmails, attachments, type, searchCommas, isHtml);
         }
 
         /// <summary>
@@ -227,20 +331,22 @@ namespace DevMvcComponent.Mail {
         /// <param name="mailWrapper"></param>
         /// <param name="async"></param>
         /// <param name="userToken"></param>
-        /// <param name="completeEvent">
-        ///     private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e) {}
-        /// </param>
+        /// <param name="sendCompletedEventHandler"></param>
         /// <returns></returns>
-        public void SendMail(MailSendingWrapper mailWrapper, bool async = true, object userToken = null, SendCompletedEventHandler completeEvent = null) {
+        public void SendMail(
+            MailSendingWrapper mailWrapper,
+            bool async = true,
+            object userToken = null,
+            SendCompletedEventHandler sendCompletedEventHandler = null) {
             var server = mailWrapper.MailServer;
             var message = mailWrapper.MailMessage;
             if (server != null && message != null) {
-                if (completeEvent != null) {
-                    server.SendCompleted += completeEvent;
-                }
+
                 if (async) {
                     //userToken = userToken ?? "None";
-                    new Thread(() => { server.Send(message); }).Start();
+                    new Thread(() => {
+                        server.Send(message);
+                    }).Start();
                 } else {
                     server.Send(message);
                 }
@@ -249,14 +355,14 @@ namespace DevMvcComponent.Mail {
 
         #endregion
 
+
+        #region Configuration and setup HostSetup
+
         /// <summary>
         ///     Specific host setup. Must ensure the boolean isHostConfigured = true.
         ///     Make sure your mail has less protection, IMAP, and pop3 set to enabled.
         /// </summary>
         public abstract void HostSetup();
-
-        #region Configuration
-
         /// <summary>
         /// </summary>
         public bool IsConfigured {
@@ -330,6 +436,7 @@ namespace DevMvcComponent.Mail {
         /// <param name="attachments"></param>
         /// <param name="isAsync"></param>
         /// <param name="isHtml"></param>
+        /// <param name="searchCommas"></param>
         /// <param name="userToken"></param>
         /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
@@ -341,9 +448,10 @@ namespace DevMvcComponent.Mail {
             List<Attachment> attachments = null,
             bool isAsync = true,
             bool isHtml = true,
+            bool searchCommas= true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
-            SendWithAttachments(to, subject, body, null, attachments, type, isAsync, isHtml, userToken, sendCompletedEventHandler);
+            SendWithAttachments(to, subject, body, null, attachments, type, isAsync, isHtml,searchCommas, userToken, sendCompletedEventHandler);
         }
 
         /// <summary>
@@ -401,7 +509,7 @@ namespace DevMvcComponent.Mail {
         /// <summary>
         ///     Send emailAddress with attachments
         /// </summary>
-        /// <param name="mailingTo"></param>
+        /// <param name="mailingTos">Csv email address</param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="attachments"></param>
@@ -413,7 +521,7 @@ namespace DevMvcComponent.Mail {
         /// <param name="sendCompletedEventHandler"></param>
         /// <exception cref="Exception"></exception>
         public void SendWithAttachments(
-            string mailingTo,
+            string mailingTos,
             string subject,
             string body,
             List<Attachment> attachments = null,
@@ -423,19 +531,25 @@ namespace DevMvcComponent.Mail {
             bool isHtml = true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
-            var sendingToEmails = GetEmailAddressList(mailingTo, searchCommas);
-            SendWithAttachments(sendingToEmails, subject, body, null, attachments, type, isAsync, isHtml, userToken, sendCompletedEventHandler);
+            var sendingToEmails = GetEmailAddressList(mailingTos, searchCommas);
+            SendWithAttachments(sendingToEmails, subject, body, null, attachments, type, isAsync, isHtml, searchCommas, userToken, sendCompletedEventHandler);
         }
 
         #endregion
 
         #region Mail address attachments
-
+        /// <summary>
+        /// Get array of email addresses from csv of email addresses.
+        /// If searchComma = false then return only one email address as an array.
+        /// </summary>
+        /// <param name="mailingTos"></param>
+        /// <param name="searchComma">If searchComma = false then return only one email address as an array.</param>
+        /// <returns>If mailingTos is empty then returns null or else array of email addresses from csv or if no comma then only one email address in the array.</returns>
         private string[] GetEmailAddressList(string mailingTos, bool searchComma = false) {
-            if (searchComma && !mailingTos.IsEmpty() && mailingTos.IndexOf(",", StringComparison.Ordinal) > -1) {
+            var isEmpty = mailingTos.IsEmpty();
+            if (searchComma && !isEmpty && mailingTos.IndexOf(",", StringComparison.Ordinal) > -1) {
                 return mailingTos.Split(',').ToArray();
-            }
-            if (!mailingTos.IsEmpty()) {
+            } else if (!isEmpty) {
                 return new[] { mailingTos };
             }
             return null;
@@ -451,7 +565,13 @@ namespace DevMvcComponent.Mail {
                 mail.Bcc.Add(new MailAddress(mailTo));
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mail">MailMessage object to attach the email address to it.</param>
+        /// <param name="mailTos">Expecting at least one email address in the array. On null throw exception.</param>
+        /// <param name="mailCc">if null then no action or else add to the cc list.</param>
+        /// <param name="type"></param>
         private void MailingAddressAttach(ref MailMessage mail, string[] mailTos, string[] mailCc, MailingType type) {
             mail.To.Clear();
             foreach (var mailTo in mailTos) {

@@ -24,7 +24,7 @@ namespace TestMvcWeb
             var mailServer = new GmailServer("testing email", "just.food.mailer@gmail.com", password);
             Mvc.Setup("DevMvcComponent Test", "devorg.bd@gmail.com", assembly, mailServer);
 
-            //Mvc.Mailer.QuickSend("devorg.bd@gmail.com", "subject", "<b>body</b>", isHtml: false);
+            Mvc.Mailer.QuickSend("devorg.bd@gmail.com", "subject", "<b>body</b>", isHtml: true);
             //try {
             //    throw new Exception("Hello World");
             //} catch (Exception ex) {
