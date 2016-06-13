@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using DevMvcComponent.DataTypeFormat;
 
@@ -8,7 +9,7 @@ namespace DevMvcComponent.Extensions {
     /// </summary>
     public static class StringExtension {
         /// <summary>
-        ///     Concat other strings if first one is not null.
+        ///     Concatenation with other strings if first one is not null.
         /// </summary>
         /// <param name="currentString">If this one is null then no other will concat.</param>
         /// <param name="otherStrings">Other string to concat if currentString is not null.</param>
@@ -18,6 +19,37 @@ namespace DevMvcComponent.Extensions {
                 return string.Concat(otherStrings);
             }
             return string.Empty;
+        }
+        /// <summary>
+        /// Get default string if the str is empty (null or "")
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns>Returns default value if str is empty (null or "")</returns>
+        public static string GetDefaultIfEmpty(this string str, string defaultValue = "") {
+            if (defaultValue.IsNullOrEmpty()) {
+                str = defaultValue;
+            }
+            return str;
+        }
+
+        /// <summary>
+        ///     Creates and returns a new FileInfo if string points to a valid file path or else null.
+        /// </summary>
+        /// <returns>Returns : FileInfo if file path is valid.</returns>
+        public static FileInfo AsFileInfo(this string filePath) {
+            if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath)) {
+                return new FileInfo(filePath);
+            }
+            return null;
+        }
+
+        /// <summary>
+        ///    Checks and returns if a file exist at this path.
+        /// </summary>
+        /// <returns>Returns true if file path is valid.</returns>
+        public static bool IsFileExists(this string filePath) {
+            return !string.IsNullOrEmpty(filePath) && File.Exists(filePath);
         }
 
         /// <summary>
@@ -50,6 +82,7 @@ namespace DevMvcComponent.Extensions {
             if (currentString != null) {
                 var capacity = additionalCapacityToLength == -1 ? currentString.Length + 50 : currentString.Length + additionalCapacityToLength;
                 var sb = new StringBuilder(capacity);
+                sb.Append(currentString);
                 return sb;
             }
             return null;
@@ -81,7 +114,7 @@ namespace DevMvcComponent.Extensions {
         /// <returns>Returns : array or null.</returns>
         public static string[] GetCsvAsArray(this string currentString, string spliter = ",", StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries) {
             if (currentString != null) {
-                var spliterArr = new[] {spliter};
+                var spliterArr = new[] { spliter };
                 return currentString.Split(spliterArr, options);
             }
             return null;
@@ -115,9 +148,11 @@ namespace DevMvcComponent.Extensions {
             if (escapseIndexUpto == -1) {
                 escapseIndexUpto = 0;
             }
-            var result = true;
+            bool result = true,
+                loopRun = false;
             for (int i = value.Length - 1, k = 0; i >= escapseIndexUpto; i--, k++) {
                 var index = compareLen - k;
+                loopRun = true;
                 if (index < 0) {
                     return result;
                 }
@@ -131,7 +166,7 @@ namespace DevMvcComponent.Extensions {
                     result = false;
                 }
             }
-            return result;
+            return result && loopRun;
         }
 
         #region String Manipulation

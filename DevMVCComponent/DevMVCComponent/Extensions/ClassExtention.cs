@@ -164,7 +164,7 @@ namespace DevMvcComponent.Extensions {
             return null;
         }
         /// <summary>
-        ///     Returns null if no properties are found.
+        ///     Returns null if no FieldInfos are found.
         /// </summary>
         /// <param name="objectType">Type of any object/class/</param>
         /// <param name="type">
@@ -173,7 +173,7 @@ namespace DevMvcComponent.Extensions {
         /// Get all public static values : BindingFlags.Public | BindingFlags.Static
         /// Get all private static values : BindingFlags.NonPublic | BindingFlags.Static
         /// </param>
-        /// <returns>Returns the list of properties in the class.</returns>
+        /// <returns>Returns the list of FieldInfos in the class.</returns>
         public static FieldInfo[] GetFields(this object objectType, BindingFlags type) {
             if (objectType != null) {
                 return objectType.GetType().GetFields(type);

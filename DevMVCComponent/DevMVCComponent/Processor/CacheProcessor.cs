@@ -102,11 +102,13 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         ///     Default expiration on +8 hours
         /// </summary>
-        /// <param name="context"></param>
         public CacheProcessor() {
             SetDefaults();
         }
-
+        /// <summary>
+        /// Create a cache processor with a default name.
+        /// </summary>
+        /// <param name="cacheName"></param>
         public CacheProcessor(string cacheName) {
             SetDefaults();
         }
@@ -152,7 +154,6 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         ///     Instantiate CacheProssor
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="cacheName"></param>
         /// <param name="expiration">in mins</param>
         public CacheProcessor(string cacheName, int expiration) {

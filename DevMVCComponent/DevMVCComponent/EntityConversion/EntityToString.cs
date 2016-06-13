@@ -19,38 +19,44 @@ namespace DevMvcComponent.EntityConversion {
         private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
-        ///     Get simple string of a single class object
+        ///     Convert any object to string based on property and values string list.
+        /// Mostly convert any entity object to property and values string list, escape EntityKey and EntityState type fields.
+        ///     DevMvcComponent.EntityConversion.EntityToString extension method.
         /// </summary>
-        /// <param name="Class">Any entity object , can be null.</param>
+        /// <param name="anyObject">Any entity object , can be null.</param>
+        /// <param name="propertyFormat">{0} : property, {1} value of the property.</param>
         /// <returns>
         ///     Returns property and value string combination, returns empty string if class is null or doesn't have any valid
         ///     properties to display.
         /// </returns>
-        public static string AsString(this object Class) {
-            return Get(Class);
+        public static string AsString(this object anyObject, string propertyFormat = "\n{0} : {1}") {
+            return Get(anyObject, propertyFormat);
         }
 
         /// <summary>
-        ///     Get simple string of a single class object
+        /// Convert any object to string based on property and values string list.
+        /// Mostly convert any entity object to property and values string list, escape EntityKey and EntityState type fields.
+        ///     DevMvcComponent.EntityConversion.EntityToString extension method.
         /// </summary>
-        /// <param name="Class">Any entity object , can be null.</param>
+        /// <param name="anyObject">Any entity object , can be null.</param>
+        /// <param name="propertyFormat">{0} : property, {1} value of the property.</param>
         /// <returns>
         ///     Returns property and value string combination, returns empty string if class is null or doesn't have any valid
         ///     properties to display.
         /// </returns>
-        public static string Get(object Class) {
-            if (Class != null) {
+        public static string Get(object anyObject, string propertyFormat = "\n{0} : {1}") {
+            if (anyObject != null) {
                 var propertise =
-                    Class.GetType()
+                    anyObject.GetType()
                          .GetProperties(TypeOfPropertise)
                          .Where(p => p.Name != "EntityKey" && p.Name != "EntityState")
                          .ToList();
                 var sb = new StringBuilder(propertise.Count + 2);
 
                 foreach (var prop in propertise) {
-                    var val = prop.GetValue(Class, null);
+                    var val = prop.GetValue(anyObject, null);
                     if (TypeChecker.IsPrimitiveOrGuid(val)) {
-                        var str = string.Format("\n{0} : {1}", prop.Name, val);
+                        var str = string.Format(propertyFormat, prop.Name, val);
                         //Console.WriteLine(str);
                         sb.AppendLine(str);
                     }
@@ -90,7 +96,7 @@ namespace DevMvcComponent.EntityConversion {
                 sb.Append("<table ");
                 sb.Append("style='" + styles + additionalStylesWithTable + "'>");
                 sb.Append("<thead>");
-                //sb.Append(HtmlHelperExtension.GetTag("caption", "Entity Title : " + Class.ToString()));
+                //sb.Append(HtmlHelperExtension.GetTag("caption", "Entity Title : " + anyObject.ToString()));
                 sb.Append("<tr ");
                 sb.Append("style='" + styles2 + additionalStylesWithRow + "'>");
                 sb.Append(HtmlHelperExtension.GetTag("td", "", additionalStylesWithCell));
@@ -152,7 +158,7 @@ namespace DevMvcComponent.EntityConversion {
                 sb.Append("<table ");
                 sb.Append("style='" + styles + additionalStylesWithTable + "'>");
                 sb.Append("<thead>");
-                //sb.Append(HtmlHelperExtension.GetTag("caption", "Entity Title : " + Class.ToString()));
+                //sb.Append(HtmlHelperExtension.GetTag("caption", "Entity Title : " + anyObject.ToString()));
                 sb.Append("<tr ");
                 sb.Append("style='" + styles2 + additionalStylesWithRow + "'>");
                 sb.Append(HtmlHelperExtension.GetTag("td", ""));
@@ -218,11 +224,11 @@ namespace DevMvcComponent.EntityConversion {
             return "";
         }
 
-        // public static string GetHTML(object Class , byte StructDisplayFormattype) {
+        // public static string GetHTML(object anyObject , byte StructDisplayFormattype) {
         //    if(StructDisplayFormattype == StructDisplayFormatType.Regular){
-        //        return GetHTML(Class);
+        //        return GetHTML(anyObject);
         //    } else {
-        //        return GetHTMLTableRow(Class);
+        //        return GetHTMLTableRow(anyObject);
         //    }
         //}
 

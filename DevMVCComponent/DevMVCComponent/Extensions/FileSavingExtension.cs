@@ -9,9 +9,15 @@ namespace DevMvcComponent.Extensions {
     /// </summary>
     public static class FileSavingExtension {
         /// <summary>
+        ///     Collection of mutex
         /// </summary>
         private static readonly Dictionary<int, Mutex> MutexCollection = new Dictionary<int, Mutex>(100);
 
+        /// <summary>
+        ///     Get the item from the dictionary or create new one and attach it with dictionary.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         private static Mutex GetMutex(int key) {
             if (!MutexCollection.ContainsKey(key)) {
                 MutexCollection[key] = new Mutex(false, key.ToString());
@@ -23,6 +29,11 @@ namespace DevMvcComponent.Extensions {
             }
             return mutex;
         }
+
+        /// <summary>
+        ///     Release mutex and remove from the dictionary.
+        /// </summary>
+        /// <param name="key"></param>
         private static void MutexDisposed(int key) {
             if (MutexCollection.ContainsKey(key)) {
                 var mutex = MutexCollection[key];
@@ -33,10 +44,11 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        ///     Save any object into file over the previous one.
-        ///     If object is null then don't save anything.
-        ///     Warning: It also checks if the file is locked or not,
-        ///     so if found locked then it will try again with 1 sec interval and continuously for 300 times.
+        ///     Saving any object as binary bytes array using mutex.
+        ///     Object must be marked with [Serializable] to serialize it to bytes object.
+        ///     Warning: Mutexes are created based on the hash of fileNamelocation string path ,
+        ///     consequently if there are many file names (1k+) one should consider different approach.
+        ///     There is a good chance of collision.
         /// </summary>
         /// <param name="fileNamelocation">Direct file location with it's extension.</param>
         /// <param name="anyObject">Could be array or list or anything.</param>
@@ -71,10 +83,11 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        ///     Save any object into file over the previous one.
-        ///     If object is null then don't save anything.
-        ///     Warning: It also checks if the file is locked or not,
-        ///     so if found locked then it will try again with 1 sec interval and continuously for 300 times.
+        ///     Saving variable string into a file using mutex.
+        ///     It is thread safe and operating system protects the synchronization.
+        ///     Warning: Mutexes are created based on the hash of fileNamelocation string path ,
+        ///     consequently if there are many file names (1k+) one should consider different approach.
+        ///     There is a good chance of collision.
         /// </summary>
         /// <param name="fileNamelocation">Direct file location with it's extension.</param>
         /// <param name="str"></param>
@@ -106,10 +119,11 @@ namespace DevMvcComponent.Extensions {
         }
 
         /// <summary>
-        ///     Save any object into file over the previous one.
-        ///     If object is null then don't save anything.
-        ///     Warning: It also checks if the file is locked or not,
-        ///     so if found locked then it will try again with 1 sec interval and continuously for 300 times.
+        ///     Saving variable string into a file using mutex.
+        ///     It is thread safe and operating system protects the synchronization.
+        ///     Warning: Mutexes are created based on the hash of fileNamelocation string path ,
+        ///     consequently if there are many file names (1k+) one should consider different approach.
+        ///     There is a good chance of collision.
         /// </summary>
         /// <param name="fileNamelocation">Direct file location with it's extension.</param>
         /// <param name="str"></param>
@@ -139,8 +153,14 @@ namespace DevMvcComponent.Extensions {
                 MutexDisposed(key);
             }
         }
+
         /// <summary>
-        ///     Read binary to explicit object.
+        ///     Read binary to explicit object using mutex.
+        ///     Object must be marked with [Serializable] to serialize it to bytes object.
+        ///     It is thread safe and operating system protects the synchronization.
+        ///     Warning: Mutexes are created based on the hash of fileNamelocation string path ,
+        ///     consequently if there are many file names (1k+) one should consider different approach.
+        ///     There is a good chance of collision.
         /// </summary>
         /// <param name="fileNamelocation">Direct file location with it's extension.</param>
         /// <param name="anyObject">Could be array or list or anything.</param>
@@ -148,9 +168,13 @@ namespace DevMvcComponent.Extensions {
             return ReadBinaryAs<T>(fileNamelocation);
         }
 
-
         /// <summary>
         ///     Read binary to explicit object.
+        ///     Object must be marked with [Serializable] to serialize it to bytes object.
+        ///     It is thread safe and operating system protects the synchronization.
+        ///     Warning: Mutexes are created based on the hash of fileNamelocation string path ,
+        ///     consequently if there are many file names (1k+) one should consider different approach.
+        ///     There is a good chance of collision.
         /// </summary>
         /// <param name="fileNamelocation">Direct file location with it's extension.</param>
         public static T ReadBinaryAs<T>(string fileNamelocation) {

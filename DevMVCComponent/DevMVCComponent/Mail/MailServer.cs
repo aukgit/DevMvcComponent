@@ -20,6 +20,10 @@ namespace DevMvcComponent.Mail {
         private bool _isCredentialConfigured;
         private string _senderMail;
         private string _senderPassword;
+        /// <summary>
+        /// Display name for the email.
+        /// </summary>
+        public string DisplayName { get; private set; }
         protected bool IsHostConfigured;
 
         /// <summary>
@@ -30,19 +34,23 @@ namespace DevMvcComponent.Mail {
         ///     DeliveryMethod = SmtpDeliveryMethod.Network;
         ///     Timeout = 10000;
         /// </summary>
-        protected MailServer() {
+        /// <param name="displayName">Display user's name</param>
+        protected MailServer(string displayName) {
+            DisplayName = displayName;
             DefaultConfigarationSetup();
         }
 
         /// <summary>
         ///     Make sure your mail has less protection, IMAP, and pop3 set to enabled.
         /// </summary>
+        /// <param name="displayName">Display user's name</param>
         /// <param name="emailAddress"></param>
         /// <param name="password"></param>
-        protected MailServer(string emailAddress, string password) {
+        protected MailServer(string displayName, string emailAddress, string password) {
             DefaultConfigarationSetup();
             SenderEmailAddress = emailAddress;
             SenderEmailPassword = password;
+            DisplayName = displayName;
             _isCredentialConfigured = true;
         }
 
@@ -68,6 +76,14 @@ namespace DevMvcComponent.Mail {
                 SetupCredentials();
             }
         }
+        /// <summary>
+        /// Get a new mail sending wrapper.
+        /// </summary>
+        /// <param name="mailMessage"></param>
+        /// <returns></returns>
+        public MailSendingWrapper GetMailSendingWrapper(MailMessage mailMessage) {
+            return new MailSendingWrapper(this, mailMessage);
+        }
 
         #region Mail message
 
@@ -76,12 +92,20 @@ namespace DevMvcComponent.Mail {
         ///     Use SmtpClient to send that mail message.
         /// </summary>
         /// <param name="sender">Your mail address</param>
+        /// <param name="displayName"></param>
         /// <param name="subject">Email subject</param>
         /// <param name="body">emailAddress body</param>
         /// <param name="isHtmlBody">By default : true</param>
         /// <param name="bodyEncoding">By default : Encoding.UTF8</param>
+        /// <param name="deliveryNotification"></param>
         /// <returns></returns>
-        public MailMessage GetNewMailMessage(string sender, string subject = "", string body = "", bool isHtmlBody = true, Encoding bodyEncoding = null,
+        public MailMessage GetNewMailMessage(
+            string subject = "",
+            string body = "",
+            bool isHtmlBody = true,
+            Encoding bodyEncoding = null,
+            string sender = null,
+            string displayName = null,
             DeliveryNotificationOptions deliveryNotification = DeliveryNotificationOptions.OnFailure) {
             bodyEncoding = bodyEncoding ?? Encoding.UTF8;
             var mail = new MailMessage {
@@ -91,7 +115,9 @@ namespace DevMvcComponent.Mail {
                 Body = body,
                 Subject = subject
             };
-            var mailAddress = new MailAddress(sender);
+            sender = sender ?? _senderMail;
+            displayName = displayName ?? DisplayName;
+            var mailAddress = new MailAddress(sender, displayName);
 
             mail.Sender = mailAddress;
             mail.From = mailAddress;
@@ -129,7 +155,7 @@ namespace DevMvcComponent.Mail {
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null) {
             if (IsConfigured && !mailingTos.IsEmpty()) {
-                var mail = GetNewMailMessage(_senderMail, subject, body, isHtml);
+                var mail = GetNewMailMessage(subject, body, isHtml);
                 MailingAddressAttach(ref mail, mailingTos, ccMails, type);
                 if (attachments != null) {
                     foreach (var attachment in attachments) {
@@ -146,6 +172,52 @@ namespace DevMvcComponent.Mail {
         }
 
         #endregion
+
+        /// <summary>
+        ///     Send emailAddress with attachments
+        /// </summary>
+        /// <param name="mailMessage"></param>
+        /// <param name="isAsync"></param>
+        /// <param name="userToken"></param>
+        /// <param name="sendCompletedEventHandler"></param>
+        /// <exception cref="Exception"></exception>
+        public void SendWithAttachments(
+            MailMessage mailMessage,
+            bool isAsync = true,
+            object userToken = null,
+            SendCompletedEventHandler sendCompletedEventHandler = null) {
+            if (IsConfigured) {
+                var server = CloneSmtpClient();
+                var mailSendingWrapper = new MailSendingWrapper(server, mailMessage);
+                SendMail(mailSendingWrapper, isAsync, userToken, sendCompletedEventHandler);
+            } else {
+                throw new Exception(
+                    "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
+            }
+        }
+
+        /// <summary>
+        ///     Send emailAddress with attachments
+        /// </summary>
+        /// <param name="mailMessage"></param>
+        /// <param name="isAsync"></param>
+        /// <param name="userToken"></param>
+        /// <param name="sendCompletedEventHandler"></param>
+        /// <exception cref="Exception"></exception>
+        public void QuickSend(
+            MailMessage mailMessage,
+            bool isAsync = true,
+            object userToken = null,
+            SendCompletedEventHandler sendCompletedEventHandler = null) {
+            if (IsConfigured) {
+                var server = CloneSmtpClient();
+                var mailSendingWrapper = new MailSendingWrapper(server, mailMessage);
+                SendMail(mailSendingWrapper, isAsync, userToken, sendCompletedEventHandler);
+            } else {
+                throw new Exception(
+                    "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
+            }
+        }
 
         #region Send emails
 
@@ -181,8 +253,6 @@ namespace DevMvcComponent.Mail {
         ///     Specific host setup. Must ensure the boolean isHostConfigured = true.
         ///     Make sure your mail has less protection, IMAP, and pop3 set to enabled.
         /// </summary>
-        /// <param name="host">for example gmail: smtp.gmail.com</param>
-        /// <param name="port">for example gmail enablessl port: 587</param>
         public abstract void HostSetup();
 
         #region Configuration
@@ -366,7 +436,7 @@ namespace DevMvcComponent.Mail {
                 return mailingTos.Split(',').ToArray();
             }
             if (!mailingTos.IsEmpty()) {
-                return new[] {mailingTos};
+                return new[] { mailingTos };
             }
             return null;
         }

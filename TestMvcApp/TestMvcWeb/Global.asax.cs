@@ -21,16 +21,16 @@ namespace TestMvcWeb
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var password = "newPasswordPleaseDon'tChangeItForEveryone";
-            var mailServer = new GmailServer("just.food.mailer@gmail.com", password);
+            var mailServer = new GmailServer("testing email", "just.food.mailer@gmail.com", password);
             Mvc.Setup("DevMvcComponent Test", "devorg.bd@gmail.com", assembly, mailServer);
 
-            Mvc.Mailer.QuickSend("devorg.bd@gmail.com", "subject", "<b>body</b>", isHtml: false);
-            try {
-                throw new Exception("Hello World");
-            } catch (Exception ex) {
-                Mvc.Error.ByEmail(ex, "devorg.bd@gmail.com,alim.enosis@gmail.com", "Method Name", "Custom Subject", Mvc.Mailer);
-            }
-            Console.WriteLine("Done sending email");
+            //Mvc.Mailer.QuickSend("devorg.bd@gmail.com", "subject", "<b>body</b>", isHtml: false);
+            //try {
+            //    throw new Exception("Hello World");
+            //} catch (Exception ex) {
+            //    Mvc.Error.ByEmail(ex, "devorg.bd@gmail.com,alim.enosis@gmail.com", "Method Name", "Custom Subject", Mvc.Mailer);
+            //}
+            //Console.WriteLine("Done sending email");
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿#region using block
 
 using System;
+using System.Linq;
 using System.Collections.Specialized;
 using System.Web;
-using DevMvcComponent.DataTypeFormat;
-using DevMvcComponent.EntityConversion;
 
 #endregion
 
@@ -32,6 +31,14 @@ namespace DevMvcComponent.Processor {
         }
 
         #endregion
+        /// <summary>
+        /// Is cookie exist in the dictionary
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool Exists(string name) {
+            return HttpContext.Current.Request.Cookies.AllKeys.Contains(name);
+        }
 
         #region Remove Cookies
 
@@ -65,20 +72,10 @@ namespace DevMvcComponent.Processor {
 
         #endregion
 
-        #region Constructor
-
-        //public CookieProcessor(ControllerContext context) {
-        //    this.controllerContext = context;
-        //    this.httpContext = this.controllerContext.HttpContext;
-        //}
-
-        #endregion
-
         // Cookies add will add duplicate cookies.
         // Cookies set will only add unique cookies.
 
         #region Save Cookies
-
 
         /// <summary>
         ///     Save a single object as cookie.
@@ -99,14 +96,22 @@ namespace DevMvcComponent.Processor {
             //HttpContext.Current.Response.Cookies.Remove(cookieName);
             //HttpContext.Current.Request.Cookies.Remove(cookieName);
             var cookies = HttpContext.Current.Response.Cookies;
-            var cookie = cookies[cookieName];
-            if (cookie == null) {
-                cookies.Add(httpCookie);
-            } else {
+            if (Exists(cookieName)) {
                 cookies.Set(httpCookie);
+            } else {
+                cookies.Add(httpCookie);
             }
             //HttpContext.Current.Request.Cookies.Set(httpCookie);
         }
+
+        #endregion
+
+        #region Constructor
+
+        //public CookieProcessor(ControllerContext context) {
+        //    this.controllerContext = context;
+        //    this.httpContext = this.controllerContext.HttpContext;
+        //}
 
         #endregion
 
@@ -161,7 +166,8 @@ namespace DevMvcComponent.Processor {
                 if (httpCookie.Values.Count == 1) {
                     // complex type not a value.
                     return httpCookie.Value;
-                } else if (httpCookie.Values.Count == 0) {
+                }
+                if (httpCookie.Values.Count == 0) {
                     httpCookie = HttpContext.Current.Response.Cookies[cookieName];
                     if (httpCookie != null && httpCookie.Values.Count == 1) {
                         return httpCookie.Value;

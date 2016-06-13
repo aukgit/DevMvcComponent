@@ -84,14 +84,23 @@ namespace DevMvcComponent {
         /// <param name="developerEmail">Developer email</param>
         /// <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
         /// <param name="senderEmail">Smtp sender email address.</param>
+        /// <param name="senderDisplayName">Email address's display name.</param>
         /// <param name="senderPassword">Smtp sender password.</param>
         /// <param name="hostName">host name, i.e. smtp.gmail.com</param>
         /// <param name="senderPort">port number</param>
         /// <param name="isSsl"></param>
-        public static void Setup(string applicationName, string developerEmail, Assembly assembly, string senderEmail,
-            string senderPassword, string hostName, int senderPort, bool isSsl) {
+        public static void Setup(
+            string applicationName, 
+            string developerEmail, 
+            Assembly assembly, 
+            string senderEmail, 
+            string senderDisplayName,
+            string senderPassword, 
+            string hostName, 
+            int senderPort, 
+            bool isSsl) {
             //Configure this with add a sender email.
-            Mailer = new CustomMailServer(senderEmail, senderPassword, hostName, senderPort, isSsl); //
+            Mailer = new CustomMailServer(senderDisplayName,senderEmail, senderPassword, hostName, senderPort, isSsl); //
             Setup(applicationName, developerEmail, assembly, Mailer);
         }
     }

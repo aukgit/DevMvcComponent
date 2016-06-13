@@ -135,7 +135,6 @@
     <Compile Include="Global\Constants.cs" />
     <Compile Include="DataTypeFormat\ObjectProperty.cs" />
     <Compile Include="Mail\MailSendingWrapper.cs" />
-    <Compile Include="Extensions\BinaryFileExtenstion.cs" />
     <Compile Include="Pagination\Pagination.cs">
       <SubType>Code</SubType>
     </Compile>

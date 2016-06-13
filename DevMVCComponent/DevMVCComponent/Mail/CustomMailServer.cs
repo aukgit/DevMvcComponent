@@ -10,11 +10,12 @@
         ///     SSL true
         /// </summary>
         /// <param name="emailAddress"></param>
+        /// <param name="displayName">User's display name.</param>
         /// <param name="password"></param>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public CustomMailServer(string emailAddress, string password, string host, int port)
-            : base(emailAddress, password) {
+        public CustomMailServer(string displayName, string emailAddress, string password, string host, int port)
+            : base(displayName, emailAddress, password) {
             HostSetup();
             Port = port;
             Host = host;
@@ -22,13 +23,14 @@
 
         /// <summary>
         /// </summary>
+        /// <param name="displayName">User's display name.</param>
         /// <param name="emailAddress"></param>
         /// <param name="password"></param>
         /// <param name="host"></param>
         /// <param name="port"></param>
         /// <param name="isSsl"></param>
-        public CustomMailServer(string emailAddress, string password, string host, int port, bool isSsl)
-            : base(emailAddress, password) {
+        public CustomMailServer(string displayName, string emailAddress, string password, string host, int port, bool isSsl)
+            : base(displayName, emailAddress, password) {
             HostSetup();
             Port = port;
             Host = host;
