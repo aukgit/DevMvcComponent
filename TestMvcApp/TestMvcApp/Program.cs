@@ -1,5 +1,6 @@
 ﻿using System;
 using DevMvcComponent.Extensions;
+using DevMvcComponent.Extensions.Files;
 using TestDevMvc.Testing;
 
 namespace TestDevMvc {

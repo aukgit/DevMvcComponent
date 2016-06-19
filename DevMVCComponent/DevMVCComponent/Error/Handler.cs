@@ -252,7 +252,7 @@ namespace DevMvcComponent.Error {
                     GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                     body += Config.GetApplicationNameHtml();
                     if (mailServer != null) {
-                        mailServer.QuickSend(Config.DeveloperEmails, subject, body, MailingType.RegularMail, null, false);
+                        mailServer.QuickSend(Config.DeveloperEmails, subject, body, null, MailingType.RegularMail, null, false);
                     }
                 }
             }).Start();
@@ -294,7 +294,7 @@ namespace DevMvcComponent.Error {
                 var body = "";
                 GenerateErrorBody(exception, ref subject, ref body, methodName, entity);
                 body += Config.GetApplicationNameHtml();
-                Mvc.Mailer.QuickSend(mailingAddresses, subject, body, MailingType.CarbonCopy, null, false);
+                Mvc.Mailer.QuickSend(null, subject, body, mailingAddresses, MailingType.CarbonCopy, null, isAsync: false);
             }).Start();
         }
     }

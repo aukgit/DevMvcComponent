@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace DevMvcComponent.Extensions {
+namespace DevMvcComponent.Extensions.Files {
     /// <summary>
     ///     File info extensions
     /// </summary>

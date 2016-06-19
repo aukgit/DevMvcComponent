@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using DevMvcComponent.Extensions.Casting;
 
-namespace DevMvcComponent.Extensions {
+namespace DevMvcComponent.Extensions.Files {
     /// <summary>
     ///     File saving extension
     /// </summary>

@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using DevMvcComponent.DataTypeFormat;
 
-namespace DevMvcComponent.Extensions {
+namespace DevMvcComponent.Extensions.String {
     /// <summary>
     ///     String extensions
     /// </summary>

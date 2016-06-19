@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using DevMvcComponent;
 using DevMvcComponent.Extensions;
+using DevMvcComponent.Extensions.Files;
+using DevMvcComponent.Extensions.String;
 
 namespace TestMvcWeb.Controllers {
     public class HomeController : Controller {

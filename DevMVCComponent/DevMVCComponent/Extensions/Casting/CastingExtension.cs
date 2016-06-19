@@ -2,13 +2,11 @@
 
 using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
-namespace DevMvcComponent.Extensions {
+namespace DevMvcComponent.Extensions.Casting {
     /// <summary>
     ///     Convert one entity to another if there is matching properties.
     /// </summary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using DevMvcComponent.EntityConversion;
 
-namespace DevMvcComponent.Extensions {
+namespace DevMvcComponent.Extensions.Collection {
     /// <summary>
     ///     Collection , IEnumerable extensions
     /// </summary>

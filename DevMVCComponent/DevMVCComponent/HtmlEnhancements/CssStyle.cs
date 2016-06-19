@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using DevMvcComponent.Extensions;
+using DevMvcComponent.Extensions.String;
 
 namespace DevMvcComponent.HtmlEnhancements {
     /// <summary>

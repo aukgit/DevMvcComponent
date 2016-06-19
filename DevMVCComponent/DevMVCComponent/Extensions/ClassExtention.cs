@@ -56,6 +56,7 @@ namespace DevMvcComponent.Extensions {
         public static void SaveAsCache<T>(this T str, string name) {
             Mvc.Caches[name] = str;
         }
+
         /// <summary>
         ///     Get from cache
         /// </summary>
