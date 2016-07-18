@@ -375,15 +375,15 @@ namespace DevMvcComponent.Mail {
                     //userToken = userToken ?? "None";
                     new Thread(() => {
                         server.Send(message);
-                        if (disposeMailWrapper) {
-                            Dispose(mailWrapper);
-                        }
+                        //if (disposeMailWrapper) {
+                        //    Dispose(mailWrapper);
+                        //}
                     }).Start();
                 } else {
                     server.Send(message);
-                    if (disposeMailWrapper) {
-                        Dispose(mailWrapper);
-                    }
+                    //if (disposeMailWrapper) {
+                    //    Dispose(mailWrapper);
+                    //}
                 }
             }
         }
