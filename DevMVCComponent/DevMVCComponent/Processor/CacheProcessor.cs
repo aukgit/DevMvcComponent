@@ -71,8 +71,8 @@ namespace DevMvcComponent.Processor {
         /// <param name="name"></param>
         /// <returns></returns>
         public object Get(string name) {
-            if (HttpContext.Current.Cache != null && HttpContext.Current.Cache[name] != null) {
-                return HttpContext.Current.Cache[name];
+            if (HttpRuntime.Cache != null && HttpRuntime.Cache[name] != null) {
+                return HttpRuntime.Cache[name];
             }
             return null;
         }
@@ -83,8 +83,8 @@ namespace DevMvcComponent.Processor {
         /// <param name="name"></param>
         /// <returns></returns>
         public string GetString(string name) {
-            if (HttpContext.Current.Cache != null && HttpContext.Current.Cache[name] != null) {
-                return HttpContext.Current.Cache[name].ToString();
+            if (HttpRuntime.Cache != null && HttpRuntime.Cache[name] != null) {
+                return HttpRuntime.Cache[name].ToString();
             }
             return null;
         }
@@ -223,7 +223,7 @@ namespace DevMvcComponent.Processor {
         /// <param name="priority"></param>
         public void Set(string key, object data, int? expires, int? sliding, string tableName,
             CacheItemPriority priority) {
-            var cache = HttpContext.Current.Cache;
+            var cache = HttpRuntime.Cache;
 
             _defaultCacheDependency = tableName != null
                                           ? new CacheDependency(_defaultDependencyFileLocation + tableName + ".table")
@@ -256,7 +256,7 @@ namespace DevMvcComponent.Processor {
         /// <param name="priority"></param>
         public void Set(string key, object data, DateTime? expires, TimeSpan? sliding, CacheDependency cacheDependency,
             CacheItemPriority priority) {
-            var cache = HttpContext.Current.Cache;
+            var cache = HttpRuntime.Cache;
 
             var expiration = Cache.NoAbsoluteExpiration;
             var cacheSliding = Cache.NoSlidingExpiration;
@@ -284,7 +284,7 @@ namespace DevMvcComponent.Processor {
         /// <param name="onRemoveMethod">on remove method name</param>
         public void Set(string key, object data, DateTime? expires, TimeSpan? sliding, CacheDependency cacheDependency,
             CacheItemPriority priority, CacheItemRemovedCallback onRemoveMethod) {
-            var cache = HttpContext.Current.Cache;
+            var cache = HttpRuntime.Cache;
             var expiration = Cache.NoAbsoluteExpiration;
             var cacheSliding = Cache.NoSlidingExpiration;
 
@@ -346,15 +346,15 @@ namespace DevMvcComponent.Processor {
         #region Remove Cache
 
         public void Remove(string name) {
-            var cache = HttpContext.Current.Cache;
+            var cache = HttpRuntime.Cache;
             if (cache[name] != null) {
                 cache.Remove(name);
             }
         }
 
         public void RemoveAllFromCache() {
-            foreach (DictionaryEntry entry in HttpContext.Current.Cache) {
-                HttpContext.Current.Cache.Remove((string) entry.Key);
+            foreach (DictionaryEntry entry in HttpRuntime.Cache) {
+                HttpRuntime.Cache.Remove((string) entry.Key);
             }
         }
 
