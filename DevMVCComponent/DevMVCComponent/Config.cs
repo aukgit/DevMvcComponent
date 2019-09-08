@@ -6,11 +6,13 @@ using DevMvcComponent.Miscellaneous;
 
 #endregion
 
-namespace DevMvcComponent {
+namespace DevMvcComponent
+{
     /// <summary>
     ///     Must setup this class.
     /// </summary>
-    public static class Config {
+    public static class Config
+    {
         ///// <summary>
         /////     System admin email
         ///// </summary>
@@ -42,9 +44,10 @@ namespace DevMvcComponent {
         ///     Common margin and padding style for email.
         ///     ";margin-top: 12px; padding: 11px; border-radius: 4px;'"
         /// </summary>
-        public static string CommonStyles {
-            get { return _commonStyles; }
-            set { _commonStyles = value; }
+        public static string CommonStyles
+        {
+            get => _commonStyles;
+            set => _commonStyles = value;
         }
 
         /// <summary>
@@ -54,8 +57,10 @@ namespace DevMvcComponent {
         /// <param name="value"></param>
         /// <returns></returns>
         public static string GetAssemblyAttribute<T>(Func<T, string> value)
-            where T : Attribute {
+            where T : Attribute
+        {
             var attribute = (T) Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(T));
+
             return value.Invoke(attribute);
         }
 
@@ -68,8 +73,10 @@ namespace DevMvcComponent {
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static string GetAssemblyAttribute<T>(Assembly assembly, Func<T, string> value)
-            where T : Attribute {
+            where T : Attribute
+        {
             var attribute = (T) Attribute.GetCustomAttribute(assembly, typeof(T));
+
             return value.Invoke(attribute);
         }
 
@@ -78,25 +85,28 @@ namespace DevMvcComponent {
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string GetBold(string str) {
-            return "<strong title='" + str + "'>" + str + "</strong>";
-        }
+        public static string GetBold(string str) => "<strong title='" + str + "'>" + str + "</strong>";
 
         /// <summary>
         ///     Attach application information from the AssemblyInfo given the Assembly = Assembly.GetExecutingAssembly().
         /// </summary>
         /// <returns></returns>
-        public static string GetApplicationNameHtml(bool isForce = false) {
+        public static string GetApplicationNameHtml(bool isForce = false)
+        {
             //styleStart = "style='",
             //colorRed = "color:red",
             //styleJoiner = ";",
             //quoteClose = "'";
             var component = Assembly.GetExecutingAssembly();
-            if (Assembly != null && (_applicationMailFooter == "" || isForce)) {
-                string str = "",
-                       divStart = "<div",
+
+            if (Assembly != null &&
+                (_applicationMailFooter == "" || isForce))
+            {
+                string str        = "",
+                       divStart   = "<div",
                        slashClose = ">",
-                       divClose = "</div>";
+                       divClose   = "</div>";
+
                 str += divStart + " style='background:#5D5A5A;color:white" + _commonStyles + slashClose;
 
                 str += divStart + slashClose;
@@ -186,6 +196,7 @@ namespace DevMvcComponent {
                 str += divClose;
 
                 _applicationMailFooter = str;
+
                 return _applicationMailFooter;
             }
 

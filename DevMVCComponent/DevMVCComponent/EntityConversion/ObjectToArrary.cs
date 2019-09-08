@@ -7,11 +7,13 @@ using DevMvcComponent.DataTypeFormat;
 
 #endregion
 
-namespace DevMvcComponent.EntityConversion {
+namespace DevMvcComponent.EntityConversion
+{
     /// <summary>
     ///     Generates any class to ObjectProperty data type
     /// </summary>
-    public static class ObjectToArrary {
+    public static class ObjectToArrary
+    {
         private const BindingFlags TypeOfPropertise = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
@@ -19,8 +21,10 @@ namespace DevMvcComponent.EntityConversion {
         /// </summary>
         /// <param name="Class">Give any class object to retrieve it's property and values.</param>
         /// <returns></returns>
-        public static List<ObjectProperty> Get(object Class) {
-            if (Class != null) {
+        public static List<ObjectProperty> Get(object Class)
+        {
+            if (Class != null)
+            {
                 var propertise =
                     Class.GetType()
                          .GetProperties(TypeOfPropertise)
@@ -28,17 +32,24 @@ namespace DevMvcComponent.EntityConversion {
                          .ToList();
 
                 var list = new List<ObjectProperty>(propertise.Count);
-                foreach (var prop in propertise) {
-                    var val = prop.GetValue(Class, null);
+
+                foreach (var prop in propertise)
+                {
+                    var val          = prop.GetValue(Class, null);
                     var propertyName = prop.Name;
-                    var obj = new ObjectProperty {
-                        Name = propertyName,
+
+                    var obj = new ObjectProperty
+                    {
+                        Name  = propertyName,
                         Value = val
                     };
+
                     list.Add(obj);
                 }
+
                 return list;
             }
+
             return null;
         }
     }

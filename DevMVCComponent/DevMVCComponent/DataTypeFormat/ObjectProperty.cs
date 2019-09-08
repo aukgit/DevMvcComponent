@@ -1,8 +1,10 @@
-﻿namespace DevMvcComponent.DataTypeFormat {
+﻿namespace DevMvcComponent.DataTypeFormat
+{
     /// <summary>
     ///     Class property name and values object type.
     /// </summary>
-    public class ObjectProperty {
+    public class ObjectProperty
+    {
         /// <summary>
         ///     Single property name of the class
         /// </summary>

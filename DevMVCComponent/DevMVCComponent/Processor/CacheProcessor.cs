@@ -11,12 +11,14 @@ using DevMvcComponent.Miscellaneous;
 
 #endregion
 
-namespace DevMvcComponent.Processor {
+namespace DevMvcComponent.Processor
+{
     /// <summary>
     ///     Default Sliding 2 Hours
     ///     Default Expiration 5 Hours
     /// </summary>
-    public class CacheProcessor {
+    public class CacheProcessor
+    {
         private readonly int _defaultExpiration;
 
         /// <summary>
@@ -38,26 +40,36 @@ namespace DevMvcComponent.Processor {
         ///     Sets and retrieves Cache
         /// </summary>
         /// <param name="cacheName"></param>
-        public object this[string cacheName] {
-            get { return Get(cacheName); }
-            set {
-                if (value == null) {
+        public object this[string cacheName]
+        {
+            get => Get(cacheName);
+            set
+            {
+                if (value == null)
+                {
                     Remove(cacheName);
                 }
+
                 Set(cacheName, value);
             }
         }
 
         #endregion
 
-        private void SetDefaults() {
+        private void SetDefaults()
+        {
             var rootFolder = DirectoryExtension.GetBaseOrAppDirectory();
             var dataFolder = rootFolder + "\\DataCache\\";
-            if (!Directory.Exists(dataFolder)) {
-                try {
+
+            if (!Directory.Exists(dataFolder))
+            {
+                try
+                {
                     Directory.CreateDirectory(dataFolder);
                     _defaultDependencyFileLocation = dataFolder;
-                } catch (Exception) {
+                }
+                catch (Exception)
+                {
                     _defaultDependencyFileLocation = rootFolder;
                 }
             }
@@ -70,10 +82,14 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public object Get(string name) {
-            if (HttpRuntime.Cache != null && HttpRuntime.Cache[name] != null) {
+        public object Get(string name)
+        {
+            if (HttpRuntime.Cache != null &&
+                HttpRuntime.Cache[name] != null)
+            {
                 return HttpRuntime.Cache[name];
             }
+
             return null;
         }
 
@@ -82,10 +98,14 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public string GetString(string name) {
-            if (HttpRuntime.Cache != null && HttpRuntime.Cache[name] != null) {
+        public string GetString(string name)
+        {
+            if (HttpRuntime.Cache != null &&
+                HttpRuntime.Cache[name] != null)
+            {
                 return HttpRuntime.Cache[name].ToString();
             }
+
             return null;
         }
 
@@ -102,22 +122,27 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         ///     Default expiration on +8 hours
         /// </summary>
-        public CacheProcessor() {
+        public CacheProcessor()
+        {
             SetDefaults();
         }
+
         /// <summary>
-        /// Create a cache processor with a default name.
+        ///     Create a cache processor with a default name.
         /// </summary>
         /// <param name="cacheName"></param>
-        public CacheProcessor(string cacheName) {
+        public CacheProcessor(string cacheName)
+        {
             SetDefaults();
         }
 
         /// <summary>
         /// </summary>
         /// <param name="expiration">in mins</param>
-        public CacheProcessor(int expiration) {
+        public CacheProcessor(int expiration)
+        {
             SetDefaults();
+
             //override after defaults.
             _defaultExpiration = expiration;
         }
@@ -127,11 +152,13 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="expiration">in mins</param>
         /// <param name="sliding">[in mins] If data is not accessed for certain time , then it will be removed from cache.</param>
-        public CacheProcessor(int expiration, int sliding) {
+        public CacheProcessor(int expiration, int sliding)
+        {
             SetDefaults();
+
             //override after defaults.
             _defaultExpiration = expiration;
-            _defaultSliding = sliding;
+            _defaultSliding    = sliding;
         }
 
         /// <summary>
@@ -144,11 +171,16 @@ namespace DevMvcComponent.Processor {
         ///     Change Default Sliding: If data is not accessed for certain time , then it will be removed from
         ///     cache. [in mins]
         /// </param>
-        public CacheProcessor(string cacheName, int expiration, int sliding) {
+        public CacheProcessor(
+            string cacheName,
+            int expiration,
+            int sliding)
+        {
             SetDefaults();
+
             //override after defaults.
             _defaultExpiration = expiration;
-            _defaultSliding = sliding;
+            _defaultSliding    = sliding;
         }
 
         /// <summary>
@@ -156,8 +188,10 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="cacheName"></param>
         /// <param name="expiration">in mins</param>
-        public CacheProcessor(string cacheName, int expiration) {
+        public CacheProcessor(string cacheName, int expiration)
+        {
             SetDefaults();
+
             //override after defaults.
             _defaultExpiration = expiration;
         }
@@ -171,8 +205,15 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="key"></param>
         /// <param name="data"></param>
-        public void Set(string key, object data) {
-            Set(key, data, null, null, tableName: null, priority: CacheItemPriority.Default);
+        public void Set(string key, object data)
+        {
+            Set(
+                key,
+                data,
+                null,
+                null,
+                tableName: null,
+                priority: CacheItemPriority.Default);
         }
 
         /// <summary>
@@ -184,8 +225,18 @@ namespace DevMvcComponent.Processor {
         ///     Name of the table to create dependencies in file (AppData\DatabaseTables\table.table). Change
         ///     the file manually if table is updated.
         /// </param>
-        public void Set(string key, object data, string tableName) {
-            Set(key, data, _defaultExpiration, _defaultSliding, tableName, CacheItemPriority.Default);
+        public void Set(
+            string key,
+            object data,
+            string tableName)
+        {
+            Set(
+                key,
+                data,
+                _defaultExpiration,
+                _defaultSliding,
+                tableName,
+                CacheItemPriority.Default);
         }
 
         /// <summary>
@@ -194,8 +245,18 @@ namespace DevMvcComponent.Processor {
         /// <param name="key">Key object to look for.</param>
         /// <param name="data">Save any type of data.</param>
         /// <param name="expires">[in mins]</param>
-        public void Set(string key, object data, int expires) {
-            Set(key, data, expires, null, null, CacheItemPriority.Default);
+        public void Set(
+            string key,
+            object data,
+            int expires)
+        {
+            Set(
+                key,
+                data,
+                expires,
+                null,
+                null,
+                CacheItemPriority.Default);
         }
 
         /// <summary>
@@ -205,8 +266,19 @@ namespace DevMvcComponent.Processor {
         /// <param name="data">Save any type of data.</param>
         /// <param name="sliding">[in mins]If data is not accessed for certain time then it will be deleted from the cache memory.</param>
         /// <param name="tableName">Name of the table for dependency.</param>
-        public void Set(string key, object data, int sliding, string tableName) {
-            Set(key, data, null, sliding, tableName, CacheItemPriority.Default);
+        public void Set(
+            string key,
+            object data,
+            int sliding,
+            string tableName)
+        {
+            Set(
+                key,
+                data,
+                null,
+                sliding,
+                tableName,
+                CacheItemPriority.Default);
         }
 
         /// <summary>
@@ -221,27 +293,47 @@ namespace DevMvcComponent.Processor {
         ///     the file manually if table is updated.
         /// </param>
         /// <param name="priority"></param>
-        public void Set(string key, object data, int? expires, int? sliding, string tableName,
-            CacheItemPriority priority) {
+        public void Set(
+            string key,
+            object data,
+            int? expires,
+            int? sliding,
+            string tableName,
+            CacheItemPriority priority)
+        {
             var cache = HttpRuntime.Cache;
 
-            _defaultCacheDependency = tableName != null
-                                          ? new CacheDependency(_defaultDependencyFileLocation + tableName + ".table")
-                                          : null;
-            var expiration = Cache.NoAbsoluteExpiration;
+            _defaultCacheDependency = tableName != null ? new CacheDependency(_defaultDependencyFileLocation + tableName + ".table") : null;
+            var expiration   = Cache.NoAbsoluteExpiration;
             var cacheSliding = Cache.NoSlidingExpiration;
 
-            if (expires != null) {
+            if (expires != null)
+            {
                 var expires2 = (double) expires;
                 expiration = DateTime.Now.AddMinutes(expires2);
             }
-            if (sliding != null) {
+
+            if (sliding != null)
+            {
                 var sliding2 = (double) sliding;
                 cacheSliding = TimeSpan.FromMinutes(sliding2);
             }
 
-            if (data != null && key != null) {
-                new Thread(() => { cache.Insert(key, data, _defaultCacheDependency, expiration, cacheSliding, priority, null); }).Start();
+            if (data != null &&
+                key != null)
+            {
+                new Thread(
+                    () =>
+                    {
+                        cache.Insert(
+                            key,
+                            data,
+                            _defaultCacheDependency,
+                            expiration,
+                            cacheSliding,
+                            priority,
+                            null);
+                    }).Start();
             }
         }
 
@@ -254,21 +346,40 @@ namespace DevMvcComponent.Processor {
         /// <param name="sliding">If data is not accessed for certain time then it will be deleted from the cache memory.</param>
         /// <param name="cacheDependency">New dependency cache.</param>
         /// <param name="priority"></param>
-        public void Set(string key, object data, DateTime? expires, TimeSpan? sliding, CacheDependency cacheDependency,
-            CacheItemPriority priority) {
+        public void Set(
+            string key,
+            object data,
+            DateTime? expires,
+            TimeSpan? sliding,
+            CacheDependency cacheDependency,
+            CacheItemPriority priority)
+        {
             var cache = HttpRuntime.Cache;
 
-            var expiration = Cache.NoAbsoluteExpiration;
+            var expiration   = Cache.NoAbsoluteExpiration;
             var cacheSliding = Cache.NoSlidingExpiration;
 
-            if (expires != null) {
+            if (expires != null)
+            {
                 expiration = (DateTime) expires;
             }
-            if (sliding != null) {
+
+            if (sliding != null)
+            {
                 cacheSliding = (TimeSpan) sliding;
             }
-            if (data != null && key != null) {
-                cache.Insert(key, data, cacheDependency, expiration, cacheSliding, priority, null);
+
+            if (data != null &&
+                key != null)
+            {
+                cache.Insert(
+                    key,
+                    data,
+                    cacheDependency,
+                    expiration,
+                    cacheSliding,
+                    priority,
+                    null);
             }
         }
 
@@ -282,20 +393,40 @@ namespace DevMvcComponent.Processor {
         /// <param name="cacheDependency">New dependency cache.</param>
         /// <param name="priority"></param>
         /// <param name="onRemoveMethod">on remove method name</param>
-        public void Set(string key, object data, DateTime? expires, TimeSpan? sliding, CacheDependency cacheDependency,
-            CacheItemPriority priority, CacheItemRemovedCallback onRemoveMethod) {
-            var cache = HttpRuntime.Cache;
-            var expiration = Cache.NoAbsoluteExpiration;
+        public void Set(
+            string key,
+            object data,
+            DateTime? expires,
+            TimeSpan? sliding,
+            CacheDependency cacheDependency,
+            CacheItemPriority priority,
+            CacheItemRemovedCallback onRemoveMethod)
+        {
+            var cache        = HttpRuntime.Cache;
+            var expiration   = Cache.NoAbsoluteExpiration;
             var cacheSliding = Cache.NoSlidingExpiration;
 
-            if (expires != null) {
+            if (expires != null)
+            {
                 expiration = (DateTime) expires;
             }
-            if (sliding != null) {
+
+            if (sliding != null)
+            {
                 cacheSliding = (TimeSpan) sliding;
             }
-            if (data != null && key != null) {
-                cache.Insert(key, data, cacheDependency, expiration, cacheSliding, priority, onRemoveMethod);
+
+            if (data != null &&
+                key != null)
+            {
+                cache.Insert(
+                    key,
+                    data,
+                    cacheDependency,
+                    expiration,
+                    cacheSliding,
+                    priority,
+                    onRemoveMethod);
             }
         }
 
@@ -306,7 +437,8 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         /// </summary>
         /// <param name="table"></param>
-        public void TableStatusSetChanged(string table) {
+        public void TableStatusSetChanged(string table)
+        {
             var path = _defaultDependencyFileLocation + table + ".table";
             File.WriteAllText(path, Constants.Changed);
         }
@@ -314,11 +446,15 @@ namespace DevMvcComponent.Processor {
         /// <summary>
         /// </summary>
         /// <param name="table"></param>
-        public void TableStatusSetUnChanged(string table) {
-            try {
+        public void TableStatusSetUnChanged(string table)
+        {
+            try
+            {
                 var path = _defaultDependencyFileLocation + table + ".table";
                 File.WriteAllText(path, Constants.UnChanged);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Mvc.Error.HandleBy(ex);
             }
         }
@@ -329,11 +465,16 @@ namespace DevMvcComponent.Processor {
         /// </summary>
         /// <param name="table"></param>
         /// <returns>True : No-Update, False: Updated.</returns>
-        public bool TableStatusCheck(string table) {
+        public bool TableStatusCheck(string table)
+        {
             var path = _defaultDependencyFileLocation + table + ".table";
-            if (File.Exists(path)) {
+
+            if (File.Exists(path))
+            {
                 var readFromText = File.ReadAllText(path);
-                if (readFromText.StartsWith(Constants.UnChanged)) {
+
+                if (readFromText.StartsWith(Constants.UnChanged))
+                {
                     return true; // no update
                 }
             }
@@ -345,15 +486,20 @@ namespace DevMvcComponent.Processor {
 
         #region Remove Cache
 
-        public void Remove(string name) {
+        public void Remove(string name)
+        {
             var cache = HttpRuntime.Cache;
-            if (cache[name] != null) {
+
+            if (cache[name] != null)
+            {
                 cache.Remove(name);
             }
         }
 
-        public void RemoveAllFromCache() {
-            foreach (DictionaryEntry entry in HttpRuntime.Cache) {
+        public void RemoveAllFromCache()
+        {
+            foreach (DictionaryEntry entry in HttpRuntime.Cache)
+            {
                 HttpRuntime.Cache.Remove((string) entry.Key);
             }
         }

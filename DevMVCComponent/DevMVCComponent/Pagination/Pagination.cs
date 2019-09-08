@@ -7,20 +7,23 @@ using System.Text;
 
 #endregion
 
-namespace DevMvcComponent.Pagination {
+namespace DevMvcComponent.Pagination
+{
     /// <summary>
     ///     Generates pagination
     /// </summary>
-    public static class Pagination {
+    public static class Pagination
+    {
         private static long _pageItems = 50;
 
         /// <summary>
         ///     Total number of items in a page.
         ///     Default items limit is 50.
         /// </summary>
-        public static long PageItems {
-            get { return _pageItems; }
-            set { _pageItems = value; }
+        public static long PageItems
+        {
+            get => _pageItems;
+            set => _pageItems = value;
         }
 
         /// <summary>
@@ -43,35 +46,54 @@ namespace DevMvcComponent.Pagination {
         ///     generated if needed and not exist in the cache.
         /// </param>
         /// <returns>IEnumerable data based on the page number.</returns>
-        public static IEnumerable<T> GetPageData<T>(this IList<T> entities, string cacheName, ref int? pages,
-            long? page = 1, long? items = -1, bool retrivePagesExist = true) {
-            if (page == null || page <= 0) {
+        public static IEnumerable<T> GetPageData<T>(
+            this IList<T> entities,
+            string cacheName,
+            ref int? pages,
+            long? page = 1,
+            long? items = -1,
+            bool retrivePagesExist = true)
+        {
+            if (page == null ||
+                page <= 0)
+            {
                 page = 1;
             }
 
-            if (items == null || items == -1) {
+            if (items == null ||
+                items == -1)
+            {
                 items = PageItems;
             }
 
             var take = (int) items;
             var skip = (int) page * take - take; //5 * 10 - 10
+
             //var hashCode = entities.GetHashCode();
             var cachePages = pages ?? -1;
 
-            if (!string.IsNullOrEmpty(cacheName)) {
+            if (!string.IsNullOrEmpty(cacheName))
+            {
                 var cachePagesString = Mvc.Caches.GetString(cacheName);
-                if (cachePagesString != null) {
+
+                if (cachePagesString != null)
+                {
                     cachePages = int.Parse(cachePagesString);
-                    pages = cachePages;
+                    pages      = cachePages;
                 }
             }
-            if (cachePages < 0 && retrivePagesExist) {
+
+            if (cachePages < 0 && retrivePagesExist)
+            {
                 decimal pagesExist = 1;
-                var itemsCount = entities.Count;
-                if (itemsCount > items) {
+                var     itemsCount = entities.Count;
+
+                if (itemsCount > items)
+                {
                     // division required.
                     pagesExist = entities.Count / (decimal) items;
                 }
+
                 pages = (int) Math.Ceiling(pagesExist);
                 Mvc.Caches.Set(cacheName, pages);
             }
@@ -94,43 +116,67 @@ namespace DevMvcComponent.Pagination {
         ///     generated if needed and not exist in the cache.
         /// </param>
         /// <returns>IEnumerable data based on the page number.</returns>
-        public static IEnumerable<T> GetPageData<T>(this IList<T> entities, PaginationInfo pageInfo,
-            string cacheName = null, bool retrivePagesExist = true) {
-            if (pageInfo.PageNumber == null || pageInfo.PageNumber <= 0) {
+        public static IEnumerable<T> GetPageData<T>(
+            this IList<T> entities,
+            PaginationInfo pageInfo,
+            string cacheName = null,
+            bool retrivePagesExist = true)
+        {
+            if (pageInfo.PageNumber == null ||
+                pageInfo.PageNumber <= 0)
+            {
                 pageInfo.PageNumber = 1;
             }
 
-            if (pageInfo.ItemsInPage == null || pageInfo.ItemsInPage <= 0) {
+            if (pageInfo.ItemsInPage == null ||
+                pageInfo.ItemsInPage <= 0)
+            {
                 pageInfo.ItemsInPage = PageItems;
             }
 
             var take = (int) pageInfo.ItemsInPage;
             var skip = (int) pageInfo.PageNumber * take - take; //5 * 10 - 10
+
             //var hashCode = entities.GetHashCode();
             var cachePages = pageInfo.PagesExists == null ? -1 : (int) pageInfo.PagesExists;
-            var saveCache = false;
-            if (!string.IsNullOrEmpty(cacheName)) {
+            var saveCache  = false;
+
+            if (!string.IsNullOrEmpty(cacheName))
+            {
                 var cachePagesString = Mvc.Caches.GetString(cacheName);
-                if (cachePagesString != null) {
-                    cachePages = int.Parse(cachePagesString);
+
+                if (cachePagesString != null)
+                {
+                    cachePages           = int.Parse(cachePagesString);
                     pageInfo.PagesExists = cachePages;
                 }
+
                 saveCache = true;
             }
-            if (cachePages < 0 && retrivePagesExist) {
+
+            if (cachePages < 0 && retrivePagesExist)
+            {
                 decimal pagesExist = 1;
-                var itemsCount = entities.Count;
-                if (itemsCount > pageInfo.ItemsInPage) {
+                var     itemsCount = entities.Count;
+
+                if (itemsCount > pageInfo.ItemsInPage)
+                {
                     // division required.
                     pagesExist = itemsCount / (decimal) pageInfo.ItemsInPage;
                 }
+
                 pageInfo.PagesExists = (int) Math.Ceiling(pagesExist);
-            } else {
+            }
+            else
+            {
                 pageInfo.PagesExists = cachePages;
             }
-            if (saveCache) {
+
+            if (saveCache)
+            {
                 Mvc.Caches.Set(cacheName, pageInfo.PagesExists);
             }
+
             return entities.Skip(skip).Take(take);
         }
 
@@ -154,35 +200,54 @@ namespace DevMvcComponent.Pagination {
         ///     generated if needed and not exist in the cache.
         /// </param>
         /// <returns>IQueryable data based on the page number.</returns>
-        public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, string cacheName, ref int? pages,
-            long? page = 1, long? items = -1, bool retrivePagesExist = true) {
-            if (page == null || page <= 0) {
+        public static IQueryable<T> GetPageData<T>(
+            this IQueryable<T> entities,
+            string cacheName,
+            ref int? pages,
+            long? page = 1,
+            long? items = -1,
+            bool retrivePagesExist = true)
+        {
+            if (page == null ||
+                page <= 0)
+            {
                 page = 1;
             }
 
-            if (items == null || items == -1) {
+            if (items == null ||
+                items == -1)
+            {
                 items = PageItems;
             }
 
             var take = (int) items;
             var skip = (int) page * take - take; //5 * 10 - 10
+
             //var hashCode = entities.GetHashCode();
             var cachePages = pages == null ? -1 : (int) pages;
 
-            if (!string.IsNullOrEmpty(cacheName)) {
+            if (!string.IsNullOrEmpty(cacheName))
+            {
                 var cachePagesString = Mvc.Caches.GetString(cacheName);
-                if (cachePagesString != null) {
+
+                if (cachePagesString != null)
+                {
                     cachePages = int.Parse(cachePagesString);
-                    pages = cachePages;
+                    pages      = cachePages;
                 }
             }
-            if (cachePages < 0 && retrivePagesExist) {
+
+            if (cachePages < 0 && retrivePagesExist)
+            {
                 decimal pagesExist = 1;
-                var itemsCount = entities.Count();
-                if (itemsCount > items) {
+                var     itemsCount = entities.Count();
+
+                if (itemsCount > items)
+                {
                     // division required.
                     pagesExist = itemsCount / (decimal) items;
                 }
+
                 pages = (int) Math.Ceiling(pagesExist);
                 Mvc.Caches.Set(cacheName, pages);
             }
@@ -205,42 +270,66 @@ namespace DevMvcComponent.Pagination {
         ///     generated if needed and not exist in the cache.
         /// </param>
         /// <returns>IQueryable data based on the page number.</returns>
-        public static IQueryable<T> GetPageData<T>(this IQueryable<T> entities, PaginationInfo pageInfo,
-            string cacheName = null, bool retrivePagesExist = true) {
-            if (pageInfo.PageNumber == null || pageInfo.PageNumber <= 0) {
+        public static IQueryable<T> GetPageData<T>(
+            this IQueryable<T> entities,
+            PaginationInfo pageInfo,
+            string cacheName = null,
+            bool retrivePagesExist = true)
+        {
+            if (pageInfo.PageNumber == null ||
+                pageInfo.PageNumber <= 0)
+            {
                 pageInfo.PageNumber = 1;
             }
 
-            if (pageInfo.ItemsInPage == null || pageInfo.ItemsInPage == -1) {
+            if (pageInfo.ItemsInPage == null ||
+                pageInfo.ItemsInPage == -1)
+            {
                 pageInfo.ItemsInPage = PageItems;
             }
 
             var take = (int) pageInfo.ItemsInPage;
             var skip = (int) pageInfo.PageNumber * take - take; //5 * 10 - 10
+
             //var hashCode = entities.GetHashCode();
             var cachePages = pageInfo.PagesExists == null ? -1 : (int) pageInfo.PagesExists;
-            var saveCache = false;
-            if (!string.IsNullOrEmpty(cacheName)) {
+            var saveCache  = false;
+
+            if (!string.IsNullOrEmpty(cacheName))
+            {
                 var cachePagesString = Mvc.Caches.GetString(cacheName);
-                if (cachePagesString != null) {
-                    cachePages = int.Parse(cachePagesString);
+
+                if (cachePagesString != null)
+                {
+                    cachePages           = int.Parse(cachePagesString);
                     pageInfo.PagesExists = cachePages;
                 }
+
                 saveCache = true;
             }
-            if (cachePages < 0 && retrivePagesExist) {
+
+            if (cachePages < 0 && retrivePagesExist)
+            {
                 decimal pagesExist = 1;
-                var itemsCount = entities.Count();
-                if (itemsCount > pageInfo.ItemsInPage) {
+                var     itemsCount = entities.Count();
+
+                if (itemsCount > pageInfo.ItemsInPage)
+                {
                     pagesExist = itemsCount / (decimal) pageInfo.ItemsInPage;
                 }
+
                 pageInfo.PagesExists = (int) Math.Ceiling(pagesExist);
-            } else {
+            }
+            else
+            {
                 pageInfo.PagesExists = cachePages;
             }
-            if (saveCache) {
+
+            if (saveCache)
+            {
                 Mvc.Caches.Set(cacheName, pageInfo.PagesExists);
             }
+
             return entities.Skip(skip).Take(take);
         }
 
@@ -263,15 +352,21 @@ namespace DevMvcComponent.Pagination {
         public static string GetList(
             PaginationInfo pageInfo,
             string url = "url/@page",
-            string title = "titleContent of ... at @page", string content = "@page", string unorderedListClass = "",
-            bool withoutUnorderedList = true, string @liClass = "", string cacheName = "", string @class = "",
+            string title = "titleContent of ... at @page",
+            string content = "@page",
+            string unorderedListClass = "",
+            bool withoutUnorderedList = true,
+            string liClass = "",
+            string cacheName = "",
+            string @class = "",
             int maxNumbersOfPagesShow = 5,
             string format =
                 "<li class='@is-active-state @liClass' data-page='@page'><a href='@url' class='@class' title='@title' >@content</a></li>",
-            string activeClass = "active") {
+            string activeClass = "active")
+        {
             // code started
-            string firstPageLink = "",
-                   lastPageLink = "",
+            string firstPageLink     = "",
+                   lastPageLink      = "",
                    appendingListItem = "";
 
             var sb = new StringBuilder(maxNumbersOfPagesShow + 10);
@@ -279,18 +374,24 @@ namespace DevMvcComponent.Pagination {
             var sampleListItem = format.Replace("@url", url);
             sampleListItem = sampleListItem.Replace("@title", title);
             sampleListItem = sampleListItem.Replace("@class", @class);
-            sampleListItem = sampleListItem.Replace("@liClass", @liClass);
+            sampleListItem = sampleListItem.Replace("@liClass", liClass);
             var startPageNumber = 1;
-            if (withoutUnorderedList == false) {
+
+            if (withoutUnorderedList == false)
+            {
                 var ulStart = "<ul class='" + unorderedListClass + "'>";
                 sb.AppendLine(ulStart);
             }
+
             var endPageNumber = (int) pageInfo.PagesExists;
 
-            if (pageInfo.PageNumber == null) {
+            if (pageInfo.PageNumber == null)
+            {
                 return "";
             }
-            if (pageInfo.PagesExists > maxNumbersOfPagesShow) {
+
+            if (pageInfo.PagesExists > maxNumbersOfPagesShow)
+            {
                 // pages are higher than max number
                 firstPageLink = sampleListItem.Replace("@content", "First");
                 firstPageLink = firstPageLink.Replace("@page", "1");
@@ -298,34 +399,49 @@ namespace DevMvcComponent.Pagination {
                 var mid = (int) Math.Ceiling(maxNumbersOfPagesShow / (decimal) 2); // 5/2 = 2
                 startPageNumber = (int) pageInfo.PageNumber - mid;
                 sb.AppendLine(firstPageLink);
-                if (startPageNumber <= 0) {
-                    startPageNumber = 0 - startPageNumber;
-                    endPageNumber += startPageNumber;
-                    startPageNumber = 1;
+
+                if (startPageNumber <= 0)
+                {
+                    startPageNumber =  0 - startPageNumber;
+                    endPageNumber   += startPageNumber;
+                    startPageNumber =  1;
                 }
             }
-            for (var i = startPageNumber; i <= endPageNumber; i++) {
+
+            for (var i = startPageNumber; i <= endPageNumber; i++)
+            {
                 appendingListItem = sampleListItem.Replace(@"@content", content);
                 appendingListItem = appendingListItem.Replace(@"@page", i.ToString());
-                if (i == pageInfo.PageNumber) {
+
+                if (i == pageInfo.PageNumber)
+                {
                     //active
                     appendingListItem = appendingListItem.Replace("@is-active-state", "active");
-                } else {
+                }
+                else
+                {
                     appendingListItem = appendingListItem.Replace("@is-active-state", "");
                 }
+
                 sb.AppendLine(appendingListItem);
             }
-            if (pageInfo.PagesExists > maxNumbersOfPagesShow) {
+
+            if (pageInfo.PagesExists > maxNumbersOfPagesShow)
+            {
                 lastPageLink = sampleListItem.Replace("@content", "Last");
                 lastPageLink = lastPageLink.Replace("@page", endPageNumber.ToString());
                 sb.AppendLine(lastPageLink);
             }
-            if (withoutUnorderedList == false) {
+
+            if (withoutUnorderedList == false)
+            {
                 sb.AppendLine("</ul>");
             }
+
             var output = sb.ToString();
             sb = null;
             GC.Collect();
+
             return output;
         }
     }

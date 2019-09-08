@@ -6,11 +6,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
-namespace DevMvcComponent.Extensions.Casting {
+namespace DevMvcComponent.Extensions.Casting
+{
     /// <summary>
     ///     Convert one entity to another if there is matching properties.
     /// </summary>
-    public static class CastingExtension {
+    public static class CastingExtension
+    {
         /// <summary>
         ///     Extension method for casting one type to another if there is any matching in the property name.
         ///     It returns a new object. So referencing will not work with previous object.
@@ -22,8 +24,9 @@ namespace DevMvcComponent.Extensions.Casting {
         /// <param name="myobj"></param>
         /// <param name="checkTypeSafety">True : check if both types are compatible.</param>
         /// <param name="checkTypeSafetyAsAssignable">
-        /// True : use Type.IsInstanceOfType() method to check if the types are compatible.
-        /// False : check equals with each type(better performance but fails if it is compatible but now exactly same).</param>
+        ///     True : use Type.IsInstanceOfType() method to check if the types are compatible.
+        ///     False : check equals with each type(better performance but fails if it is compatible but now exactly same).
+        /// </param>
         /// <returns>
         ///     Obj1 { a, b, c, d }
         ///     Obj2 { b, c , d }
@@ -33,32 +36,47 @@ namespace DevMvcComponent.Extensions.Casting {
         public static TNewType Cast<TBaseType, TNewType>(
             this TBaseType myobj,
             bool checkTypeSafety = true,
-            bool checkTypeSafetyAsAssignable = false) {
-            var target = typeof(TNewType);
-            var x = Activator.CreateInstance(target, false); // creating a new instance of target object.
+            bool checkTypeSafetyAsAssignable = false)
+        {
+            var target                = typeof(TNewType);
+            var x                     = Activator.CreateInstance(target, false); // creating a new instance of target object.
             var destinationProperties = target.GetProperties(ClassExtention.PublicInstanceProperties);
+
             //;.Where(n => myobj.GetType().GetProperty(n.Name) != null);
 
             object value;
-            foreach (var destpropertyInfo in destinationProperties) {
+
+            foreach (var destpropertyInfo in destinationProperties)
+            {
                 var baseTypeProperty = myobj.GetType().GetProperty(destpropertyInfo.Name);
-                if (baseTypeProperty != null) {
-                    bool isAssignable = true;
-                    if (checkTypeSafety) {
-                        if (checkTypeSafetyAsAssignable) {
+
+                if (baseTypeProperty != null)
+                {
+                    var isAssignable = true;
+
+                    if (checkTypeSafety)
+                    {
+                        if (checkTypeSafetyAsAssignable)
+                        {
                             isAssignable = destpropertyInfo.PropertyType.IsInstanceOfType(baseTypeProperty.PropertyType);
-                        } else {
+                        }
+                        else
+                        {
                             isAssignable = destpropertyInfo.PropertyType == baseTypeProperty.PropertyType;
                         }
                     }
-                    if (isAssignable) {
+
+                    if (isAssignable)
+                    {
                         value = baseTypeProperty.GetValue(myobj, null);
                         destpropertyInfo.SetValue(x, value, null);
                     }
                 }
             }
+
             value = null;
             GC.Collect();
+
             return (TNewType) x;
         }
 
@@ -67,13 +85,17 @@ namespace DevMvcComponent.Extensions.Casting {
         /// </summary>
         /// <param name="obj">Must be a Serializable object.</param>
         /// <returns>Returns : null if given object is null.</returns>
-        public static byte[] ToBytesArray(this object obj) {
-            if (obj == null) {
+        public static byte[] ToBytesArray(this object obj)
+        {
+            if (obj == null)
+            {
                 return null;
             }
+
             var bf = new BinaryFormatter();
             var ms = new MemoryStream();
             bf.Serialize(ms, obj);
+
             return ms.ToArray();
         }
 
@@ -82,15 +104,20 @@ namespace DevMvcComponent.Extensions.Casting {
         /// </summary>
         /// <param name="arrBytes"></param>
         /// <returns></returns>
-        public static object BinaryToObject(this byte[] arrBytes) {
-            if (arrBytes == null || arrBytes.Length == 0) {
+        public static object BinaryToObject(this byte[] arrBytes)
+        {
+            if (arrBytes == null ||
+                arrBytes.Length == 0)
+            {
                 return null;
             }
+
             var memStream = new MemoryStream();
-            var binForm = new BinaryFormatter();
+            var binForm   = new BinaryFormatter();
             memStream.Write(arrBytes, 0, arrBytes.Length);
             memStream.Seek(0, SeekOrigin.Begin);
             var obj = binForm.Deserialize(memStream);
+
             return obj;
         }
 
@@ -99,15 +126,20 @@ namespace DevMvcComponent.Extensions.Casting {
         /// </summary>
         /// <param name="arrBytes"></param>
         /// <returns></returns>
-        public static T BinaryToGenericObject<T>(this byte[] arrBytes) {
-            if (arrBytes == null || arrBytes.Length == 0) {
+        public static T BinaryToGenericObject<T>(this byte[] arrBytes)
+        {
+            if (arrBytes == null ||
+                arrBytes.Length == 0)
+            {
                 return default(T);
             }
+
             var memStream = new MemoryStream();
-            var binForm = new BinaryFormatter();
+            var binForm   = new BinaryFormatter();
             memStream.Write(arrBytes, 0, arrBytes.Length);
             memStream.Seek(0, SeekOrigin.Begin);
             var obj = (T) binForm.Deserialize(memStream);
+
             return obj;
         }
     }

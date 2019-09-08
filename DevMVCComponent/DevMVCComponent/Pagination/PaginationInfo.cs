@@ -1,8 +1,10 @@
-﻿namespace DevMvcComponent.Pagination {
+﻿namespace DevMvcComponent.Pagination
+{
     /// <summary>
     ///     Helps to create pagination for list data type.
     /// </summary>
-    public class PaginationInfo {
+    public class PaginationInfo
+    {
         /// <summary>
         ///     Set from user side to indicate the user numbers.
         /// </summary>

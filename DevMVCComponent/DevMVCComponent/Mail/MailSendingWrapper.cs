@@ -1,20 +1,24 @@
 ﻿using System.Net.Mail;
 
-namespace DevMvcComponent.Mail {
+namespace DevMvcComponent.Mail
+{
     /// <summary>
     ///     Mail sending wrapper.
     /// </summary>
-    public class MailSendingWrapper {
+    public class MailSendingWrapper
+    {
         /// <summary>
         /// </summary>
-        public MailSendingWrapper() {}
+        public MailSendingWrapper()
+        { }
 
         /// <summary>
         /// </summary>
         /// <param name="server"></param>
         /// <param name="message"></param>
-        public MailSendingWrapper(SmtpClient server, MailMessage message) {
-            MailServer = server;
+        public MailSendingWrapper(SmtpClient server, MailMessage message)
+        {
+            MailServer  = server;
             MailMessage = message;
         }
 

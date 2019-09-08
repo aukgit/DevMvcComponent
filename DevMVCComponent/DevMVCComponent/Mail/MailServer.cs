@@ -12,11 +12,13 @@ using DevMvcComponent.Extensions;
 
 #endregion
 
-namespace DevMvcComponent.Mail {
+namespace DevMvcComponent.Mail
+{
     /// <summary>
     ///     Must configure this to your smtpclient
     /// </summary>
-    public abstract class MailServer : SmtpClient {
+    public abstract class MailServer : SmtpClient
+    {
         private bool _isCredentialConfigured;
         private string _senderMail;
         private string _senderPassword;
@@ -31,7 +33,8 @@ namespace DevMvcComponent.Mail {
         ///     Timeout = 10000;
         /// </summary>
         /// <param name="displayName">Display user's name</param>
-        protected MailServer(string displayName) {
+        protected MailServer(string displayName)
+        {
             DisplayName = displayName;
             DefaultConfigarationSetup();
         }
@@ -42,11 +45,15 @@ namespace DevMvcComponent.Mail {
         /// <param name="displayName">Display user's name</param>
         /// <param name="emailAddress"></param>
         /// <param name="password"></param>
-        protected MailServer(string displayName, string emailAddress, string password) {
+        protected MailServer(
+            string displayName,
+            string emailAddress,
+            string password)
+        {
             DefaultConfigarationSetup();
-            SenderEmailAddress = emailAddress;
-            SenderEmailPassword = password;
-            DisplayName = displayName;
+            SenderEmailAddress      = emailAddress;
+            SenderEmailPassword     = password;
+            DisplayName             = displayName;
             _isCredentialConfigured = true;
         }
 
@@ -58,10 +65,13 @@ namespace DevMvcComponent.Mail {
         /// <summary>
         ///     Setup credentials automatic.
         /// </summary>
-        public string SenderEmailAddress {
-            get { return _senderMail; }
-            set {
+        public string SenderEmailAddress
+        {
+            get => _senderMail;
+            set
+            {
                 _senderMail = value;
+
                 //this.Mail.From = new MailAddress(_senderMail);
                 SetupCredentials();
             }
@@ -70,9 +80,11 @@ namespace DevMvcComponent.Mail {
         /// <summary>
         ///     Setup credentials automatic.
         /// </summary>
-        public string SenderEmailPassword {
-            get { return _senderPassword; }
-            set {
+        public string SenderEmailPassword
+        {
+            get => _senderPassword;
+            set
+            {
                 _senderPassword = value;
                 SetupCredentials();
             }
@@ -83,9 +95,7 @@ namespace DevMvcComponent.Mail {
         /// </summary>
         /// <param name="mailMessage"></param>
         /// <returns></returns>
-        public MailSendingWrapper GetMailSendingWrapper(MailMessage mailMessage) {
-            return new MailSendingWrapper(this, mailMessage);
-        }
+        public MailSendingWrapper GetMailSendingWrapper(MailMessage mailMessage) => new MailSendingWrapper(this, mailMessage);
 
         #region Mail message
 
@@ -111,21 +121,26 @@ namespace DevMvcComponent.Mail {
             Encoding bodyEncoding = null,
             string sender = null,
             string displayName = null,
-            DeliveryNotificationOptions deliveryNotification = DeliveryNotificationOptions.OnFailure) {
+            DeliveryNotificationOptions deliveryNotification = DeliveryNotificationOptions.OnFailure)
+        {
             bodyEncoding = bodyEncoding ?? Encoding.UTF8;
-            var mail = new MailMessage {
-                BodyEncoding = bodyEncoding,
+
+            var mail = new MailMessage
+            {
+                BodyEncoding                = bodyEncoding,
                 DeliveryNotificationOptions = deliveryNotification,
-                IsBodyHtml = isHtmlBody,
-                Body = body,
-                Subject = subject
+                IsBodyHtml                  = isHtmlBody,
+                Body                        = body,
+                Subject                     = subject
             };
-            sender = sender ?? _senderMail;
+
+            sender      = sender ?? _senderMail;
             displayName = displayName ?? DisplayName;
             var mailAddress = new MailAddress(sender, displayName);
 
             mail.Sender = mailAddress;
-            mail.From = mailAddress;
+            mail.From   = mailAddress;
+
             //mail.ReplyToList.Add(mailAddress);
             return mail;
         }
@@ -160,9 +175,20 @@ namespace DevMvcComponent.Mail {
             bool isHtml = true,
             bool searchForComma = false,
             object userToken = null,
-            SendCompletedEventHandler sendCompletedEventHandler = null) {
-            var mailSendingWrapper = GetMailSendingWrapper(mailingTos, subject, body, ccMails, attachments, type, searchForComma, isHtml);
+            SendCompletedEventHandler sendCompletedEventHandler = null)
+        {
+            var mailSendingWrapper = GetMailSendingWrapper(
+                mailingTos,
+                subject,
+                body,
+                ccMails,
+                attachments,
+                type,
+                searchForComma,
+                isHtml);
+
             SendMail(mailSendingWrapper, isAsync);
+
             //Dispose(mailSendingWrapper);
         }
 
@@ -172,12 +198,13 @@ namespace DevMvcComponent.Mail {
         ///     Dispose wrapper object.
         /// </summary>
         /// <param name="wrapper"></param>
-        public void Dispose(MailSendingWrapper wrapper) {
+        public void Dispose(MailSendingWrapper wrapper)
+        {
             wrapper.MailServer.Dispose();
             wrapper.MailMessage.Dispose();
             wrapper.MailMessage = null;
-            wrapper.MailServer = null;
-            wrapper = null;
+            wrapper.MailServer  = null;
+            wrapper             = null;
             GC.Collect();
         }
 
@@ -193,14 +220,23 @@ namespace DevMvcComponent.Mail {
             MailMessage mailMessage,
             bool isAsync = true,
             object userToken = null,
-            SendCompletedEventHandler sendCompletedEventHandler = null) {
-            if (IsConfigured) {
+            SendCompletedEventHandler sendCompletedEventHandler = null)
+        {
+            if (IsConfigured)
+            {
                 var mailSendingWrapper = GetMailSendingWrapper(mailMessage);
-                SendMail(mailSendingWrapper, isAsync, userToken, sendCompletedEventHandler);
+
+                SendMail(
+                    mailSendingWrapper,
+                    isAsync,
+                    userToken,
+                    sendCompletedEventHandler);
+
                 //Dispose(mailSendingWrapper);
-            } else {
-                throw new Exception(
-                    "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
+            }
+            else
+            {
+                throw new Exception("Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
             }
         }
 
@@ -227,10 +263,20 @@ namespace DevMvcComponent.Mail {
             List<Attachment> attachments = null,
             MailingType type = MailingType.RegularMail,
             bool searchForComma = true,
-            bool isHtml = true) {
+            bool isHtml = true)
+        {
             var sendingToEmails = GetEmailAddressList(mailingTos, searchForComma);
-            var ccToEmails = GetEmailAddressList(ccMails, searchForComma);
-            return GetMailSendingWrapper(sendingToEmails, subject, body, ccToEmails, attachments, type, searchForComma, isHtml);
+            var ccToEmails      = GetEmailAddressList(ccMails, searchForComma);
+
+            return GetMailSendingWrapper(
+                sendingToEmails,
+                subject,
+                body,
+                ccToEmails,
+                attachments,
+                type,
+                searchForComma,
+                isHtml);
         }
 
         /// <summary>
@@ -256,9 +302,20 @@ namespace DevMvcComponent.Mail {
             List<Attachment> attachments = null,
             MailingType type = MailingType.RegularMail,
             bool searchForComma = true,
-            bool isHtml = true) {
-            var mail = GetMailMessage(mailingTos, subject, body, ccMails, attachments, type, searchForComma, isHtml);
+            bool isHtml = true)
+        {
+            var mail = GetMailMessage(
+                mailingTos,
+                subject,
+                body,
+                ccMails,
+                attachments,
+                type,
+                searchForComma,
+                isHtml);
+
             var server = CloneSmtpClient();
+
             return new MailSendingWrapper(server, mail);
         }
 
@@ -285,19 +342,30 @@ namespace DevMvcComponent.Mail {
             List<Attachment> attachments = null,
             MailingType type = MailingType.RegularMail,
             bool searchForComma = false,
-            bool isHtml = true) {
-            if (IsConfigured && !mailingTos.IsEmpty()) {
+            bool isHtml = true)
+        {
+            if (IsConfigured && !mailingTos.IsEmpty())
+            {
                 var mail = GetNewMailMessage(subject, body, isHtml);
-                MailingAddressAttach(ref mail, mailingTos, ccMails, type);
-                if (attachments != null) {
-                    foreach (var attachment in attachments) {
+
+                MailingAddressAttach(
+                    ref mail,
+                    mailingTos,
+                    ccMails,
+                    type);
+
+                if (attachments != null)
+                {
+                    foreach (var attachment in attachments)
+                    {
                         mail.Attachments.Add(attachment);
                     }
                 }
+
                 return mail;
             }
-            throw new Exception(
-                "Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
+
+            throw new Exception("Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
         }
 
         /// <summary>
@@ -323,10 +391,20 @@ namespace DevMvcComponent.Mail {
             List<Attachment> attachments = null,
             MailingType type = MailingType.RegularMail,
             bool searchForComma = true,
-            bool isHtml = true) {
+            bool isHtml = true)
+        {
             var sendingToEmails = GetEmailAddressList(mailingTos, searchForComma);
-            var ccToEmails = GetEmailAddressList(ccMails, searchForComma);
-            return GetMailMessage(sendingToEmails, subject, body, ccToEmails, attachments, type, searchForComma, isHtml);
+            var ccToEmails      = GetEmailAddressList(ccMails, searchForComma);
+
+            return GetMailMessage(
+                sendingToEmails,
+                subject,
+                body,
+                ccToEmails,
+                attachments,
+                type,
+                searchForComma,
+                isHtml);
         }
 
         /// <summary>
@@ -341,12 +419,22 @@ namespace DevMvcComponent.Mail {
             MailMessage mailMessage,
             bool isAsync = true,
             object userToken = null,
-            SendCompletedEventHandler sendCompletedEventHandler = null) {
-            if (IsConfigured) {
+            SendCompletedEventHandler sendCompletedEventHandler = null)
+        {
+            if (IsConfigured)
+            {
                 var mailSendingWrapper = GetMailSendingWrapper(mailMessage);
-                SendMail(mailSendingWrapper, isAsync, userToken, sendCompletedEventHandler);
+
+                SendMail(
+                    mailSendingWrapper,
+                    isAsync,
+                    userToken,
+                    sendCompletedEventHandler);
+
                 //Dispose(mailSendingWrapper);
-            } else {
+            }
+            else
+            {
                 throw new Exception("Mailer is not configured correctly. Please check credentials , host config and mailing address maybe empty or not declared.");
             }
         }
@@ -367,20 +455,31 @@ namespace DevMvcComponent.Mail {
             bool async = true,
             object userToken = null,
             SendCompletedEventHandler sendCompletedEventHandler = null,
-            bool disposeMailWrapper = true) {
-            var server = mailWrapper.MailServer;
+            bool disposeMailWrapper = true)
+        {
+            var server  = mailWrapper.MailServer;
             var message = mailWrapper.MailMessage;
-            if (server != null && message != null) {
-                if (async) {
+
+            if (server != null &&
+                message != null)
+            {
+                if (async)
+                {
                     //userToken = userToken ?? "None";
-                    new Thread(() => {
-                        server.Send(message);
-                        //if (disposeMailWrapper) {
-                        //    Dispose(mailWrapper);
-                        //}
-                    }).Start();
-                } else {
+                    new Thread(
+                        () =>
+                        {
+                            server.Send(message);
+
+                            //if (disposeMailWrapper) {
+                            //    Dispose(mailWrapper);
+                            //}
+                        }).Start();
+                }
+                else
+                {
                     server.Send(message);
+
                     //if (disposeMailWrapper) {
                     //    Dispose(mailWrapper);
                     //}
@@ -400,33 +499,34 @@ namespace DevMvcComponent.Mail {
 
         /// <summary>
         /// </summary>
-        public bool IsConfigured {
-            get { return _isCredentialConfigured && IsHostConfigured; }
-        }
+        public bool IsConfigured => _isCredentialConfigured && IsHostConfigured;
 
         /// <summary>
         ///     Change Credentials
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public void ChangeCredentials(string email, string password) {
-            SenderEmailAddress = email;
-            SenderEmailPassword = password;
+        public void ChangeCredentials(string email, string password)
+        {
+            SenderEmailAddress      = email;
+            SenderEmailPassword     = password;
             _isCredentialConfigured = true;
         }
 
         /// <summary>
         ///     Setup credentials automatic.
         /// </summary>
-        private void SetupCredentials() {
+        private void SetupCredentials()
+        {
             Credentials = new NetworkCredential(SenderEmailAddress, SenderEmailPassword);
         }
 
-        private void DefaultConfigarationSetup() {
+        private void DefaultConfigarationSetup()
+        {
             UseDefaultCredentials = false;
-            EnableSsl = true;
-            DeliveryMethod = SmtpDeliveryMethod.Network;
-            Timeout = 100000;
+            EnableSsl             = true;
+            DeliveryMethod        = SmtpDeliveryMethod.Network;
+            Timeout               = 100000;
         }
 
         #endregion
@@ -437,23 +537,23 @@ namespace DevMvcComponent.Mail {
         ///     Copy current smtp mailer to an new instance.
         /// </summary>
         /// <returns></returns>
-        public SmtpClient CloneSmtpClient() {
-            return CloneSmtpClient(this);
-        }
+        public SmtpClient CloneSmtpClient() => CloneSmtpClient(this);
 
         /// <summary>
         ///     Copy any smtp mailer to an new instance.
         /// </summary>
         /// <returns>Returns a deep copy instance of the given object.</returns>
-        public SmtpClient CloneSmtpClient(SmtpClient smtp) {
+        public SmtpClient CloneSmtpClient(SmtpClient smtp)
+        {
             var mailSender = new SmtpClient();
             mailSender.UseDefaultCredentials = smtp.UseDefaultCredentials;
-            mailSender.EnableSsl = smtp.EnableSsl;
-            mailSender.DeliveryMethod = smtp.DeliveryMethod;
-            mailSender.Timeout = smtp.Timeout;
-            mailSender.Credentials = smtp.Credentials;
-            mailSender.Port = smtp.Port;
-            mailSender.Host = smtp.Host;
+            mailSender.EnableSsl             = smtp.EnableSsl;
+            mailSender.DeliveryMethod        = smtp.DeliveryMethod;
+            mailSender.Timeout               = smtp.Timeout;
+            mailSender.Credentials           = smtp.Credentials;
+            mailSender.Port                  = smtp.Port;
+            mailSender.Host                  = smtp.Host;
+
             return mailSender;
         }
 
@@ -487,47 +587,71 @@ namespace DevMvcComponent.Mail {
             bool isHtml = true,
             bool searchForComma = true,
             object userToken = null,
-            SendCompletedEventHandler sendCompletedEventHandler = null) {
-            
-            SendWithAttachments(to, subject, body, ccMails, attachments, type, isAsync, isHtml, searchForComma, userToken, sendCompletedEventHandler);
+            SendCompletedEventHandler sendCompletedEventHandler = null)
+        {
+            SendWithAttachments(
+                to,
+                subject,
+                body,
+                ccMails,
+                attachments,
+                type,
+                isAsync,
+                isHtml,
+                searchForComma,
+                userToken,
+                sendCompletedEventHandler);
         }
+
         /// <summary>
-        /// Get a new attachment list from given file paths.
+        ///     Get a new attachment list from given file paths.
         /// </summary>
         /// <param name="paths">Files path to create attachments list.</param>
         /// <returns></returns>
-        public List<Attachment> GetAttachments(params string[] paths) {
+        public List<Attachment> GetAttachments(params string[] paths)
+        {
             var list = new List<Attachment>(paths.Length);
-            foreach (var path in paths) {
+
+            foreach (var path in paths)
+            {
                 list.Add(new Attachment(path));
             }
+
             return list;
         }
 
         /// <summary>
-        /// Get a new attachment list from given file paths.
+        ///     Get a new attachment list from given file paths.
         /// </summary>
         /// <param name="emailFileDisplayName">File will be attached in the email with this name.</param>
         /// <param name="filePath">Files path to create attachments list.</param>
         /// <param name="attachment">to retrieve the created attachment and modify it.</param>
         /// <returns>Returns a list of attachments</returns>
-        public List<Attachment> GetAttachments(string emailFileDisplayName, string filePath, out Attachment attachment) {
+        public List<Attachment> GetAttachments(
+            string emailFileDisplayName,
+            string filePath,
+            out Attachment attachment)
+        {
             var list = new List<Attachment>(1);
-            attachment = new Attachment(filePath) {Name = emailFileDisplayName};
+            attachment = new Attachment(filePath) { Name = emailFileDisplayName };
             list.Add(attachment);
+
             return list;
         }
 
         /// <summary>
-        /// Get a new attachment list from given file paths.
+        ///     Get a new attachment list from given file paths.
         /// </summary>
         /// <param name="emailFileDisplayName">File will be attached in the email with this name.</param>
         /// <param name="filePath">Files path to create attachments list.</param>
         /// <returns>Returns a list of attachments</returns>
-        public List<Attachment> GetAttachments(string emailFileDisplayName, string filePath) {
+        public List<Attachment> GetAttachments(string emailFileDisplayName, string filePath)
+        {
             Attachment attachment;
+
             return GetAttachments(emailFileDisplayName, filePath, out attachment);
         }
+
         /// <summary>
         ///     Quickly send an emailAddress.
         /// </summary>
@@ -552,8 +676,19 @@ namespace DevMvcComponent.Mail {
             bool isAsync = true,
             bool isHtml = true,
             object userToken = null,
-            SendCompletedEventHandler sendCompletedEventHandler = null) {
-            SendWithAttachments(to, subject, body, attachments, type, searchForComma, isAsync, isHtml, userToken, sendCompletedEventHandler);
+            SendCompletedEventHandler sendCompletedEventHandler = null)
+        {
+            SendWithAttachments(
+                to,
+                subject,
+                body,
+                attachments,
+                type,
+                searchForComma,
+                isAsync,
+                isHtml,
+                userToken,
+                sendCompletedEventHandler);
         }
 
         /// <summary>
@@ -565,17 +700,23 @@ namespace DevMvcComponent.Mail {
         /// <param name="from"></param>
         /// <param name="password"></param>
         /// <param name="type">Regular, CC, BCC</param>
-        public void QuickSend(string to, string subject, string body, string from, string password,
-            MailingType type = MailingType.RegularMail) {
-            var emailBack = SenderEmailAddress;
+        public void QuickSend(
+            string to,
+            string subject,
+            string body,
+            string from,
+            string password,
+            MailingType type = MailingType.RegularMail)
+        {
+            var emailBack    = SenderEmailAddress;
             var passwordBack = SenderEmailPassword;
 
-            SenderEmailAddress = from;
+            SenderEmailAddress  = from;
             SenderEmailPassword = password;
             SetupCredentials();
             QuickSend(to, subject, body);
 
-            SenderEmailAddress = emailBack;
+            SenderEmailAddress  = emailBack;
             SenderEmailPassword = passwordBack;
             SetupCredentials();
         }
@@ -604,9 +745,22 @@ namespace DevMvcComponent.Mail {
             bool isAsync = true,
             bool isHtml = true,
             object userToken = null,
-            SendCompletedEventHandler sendCompletedEventHandler = null) {
+            SendCompletedEventHandler sendCompletedEventHandler = null)
+        {
             var sendingToEmails = GetEmailAddressList(mailingTos, searchCommas);
-            SendWithAttachments(sendingToEmails, subject, body, null, attachments, type, isAsync, isHtml, searchCommas, userToken, sendCompletedEventHandler);
+
+            SendWithAttachments(
+                sendingToEmails,
+                subject,
+                body,
+                null,
+                attachments,
+                type,
+                isAsync,
+                isHtml,
+                searchCommas,
+                userToken,
+                sendCompletedEventHandler);
         }
 
         #endregion
@@ -623,14 +777,22 @@ namespace DevMvcComponent.Mail {
         ///     If mailingTos is empty then returns null or else array of email addresses from csv or if no comma then only
         ///     one email address in the array.
         /// </returns>
-        private string[] GetEmailAddressList(string mailingTos, bool searchComma = false) {
+        private string[] GetEmailAddressList(string mailingTos, bool searchComma = false)
+        {
             var isEmpty = mailingTos.IsEmpty();
-            if (searchComma && !isEmpty && mailingTos.IndexOf(",", StringComparison.Ordinal) > -1) {
+
+            if (searchComma &&
+                !isEmpty &&
+                mailingTos.IndexOf(",", StringComparison.Ordinal) > -1)
+            {
                 return mailingTos.Split(',').ToArray();
             }
-            if (!isEmpty) {
-                return new[] {mailingTos};
+
+            if (!isEmpty)
+            {
+                return new[] { mailingTos };
             }
+
             return null;
         }
 
@@ -640,18 +802,27 @@ namespace DevMvcComponent.Mail {
         /// <param name="mail"></param>
         /// <param name="mailTo">Email address add to ToList, CCList, BccList based on chosen type.</param>
         /// <param name="type">Email address add to ToList, CCList, BccList based on chosen type.</param>
-        public void MailingAddressAttach(ref MailMessage mail, string mailTo, MailingType type) {
-            if (type == MailingType.RegularMail) {
+        public void MailingAddressAttach(
+            ref MailMessage mail,
+            string mailTo,
+            MailingType type)
+        {
+            if (type == MailingType.RegularMail)
+            {
                 mail.To.Add(new MailAddress(mailTo));
-            } else if (type == MailingType.CarbonCopy) {
+            }
+            else if (type == MailingType.CarbonCopy)
+            {
                 mail.CC.Add(new MailAddress(mailTo));
-            } else {
+            }
+            else
+            {
                 mail.Bcc.Add(new MailAddress(mailTo));
             }
         }
 
         /// <summary>
-        /// Add new emails with referenced MailMessage.
+        ///     Add new emails with referenced MailMessage.
         /// </summary>
         /// <param name="mail">MailMessage object to attach the email address to it.</param>
         /// <param name="mailTos">Expecting at least one email address in the array. On null throw exception.</param>
@@ -659,21 +830,36 @@ namespace DevMvcComponent.Mail {
         ///     If null then no action or else add to the cc list. Based on type of emails will be added to the To,CC, or BCC list.
         /// </param>
         /// <param name="type">Based on type of emails will be added to the To,CC, or BCC list.</param>
-        public void MailingAddressAttach(ref MailMessage mail, string[] mailTos, string[] mailCc, MailingType type) {
-           foreach (var mailTo in mailTos) {
+        public void MailingAddressAttach(
+            ref MailMessage mail,
+            string[] mailTos,
+            string[] mailCc,
+            MailingType type)
+        {
+            foreach (var mailTo in mailTos)
+            {
                 var mailAddress = new MailAddress(mailTo);
                 mail.ReplyToList.Add(mailAddress);
                 mail.To.Add(mailAddress);
             }
-            if (mailCc == null) {
+
+            if (mailCc == null)
+            {
                 return;
             }
-            foreach (var address in mailCc) {
-                if (type == MailingType.RegularMail) {
+
+            foreach (var address in mailCc)
+            {
+                if (type == MailingType.RegularMail)
+                {
                     mail.To.Add(new MailAddress(address));
-                } else if (type == MailingType.CarbonCopy) {
+                }
+                else if (type == MailingType.CarbonCopy)
+                {
                     mail.CC.Add(new MailAddress(address));
-                } else {
+                }
+                else
+                {
                     mail.Bcc.Add(new MailAddress(address));
                 }
             }

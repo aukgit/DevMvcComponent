@@ -1,9 +1,12 @@
-﻿namespace DevMvcComponent.HtmlEnhancements {
+﻿namespace DevMvcComponent.HtmlEnhancements
+{
     /// <summary>
     ///     Common css style object.
     /// </summary>
-    public class CssProperties {
-        public CssProperties() {}
+    public class CssProperties
+    {
+        public CssProperties()
+        { }
 
         /// <summary>
         /// </summary>
@@ -27,17 +30,18 @@
             string fontWeight = null,
             string textDecoration = null,
             string textAlignment = null,
-            string display = null) {
+            string display = null)
+        {
             BackgroundColor = backgroundColor;
-            Color = color;
-            Margin = margin;
-            Padding = padding;
-            BorderRadius = borderRadius;
-            FontSize = fontSize;
-            FontWeight = fontWeight;
-            TextDecoration = textDecoration;
-            TextAlignment = textAlignment;
-            Display = display;
+            Color           = color;
+            Margin          = margin;
+            Padding         = padding;
+            BorderRadius    = borderRadius;
+            FontSize        = fontSize;
+            FontWeight      = fontWeight;
+            TextDecoration  = textDecoration;
+            TextAlignment   = textAlignment;
+            Display         = display;
         }
 
         /// <summary>

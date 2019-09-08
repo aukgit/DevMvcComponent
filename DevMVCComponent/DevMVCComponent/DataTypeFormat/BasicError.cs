@@ -5,10 +5,12 @@ using DevMvcComponent.Enums;
 
 #endregion
 
-namespace DevMvcComponent.DataTypeFormat {
+namespace DevMvcComponent.DataTypeFormat
+{
     /// <summary>
     /// </summary>
-    public class BasicError {
+    public class BasicError
+    {
         /// <summary>
         /// </summary>
         [Required]

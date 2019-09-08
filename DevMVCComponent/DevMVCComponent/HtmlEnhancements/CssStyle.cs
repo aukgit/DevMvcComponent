@@ -1,33 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DevMvcComponent.Extensions;
 using DevMvcComponent.Extensions.String;
 
-namespace DevMvcComponent.HtmlEnhancements {
+namespace DevMvcComponent.HtmlEnhancements
+{
     /// <summary>
     ///     Cascading style sheets functionalities.
     /// </summary>
-    public static class CssStyle {
+    public static class CssStyle
+    {
         /// <summary>
         ///     Get inline css as string.
         /// </summary>
         /// <param name="cssStyles"></param>
         /// <returns></returns>
-        public static string GetInline(Dictionary<string, string> cssStyles) {
+        public static string GetInline(Dictionary<string, string> cssStyles)
+        {
             var sb = new StringBuilder(cssStyles.Count * 4 + 5);
 
-            foreach (var style in cssStyles) {
-                if (style.Value != null) {
+            foreach (var style in cssStyles)
+            {
+                if (style.Value != null)
+                {
                     sb.Append(style.Key);
                     sb.Append(":");
                     sb.Append(style.Value);
                     sb.Append(";");
                 }
             }
+
             var result = sb.ToString();
             sb = null;
             GC.Collect();
+
             return result;
         }
 
@@ -47,8 +53,10 @@ namespace DevMvcComponent.HtmlEnhancements {
             string margin = null,
             string padding = null,
             string borderRadius = null,
-            string fontWeight = null) {
-            var stylesList = new List<string>(8) {
+            string fontWeight = null)
+        {
+            var stylesList = new List<string>(8)
+            {
                 GetStyles("background-color", backgroundColor),
                 GetStyles("color", color),
                 GetStyles("margin", margin),
@@ -56,6 +64,7 @@ namespace DevMvcComponent.HtmlEnhancements {
                 GetStyles("border-radius", borderRadius),
                 GetStyles("font-weight", fontWeight)
             };
+
             return string.Join(";", stylesList);
         }
 
@@ -65,17 +74,17 @@ namespace DevMvcComponent.HtmlEnhancements {
         /// <param name="property"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string GetStyles(string property, string value) {
-            return value.DependingStringConcat(property, ":", value);
-        }
+        public static string GetStyles(string property, string value) => value.DependingStringConcat(property, ":", value);
 
         /// <summary>
         ///     Convert any css propertise to inline css style.
         /// </summary>
         /// <param name="rules"></param>
         /// <returns></returns>
-        public static string GetInlineStyles(this CssProperties rules) {
-            var stylesList = new List<string>(10) {
+        public static string GetInlineStyles(this CssProperties rules)
+        {
+            var stylesList = new List<string>(10)
+            {
                 GetStyles("background-color", rules.BackgroundColor),
                 GetStyles("color", rules.Color),
                 GetStyles("margin", rules.Margin),
@@ -87,6 +96,7 @@ namespace DevMvcComponent.HtmlEnhancements {
                 GetStyles("text-align", rules.TextAlignment),
                 GetStyles("display", rules.Display)
             };
+
             return string.Join(";", stylesList);
         }
     }

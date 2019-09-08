@@ -7,14 +7,16 @@ using DevMvcComponent.Processor;
 
 #endregion
 
-namespace DevMvcComponent {
+namespace DevMvcComponent
+{
     /// <summary>
     ///     It's direct singleton pattern class in C#.
     ///     Must setup this starter class and Config class.
     ///     Note: In java you need to follow traditional singleton pattern ,
     ///     however in C# you don't require that Instance variable because it already has static keyword.
     /// </summary>
-    public static class Mvc {
+    public static class Mvc
+    {
         /// <summary>
         ///     Handles all kinds of errors and then finally sends an email to the client.
         /// </summary>
@@ -46,19 +48,26 @@ namespace DevMvcComponent {
         ///     Get your own custom mailer or GmailConfig or setup CustomConfig.
         ///     new DevMVCComponent.Mailers.GmailConfig("senderEmail","Password")
         /// </param>
-        public static void Setup(string applicationName, string developerEmail, Assembly assembly, MailServer mailer) {
+        public static void Setup(
+            string applicationName,
+            string developerEmail,
+            Assembly assembly,
+            MailServer mailer)
+        {
             Config.ApplicationName = applicationName;
             Config.DeveloperEmails = developerEmail.Split(',');
+
             //Configure this with add a sender email.
             Mailer = mailer; //
             InitalizeDefaults(assembly);
         }
 
-        private static void InitalizeDefaults(Assembly assembly) {
+        private static void InitalizeDefaults(Assembly assembly)
+        {
             Config.Assembly = assembly;
-            Error = new Handler();
-            Cookies = new CookieProcessor();
-            Caches = new CacheProcessor();
+            Error           = new Handler();
+            Cookies         = new CookieProcessor();
+            Caches          = new CacheProcessor();
             Config.GetApplicationNameHtml(true);
         }
 
@@ -69,9 +78,11 @@ namespace DevMvcComponent {
         ///     Starter.Mailer.SendQuick(..) **
         /// </summary>
         /// <param name="assembly">Usually set to "System.Reflection.Assembly.GetExecutingAssembly()"</param>
-        public static void Setup(Assembly assembly) {
+        public static void Setup(Assembly assembly)
+        {
             Config.ApplicationName = "";
             Config.DeveloperEmails = null;
+
             //Configure this with add a sender email.
             InitalizeDefaults(assembly);
         }
@@ -90,18 +101,30 @@ namespace DevMvcComponent {
         /// <param name="senderPort">port number</param>
         /// <param name="isSsl"></param>
         public static void Setup(
-            string applicationName, 
-            string developerEmail, 
-            Assembly assembly, 
-            string senderEmail, 
+            string applicationName,
+            string developerEmail,
+            Assembly assembly,
+            string senderEmail,
             string senderDisplayName,
-            string senderPassword, 
-            string hostName, 
-            int senderPort, 
-            bool isSsl) {
+            string senderPassword,
+            string hostName,
+            int senderPort,
+            bool isSsl)
+        {
             //Configure this with add a sender email.
-            Mailer = new CustomMailServer(senderDisplayName,senderEmail, senderPassword, hostName, senderPort, isSsl); //
-            Setup(applicationName, developerEmail, assembly, Mailer);
+            Mailer = new CustomMailServer(
+                senderDisplayName,
+                senderEmail,
+                senderPassword,
+                hostName,
+                senderPort,
+                isSsl); //
+
+            Setup(
+                applicationName,
+                developerEmail,
+                assembly,
+                Mailer);
         }
     }
 }

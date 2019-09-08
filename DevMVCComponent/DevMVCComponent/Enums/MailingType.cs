@@ -1,8 +1,10 @@
-namespace DevMvcComponent.Enums {
+namespace DevMvcComponent.Enums
+{
     /// <summary>
     ///     Mail sending type enum
     /// </summary>
-    public enum MailingType {
+    public enum MailingType
+    {
         /// <summary>
         ///     Regular email category
         /// </summary>

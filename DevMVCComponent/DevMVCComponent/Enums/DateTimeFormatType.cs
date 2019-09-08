@@ -1,7 +1,9 @@
-﻿namespace DevMvcComponent.Enums {
+﻿namespace DevMvcComponent.Enums
+{
     /// <summary>
     /// </summary>
-    public enum DateTimeFormatType {
+    public enum DateTimeFormatType
+    {
         /// <summary>
         ///     Date format
         /// </summary>

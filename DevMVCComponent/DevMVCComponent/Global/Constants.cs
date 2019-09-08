@@ -1,8 +1,10 @@
-﻿namespace DevMvcComponent.Global {
+﻿namespace DevMvcComponent.Global
+{
     /// <summary>
     ///     Global constants for this component
     /// </summary>
-    public class Constants {
+    public class Constants
+    {
         /// <summary>
         ///     Changed
         /// </summary>

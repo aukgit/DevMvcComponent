@@ -1,7 +1,9 @@
-﻿namespace DevMvcComponent.Enums {
+﻿namespace DevMvcComponent.Enums
+{
     /// <summary>
     /// </summary>
-    public enum ErrorType {
+    public enum ErrorType
+    {
         /// <summary>
         ///     High priority error.
         /// </summary>
