@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>DevMvcComponent</id>
+    <!--*-->
+    <version>4.0.0</version>
+    <title>DevMvcComponent</title>
+    <!--*-->
+    <authors>Md. Alim Ul Karim (https://linkd.in/alim-ul-karim)</authors>
+    <owners>Md. Alim Ul Karim (https://linkd.in/alim-ul-karim)</owners>
+    <projectUrl>https://github.com/aukgit/DevMvcComponent</projectUrl>
+    <!--
+    <licenseUrl></licenseUrl>
+    
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>ASP.NET Mvc Common components that every developer needs.</description>
+    <!--*-->
+    <releaseNotes>https://github.com/aukgit/DevMvcComponent/pull/3</releaseNotes>
+    <copyright>Copyright ©  2019</copyright>
+    <tags>
+    </tags>
+    <dependencies>
+      <!--
+      <dependency id="SampleDependency" version="1.0" />
+-->
+    </dependencies>
+  </metadata>
+</package>
